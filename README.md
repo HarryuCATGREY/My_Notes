@@ -1,2 +1,2 @@
 # My_Notes
-An Android Notes Application
+Whim. is an Android Notes Application.
