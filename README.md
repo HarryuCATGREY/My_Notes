@@ -2,7 +2,7 @@
 Whim. is an Android Notes Application.
 
 # How to clone
-###Step 1: git clone
+### Step 1: git clone
 
 # How to contribute
 ### Step 1: create feature branch and write code
