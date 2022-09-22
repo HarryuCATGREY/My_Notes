@@ -5,7 +5,7 @@ Android SDK Android 9.0 Pie 28
 
 # How to clone
 ### Step 1: git clone
-### Step 2: git remote add origin git@github.com:HarryuCATGREY/Whim..git
+### Step 2: git remote add origin git@github.com:HarryuCATGREY/Whim.git
 ### Step 3: git branch -M main
 
 
