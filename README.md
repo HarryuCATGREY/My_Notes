@@ -1,5 +1,7 @@
 # Whim.note Project
-Whim. is an Android Notes Application.
+Whim. is an Android Notes Application.<br>
+Android SDK Android 9.0 Pie 28  
+
 
 # How to clone
 ### Step 1: git clone
