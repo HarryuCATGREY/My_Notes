@@ -4,14 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey"
     tools:context=".MainActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="vertical"
+        android:background="@drawable/radius_bottom_half"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:textStyle="bold"
+            android:layout_height="30dp"
+            android:layout_marginTop="40dp"
+            android:text="Today's Whim."
+            android:textSize="25dp"
+            android:gravity="center"
+            android:textFontWeight="@integer/material_motion_duration_long_2"></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Sunday, 18 September 2022"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+    
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/radius"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:shadowRadius="20"></EditText>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="210dp"
+        android:background="@color/teal_200"></LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="250dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp" />
 
