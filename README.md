@@ -3,6 +3,10 @@ Whim. is an Android Notes Application.
 
 # How to clone
 ### Step 1: git clone
+### Step 2: git remote add origin git@github.com:HarryuCATGREY/Whim..git
+### Step 3: git branch -M main
+### Step 4: git push -u origin main
+
 
 # How to contribute
 ### Step 1: create feature branch and write code
