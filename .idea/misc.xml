@@ -3,12 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1545" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1545" />
+        <entry key="app/src/main/res/drawable/ic_search.xml" value="0.1545" />
+        <entry key="app/src/main/res/drawable/radius.xml" value="0.1545" />
         <entry key="app/src/main/res/drawable/radius_bottom_half.xml" value="0.102" />
-        <entry key="app/src/main/res/drawable/radius_bottom_half_filter.xml" value="0.102" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.12195434570312502" />
+        <entry key="app/src/main/res/drawable/radius_bottom_half_filter.xml" value="0.1545" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.8351632690429688" />
+        <entry key="app/src/main/res/layout/forgetpwd.xml" value="0.24102325439453126" />
         <entry key="app/src/main/res/layout/ic_radius.xml" value="0.15520833333333334" />
-        <entry key="app/src/main/res/layout/notes_list.xml" value="0.15416666666666667" />
+        <entry key="app/src/main/res/layout/login.xml" value="0.24547101449275363" />
+        <entry key="app/src/main/res/layout/notes_list.xml" value="0.24547101449275363" />
+        <entry key="app/src/main/res/layout/signup.xml" value="0.22400970458984376" />
       </map>
     </option>
   </component>

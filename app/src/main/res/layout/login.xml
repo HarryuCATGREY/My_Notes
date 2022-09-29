@@ -11,7 +11,7 @@
         android:textStyle="bold"
         android:textSize="50sp"
         android:textColor="@color/black"
-        android:text="@string/whim"
+        android:text="whim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -60,7 +60,8 @@
             android:textAllCaps="false"
             android:hint="password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
 
     <TextView
