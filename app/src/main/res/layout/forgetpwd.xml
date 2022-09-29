@@ -37,7 +37,7 @@
         <EditText
             android:id="@+id/forget_email"
             android:textStyle="normal"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textAllCaps="false"
             android:hint="Email"
             android:layout_width="match_parent"
@@ -57,7 +57,7 @@
             android:id="@+id/recover_button"
             android:layout_marginTop="5dp"
             android:text="Recover Now"
-            android:textSize="13sp"
+            android:textSize="15sp"
             android:gravity="center"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
