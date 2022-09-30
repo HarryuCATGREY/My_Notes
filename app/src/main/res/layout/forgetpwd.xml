@@ -23,7 +23,7 @@
         android:gravity="left"
         android:text="Let's recover your password"
         android:textColor="@color/theme_blue"
-        android:textSize="23sp"></TextView>
+        android:textSize="23sp" />
 
     <LinearLayout
         android:id="@+id/forget"

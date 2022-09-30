@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="100dp"
         android:orientation="vertical"
         android:background="@drawable/radius_bottom_half"
         >
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:textStyle="bold"
             android:layout_height="30dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:text="Today's Whim."
             android:textSize="25dp"
             android:gravity="center"
@@ -37,45 +37,45 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp">
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="120dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/radius"
-            android:shadowRadius="20">
-        </EditText>
+            android:shadowRadius="20"></EditText>
 
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="155dp"
+            android:layout_marginTop="125dp"
             android:src="@drawable/ic_search"></ImageView>
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="210dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/radius">
-        <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="75dp"></LinearLayout>
-        <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="75dp"
-            android:background="@drawable/radius_bottom_half_filter"></LinearLayout>
-    </LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:layout_width="150dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_marginTop="210dp"-->
+<!--        android:background="@drawable/radius">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_width="75dp"></LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_width="75dp"-->
+<!--                    android:background="@drawable/radius_bottom_half_filter"></LinearLayout>-->
+<!--    </LinearLayout>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="200dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="8dp" />
 

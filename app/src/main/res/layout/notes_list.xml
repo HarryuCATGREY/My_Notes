@@ -30,5 +30,18 @@
                 android:layout_alignParentStart="true">
             </TextView>
         </RelativeLayout>
+        <TextView
+            android:id="@+id/note_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:text="Content..."
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"></TextView>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
