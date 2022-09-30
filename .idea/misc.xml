@@ -6,7 +6,8 @@
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/radius_bottom_half.xml" value="0.102" />
         <entry key="app/src/main/res/drawable/radius_bottom_half_filter.xml" value="0.102" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.12195434570312502" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.18137207031250002" />
+        <entry key="app/src/main/res/layout/activity_notes_taker.xml" value="0.31746031746031744" />
         <entry key="app/src/main/res/layout/ic_radius.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/notes_list.xml" value="0.15416666666666667" />
       </map>
