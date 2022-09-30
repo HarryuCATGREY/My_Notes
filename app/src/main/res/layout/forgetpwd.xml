@@ -6,18 +6,27 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/signup_title"
+        android:id="@+id/forget_title"
         android:layout_marginTop="50dp"
         android:layout_marginStart="30dp"
         android:textStyle="bold"
         android:textSize="35sp"
         android:textColor="@color/black"
-        android:text="Sign Up"
+        android:text="Forget password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="30dp"
+        android:gravity="left"
+        android:text="Let's recover your password"
+        android:textColor="@color/theme_blue"
+        android:textSize="23sp"></TextView>
+
     <LinearLayout
-        android:id="@+id/signup_email"
+        android:id="@+id/forget"
         android:layout_marginTop="40dp"
         android:layout_marginRight="50dp"
         android:layout_marginLeft="50dp"
@@ -26,33 +35,15 @@
         android:layout_height="50dp">
 
         <EditText
-            android:id="@+id/email_input"
+            android:id="@+id/forget_email"
             android:textStyle="normal"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textAllCaps="false"
             android:hint="Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/signup_verify"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginLeft="50dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-        <EditText
-            android:id="@+id/acc_input"
-            android:textStyle="normal"
-            android:textSize="18sp"
-            android:textAllCaps="false"
-            android:hint="Verification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/signup"
@@ -63,10 +54,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
         <Button
-            android:id="@+id/continue_button"
+            android:id="@+id/recover_button"
             android:layout_marginTop="5dp"
-            android:text="Continue"
-            android:textSize="13sp"
+            android:text="Recover Now"
+            android:textSize="15sp"
             android:gravity="center"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
@@ -75,27 +66,16 @@
     </LinearLayout>>
 
     <TextView
+        android:id="@+id/backlogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="50dp"
         android:gravity="center"
-        android:text="Already have an account?"
+        android:text="Go back to Login Page"
         android:textColor="@color/theme_blue"
         android:textSize="12sp"
         android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/gotologin"
-        android:layout_marginTop="5dp"
-        android:text="Login"
-        android:textSize="13sp"
-        android:gravity="center"
-        android:layout_marginStart="170dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-
 
 </LinearLayout>
