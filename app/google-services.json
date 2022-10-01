@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "59292863813",
+    "project_id": "whim-285fa",
+    "storage_bucket": "whim-285fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59292863813:android:f650fb7025271c345a822c",
+        "android_client_info": {
+          "package_name": "com.example.whim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "59292863813-jtjci90uonkqgn3vj97hq5d2r13vebor.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMnpsk-gxsOHkhcGsFnzGCwLQtbfiFSCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "59292863813-jtjci90uonkqgn3vj97hq5d2r13vebor.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
