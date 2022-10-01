@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/radius_bottom_half.xml" value="0.102" />
         <entry key="app/src/main/res/drawable/radius_bottom_half_filter.xml" value="0.102" />
@@ -12,6 +13,7 @@
         <entry key="app/src/main/res/layout/ic_radius.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/notes_list.xml" value="0.15416666666666667" />
         <entry key="app/src/main/res/layout/signup.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/menu/popup_menu.xml" value="0.1" />
       </map>
     </option>
   </component>
