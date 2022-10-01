@@ -44,7 +44,7 @@ public class ExistLoginActivity extends AppCompatActivity {
         signupbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ExistLoginActivity.this, ForgetPasswordActivity.class));
+                startActivity(new Intent(ExistLoginActivity.this, SignUpActivity.class));
             }
         });
 
@@ -75,7 +75,7 @@ public class ExistLoginActivity extends AppCompatActivity {
         forget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ExistLoginActivity.this, SignUpActivity.class));
+                startActivity(new Intent(ExistLoginActivity.this, PasswordForgetActivity.class));
             }
         });
     }

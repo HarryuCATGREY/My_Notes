@@ -32,7 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup);
+        setContentView(R.layout.activity_sign_up);
 
         getSupportActionBar().hide();
 
@@ -46,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
         mlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignUpActivity.this, existlogin.class);
+                Intent intent = new Intent(SignUpActivity.this, ExistLoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -97,7 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Verification email is sent, please verify then login in again.", Toast.LENGTH_SHORT).show();
                     firebaseAuth.signOut();
                     finish();
-                    startActivity(new Intent(SignUpActivity.this, existlogin.class));
+                    startActivity(new Intent(SignUpActivity.this, ExistLoginActivity.class));
                 }
             });
         }else{
