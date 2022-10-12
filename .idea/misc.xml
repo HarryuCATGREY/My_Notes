@@ -10,15 +10,17 @@
         <entry key="app/src/main/res/layout/activity_exist_login.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/activity_forget_password.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18137207031250002" />
-        <entry key="app/src/main/res/layout/activity_notes_taker.xml" value="0.31746031746031744" />
+        <entry key="app/src/main/res/layout/activity_notes_taker.xml" value="0.20359497070312496" />
         <entry key="app/src/main/res/layout/activity_password_forget.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/forgetpwd.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/ic_radius.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/login.xml" value="0.1585144927536232" />
         <entry key="app/src/main/res/layout/notes_list.xml" value="0.15416666666666667" />
+        <entry key="app/src/main/res/layout/photo_picture.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/signup.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/menu/popup_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/xml/file_paths.xml" value="0.24114583333333334" />
       </map>
     </option>
   </component>
