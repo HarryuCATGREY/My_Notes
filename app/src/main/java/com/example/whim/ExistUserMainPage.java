@@ -43,8 +43,6 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     FirebaseUser firebaseUser;
     FirebaseFirestore firebaseFirestore;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +65,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         fab_add_exist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ExistUserMainPage.this, ExistNoteActivity.class));
+                startActivity(new Intent(ExistUserMainPage.this, ExistNewNoteActivity.class));
             }
         });
     }
