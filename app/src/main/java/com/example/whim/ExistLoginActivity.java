@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,8 @@ public class ExistLoginActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
+    ProgressBar mprogressbarforlogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,7 @@ public class ExistLoginActivity extends AppCompatActivity {
         loginbutton = findViewById(R.id.login_button);
         signupbutton = findViewById(R.id.create_button);
         forget = findViewById(R.id.forget);
+        mprogressbarforlogin=findViewById(R.id.progressbarforlogin);
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -57,6 +61,8 @@ public class ExistLoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
                 }else{
                     // login the user
+
+                    mprogressbarforlogin.setVisibility(View.VISIBLE);
                     firebaseAuth.signInWithEmailAndPassword(mail,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -64,6 +70,8 @@ public class ExistLoginActivity extends AppCompatActivity {
                                 checkEmailVerification();
                             }else{
                                 Toast.makeText(getApplicationContext(), "Account does not exist.", Toast.LENGTH_SHORT).show();
+                                mprogressbarforlogin.setVisibility(View.INVISIBLE);
+
                             }
                         }
                     });
@@ -85,6 +93,7 @@ public class ExistLoginActivity extends AppCompatActivity {
             finish();
             startActivity(new Intent(ExistLoginActivity.this, ExistUserMainPage.class));
         }else{
+            mprogressbarforlogin.setVisibility(View.INVISIBLE);
             Toast.makeText(getApplicationContext(), "Please verify your email first.", Toast.LENGTH_SHORT).show();
             firebaseAuth.signOut();
         }

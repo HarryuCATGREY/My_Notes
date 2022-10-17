@@ -5,17 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ExistNewNoteActivity">
-
+    tools:context=".EditNoteActivity">
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollView5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
         android:clipToPadding="false"
         android:paddingBottom="10dp"
-        app:layout_anchor="@+id/scrollView2"
+        app:layout_anchor="@+id/scrollView5"
         app:layout_anchorGravity="center">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +23,7 @@
             android:animateLayoutChanges="true">
 
             <ImageView
-                android:id="@+id/imageBack"
+                android:id="@+id/imageBack2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="6dp"
@@ -36,25 +35,24 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/noteSave"
+                android:id="@+id/editSave"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="6dp"
                 android:contentDescription="Notes"
                 android:src="@drawable/ic_tick"
-                app:layout_constraintBottom_toBottomOf="@+id/imageBack"
+                app:layout_constraintBottom_toBottomOf="@+id/imageBack2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageBack" />
+                app:layout_constraintTop_toTopOf="@+id/imageBack2" />
 
             <EditText
-                android:id="@+id/existTitle"
+                android:id="@+id/storedTitle"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="12dp"
                 android:background="@null"
-                android:hint="Note title"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:includeFontPadding="false"
@@ -63,7 +61,7 @@
                 android:textColorHint="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/imageBack" />
+                app:layout_constraintTop_toBottomOf="@+id/imageBack2" />
 
 
             <TextView
@@ -73,9 +71,9 @@
                 android:includeFontPadding="false"
                 android:textColor="@color/black"
                 android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="@+id/existTitle"
-                app:layout_constraintStart_toStartOf="@id/existTitle"
-                app:layout_constraintTop_toBottomOf="@id/existTitle" />
+                app:layout_constraintEnd_toEndOf="@+id/storedTitle"
+                app:layout_constraintStart_toStartOf="@id/storedTitle"
+                app:layout_constraintTop_toBottomOf="@id/storedTitle" />
 
             <ImageView
                 android:id="@+id/imageExist"
@@ -86,11 +84,11 @@
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@null"
-                app:layout_constraintTop_toBottomOf="@id/existTitle" />
+                app:layout_constraintTop_toBottomOf="@id/storedTitle" />
 
 
             <EditText
-                android:id="@+id/existNote"
+                android:id="@+id/storedNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
@@ -99,7 +97,6 @@
                 android:layout_marginBottom="15dp"
                 android:background="@null"
                 android:gravity="top"
-                android:hint="Type here!"
                 android:importantForAutofill="no"
                 android:includeFontPadding="false"
                 android:inputType="textMultiLine"
@@ -119,7 +116,7 @@
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ic_image"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/existNote"
+                app:layout_constraintTop_toBottomOf="@id/storedNote"
                 tools:ignore="MissingConstraints" />
 
             <ImageButton
@@ -131,7 +128,7 @@
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ic_camera"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/existNote"
+                app:layout_constraintTop_toBottomOf="@id/storedNote"
                 tools:ignore="MissingConstraints" />
 
             <ImageButton
@@ -143,7 +140,7 @@
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/ic_location"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/existNote"
+                app:layout_constraintTop_toBottomOf="@id/storedNote"
                 tools:ignore="MissingConstraints" />
 
 
@@ -159,11 +156,10 @@
                 android:textColorHint="@color/black"
                 android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/existNote"
+                app:layout_constraintTop_toBottomOf="@id/storedNote"
                 tools:ignore="MissingConstraints" />
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

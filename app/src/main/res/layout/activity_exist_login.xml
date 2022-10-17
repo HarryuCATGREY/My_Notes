@@ -4,6 +4,15 @@
     android:orientation = "vertical"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below = "@id/guestlogin"
+        android:layout_centerHorizontal = "true"
+        android:visibility="invisible"
+        android:id="@+id/progressbarforlogin"
+        android:layout_marginTop="10dp"
+        ></ProgressBar>
     <TextView
         android:id="@+id/login_title"
         android:layout_marginTop="50dp"
@@ -119,5 +128,6 @@
         android:text="Guest Login"
         android:textColor="@color/theme_blue"
         android:textSize="12sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:id="@+id/guestlogin"/>
 </LinearLayout>
