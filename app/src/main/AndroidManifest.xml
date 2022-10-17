@@ -13,16 +13,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Whim"
         tools:targetApi="31">
+        <activity
+            android:name=".ExistNoteActivity"
+            android:exported="true"
+            android:theme= "@style/Theme.AppCompat.DayNight.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ExistUserMainPage"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".PasswordForgetActivity"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- <activity -->
+        </activity> <!-- <activity -->
         <!-- android:name=".ExistLoginActivity" -->
         <!-- android:exported="false" /> -->
         <activity
@@ -39,7 +55,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".NotesTakerActivity"
             android:exported="true"
@@ -55,7 +70,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

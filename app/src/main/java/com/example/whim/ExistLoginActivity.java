@@ -84,7 +84,7 @@ public class ExistLoginActivity extends AppCompatActivity {
         if(firebaseUser.isEmailVerified()==true){
             Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
             finish();
-            startActivity(new Intent(ExistLoginActivity.this, MainActivity.class));
+            startActivity(new Intent(ExistLoginActivity.this, ExistUserMainPage.class));
         }else{
             Toast.makeText(getApplicationContext(), "Please verify your email first.", Toast.LENGTH_SHORT).show();
             firebaseAuth.signOut();
