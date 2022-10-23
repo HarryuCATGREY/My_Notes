@@ -117,9 +117,9 @@ public class ExistNewNoteActivity extends AppCompatActivity {
 
         // Note back button
         ImageView imageBack = findViewById(R.id.imageBack2);
-        imageBack.setOnClickListener((v) -> {
-            onBackPressed();
-        });
+//        imageBack.setOnClickListener((v) -> {
+//            onBackPressed();
+//        });
 
         // Note save button
         ImageView imageSave = findViewById(R.id.imageSave);
