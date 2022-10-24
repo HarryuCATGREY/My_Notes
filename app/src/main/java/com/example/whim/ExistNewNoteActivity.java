@@ -1,5 +1,6 @@
 package com.example.whim;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -116,12 +117,21 @@ public class ExistNewNoteActivity extends AppCompatActivity {
 
 
         // Note back button
-        ImageView imageBack = findViewById(R.id.imageBack2);
+       // ImageView imageBack = findViewById(R.id.imageBack2);
 //        imageBack.setOnClickListener((v) -> {
 //            onBackPressed();
 //        });
 
         // Note save button
+
+        ImageView imageBackedit3 = findViewById(R.id.imageBack);
+        imageBackedit3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         ImageView imageSave = findViewById(R.id.imageSave);
         imageSave.setOnClickListener(new View.OnClickListener() {
             @Override
