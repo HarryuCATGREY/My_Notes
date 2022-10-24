@@ -40,6 +40,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:20.0.0'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
+    implementation 'com.google.firebase:firebase-database:20.1.0'
     annotationProcessor "androidx.room:room-compiler:2.4.0"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
