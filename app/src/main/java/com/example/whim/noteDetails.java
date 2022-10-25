@@ -10,11 +10,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class noteDetails extends AppCompatActivity {
 
 
     private TextView existTitleDetail, existNoteDetail;
     ImageView editNote;
+
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+    FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +33,10 @@ public class noteDetails extends AppCompatActivity {
         existNoteDetail = findViewById(R.id.existNote1);
         editNote = findViewById(R.id.noteedit);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         Intent data = getIntent();
 
@@ -42,7 +54,8 @@ public class noteDetails extends AppCompatActivity {
         imageBacknote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+
+                startActivity(new Intent(noteDetails.this, ExistUserMainPage.class));;
             }
         });
 
