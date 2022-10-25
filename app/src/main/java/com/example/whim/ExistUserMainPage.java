@@ -98,6 +98,9 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
                         Intent intent = new Intent(view.getContext(), noteDetails.class);
                         intent.putExtra("title",firebasemodel.getTitle());
                         intent.putExtra("content",firebasemodel.getContent());
+                        intent.putExtra("image", firebasemodel.getImage());
+                        intent.putExtra("time", firebasemodel.getTime());
+                        intent.putExtra("location", firebasemodel.getLocation());
                         intent.putExtra("noteId", docId);
 
                         view.getContext().startActivity(intent);

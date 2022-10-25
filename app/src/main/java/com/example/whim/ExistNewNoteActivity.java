@@ -1,6 +1,7 @@
 package com.example.whim;
 
-import androidx.activity.OnBackPressedCallback;
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,15 +24,12 @@ import android.os.Bundle;
 
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
@@ -44,14 +42,18 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -64,11 +66,12 @@ public class ExistNewNoteActivity extends AppCompatActivity {
     private EditText inputNoteTitle, inputNoteText;
     private TextView textDateTime;
     private ImageView selectedImage;
-    private String selectedImagePath;
+    private String imageUri;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     FirebaseFirestore firebaseFirestore;
+    StorageReference storageReference;
 
     Notes notes;
     boolean isOldNote = false;
@@ -105,7 +108,8 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        selectedImagePath = "";
+        storageReference = FirebaseStorage.getInstance().getReference();
+
         textDateTime.setText(
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
         );
@@ -160,6 +164,9 @@ public class ExistNewNoteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String title = inputNoteTitle.getText().toString();
                 String content = inputNoteText.getText().toString();
+                String imgUri = imageUri;
+                String time = textDateTime.getText().toString();
+                String location = locationText.getText().toString();
 
                 if (title.isEmpty() || content.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please add title and content before save.", Toast.LENGTH_SHORT).show();
@@ -169,6 +176,9 @@ public class ExistNewNoteActivity extends AppCompatActivity {
 
                     note.put("title", title);
                     note.put("content", content);
+                    note.put("image",imgUri);
+                    note.put("time",time);
+                    note.put("location", location);
 
                     documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -221,6 +231,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
 
         fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
+
             public void onComplete(@NonNull Task<Location> task) {
                 Location location = task.getResult();
                 if (location != null) {
@@ -251,7 +262,6 @@ public class ExistNewNoteActivity extends AppCompatActivity {
             dispatchTakePictureIntent();
         }
     }
-
 
 
     // Check the permission of camera
@@ -290,17 +300,18 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 File f = new File(currentPhotoPath);
-                selectedImage.setImageURI(Uri.fromFile(f));
+                //selectedImage.setImageURI(Uri.fromFile(f));
                 Log.d("tag", "Absolute Url of Image is" + Uri.fromFile(f));
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri contentUri = Uri.fromFile(f);
+                // 能不能吧image的uri存成string再之后转换
+                imageUri = Uri.fromFile(f).toString();
 
                 mediaScanIntent.setData(contentUri);
                 this.sendBroadcast(mediaScanIntent);
 
-                // Uri selectedImageUri = data.getData();
-                selectedImagePath = getPathFromUri(contentUri);
+                uploadImageToFirebase(f.getName(), contentUri);
             }
         }
 
@@ -310,11 +321,44 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStamp +"."+getFileExt(contentUri);
                 Log.d("tag", "onActivityResult: Gallery Image Uri:  " +  imageFileName);
-                selectedImage.setImageURI(contentUri);
+                //selectedImage.setImageURI(contentUri);
+                imageUri = contentUri.toString();
+
+                uploadImageToFirebase(imageFileName, contentUri);
 
             }
         }
     }
+
+
+    private void uploadImageToFirebase(String name, Uri contentUri){
+        StorageReference image = storageReference.child("photos/" + name);
+        image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(selectedImage);
+                        Log.d("tag", "onSuccess: Upload image URL is: " + uri.toString());
+                    }
+                });
+
+                Toast.makeText(getApplicationContext(), "Photo is uploaded! :) ", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "Upload Failed :( ", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }
+
+    // we will see this in storage:  images/image.jpeg....
+
 
     private String getFileExt(Uri contentUri) {
         ContentResolver c = getContentResolver();
