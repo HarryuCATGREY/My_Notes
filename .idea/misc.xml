@@ -15,9 +15,9 @@
         <entry key="app/src/main/res/layout/activity_exist_user_main_page.xml" value="0.16847826086956522" />
         <entry key="app/src/main/res/layout/activity_forget_password.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_note_details.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_note_details.xml" value="0.24951782226562502" />
         <entry key="app/src/main/res/layout/activity_note_exist.xml" value="0.19610507246376813" />
-        <entry key="app/src/main/res/layout/activity_notes_taker.xml" value="0.4432693481445313" />
+        <entry key="app/src/main/res/layout/activity_notes_taker.xml" value="0.23076923076923078" />
         <entry key="app/src/main/res/layout/activity_password_forget.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/exist_notes_list.xml" value="0.1" />
