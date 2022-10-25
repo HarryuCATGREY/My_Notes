@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,6 +44,16 @@ public class EditNoteActivity extends AppCompatActivity {
 
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
+
+        TextView inputNoteText2 = (TextView)findViewById(R.id.storedNote);
+
+        String img = getColoredSpanned("images", "#67B1F9");
+        String txt = getColoredSpanned("text","#FFCA3A");
+        String photos = getColoredSpanned("photos","#6E80FA");
+        inputNoteText2.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
+
+
+
 
 
         String currTitle  = data.getStringExtra("title");
@@ -89,5 +101,13 @@ public class EditNoteActivity extends AppCompatActivity {
         });
 
 
+
+
     }
+
+    private String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
+    }
+
 }

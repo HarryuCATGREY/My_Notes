@@ -45,11 +45,10 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="120dp"
             android:layout_marginRight="10dp"
-            app:queryHint="Search Notes..."
-            app:iconifiedByDefault = "false"
             android:background="@drawable/radius"
             android:shadowRadius="20"
-            ></androidx.appcompat.widget.SearchView>
+            app:iconifiedByDefault="false"
+            app:queryHint="Search Notes..."></androidx.appcompat.widget.SearchView>
 
         <!--        <ImageView-->
         <!--            android:layout_width="40dp"-->
@@ -83,7 +82,7 @@
         android:layout_marginTop="200dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="8dp"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_exist"

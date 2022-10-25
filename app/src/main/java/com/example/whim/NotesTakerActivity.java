@@ -58,8 +58,8 @@ public class NotesTakerActivity extends AppCompatActivity {
 
     Notes notes;
     boolean isOldNote = false;
-
-    ImageButton cameraBtn, galleryBtn, locationBtn;
+    Button locationBtn;
+    ImageButton cameraBtn, galleryBtn;
     String currentPhotoPath;
 
     TextView locationText;
@@ -82,6 +82,15 @@ public class NotesTakerActivity extends AppCompatActivity {
         selectedImage = findViewById(R.id.imageNote);
 
 
+
+        TextView inputNoteText = (TextView)findViewById(R.id.inputNote);
+
+        String img = getColoredSpanned("images", "#67B1F9");
+        String txt = getColoredSpanned("text","#FFCA3A");
+        String photos = getColoredSpanned("photos","#6E80FA");
+        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
+
+
         selectedImagePath = "";
         textDateTime.setText(
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
@@ -92,6 +101,7 @@ public class NotesTakerActivity extends AppCompatActivity {
             notes = (Notes) getIntent().getSerializableExtra("old_note");
             inputNoteTitle.setText(notes.getTitle());
             inputNoteText.setText(notes.getNotes());
+            inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
             isOldNote = true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,7 +125,6 @@ public class NotesTakerActivity extends AppCompatActivity {
         galleryBtn = findViewById(R.id.gallery);
         // Assign location value
         locationBtn = findViewById(R.id.location);
-        locationText = findViewById(R.id.locationText);
 
         // Initialize fuse location provider client
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(NotesTakerActivity.this);
@@ -135,6 +144,7 @@ public class NotesTakerActivity extends AppCompatActivity {
         });
 
         locationBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 askLocationPermissions();
@@ -151,6 +161,11 @@ public class NotesTakerActivity extends AppCompatActivity {
         else {
             getGallery();
         }
+    }
+
+    private String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
     }
 
     private void getGallery() {
@@ -176,6 +191,8 @@ public class NotesTakerActivity extends AppCompatActivity {
         notes.setDate(textDateTime.getText().toString());
         notes.setNotes(inputNoteText.getText().toString());
         //notes.setImage(selectedImagePath);
+        //notes.setAllocation();
+
 
 
         Intent intent = new Intent();
@@ -211,7 +228,7 @@ public class NotesTakerActivity extends AppCompatActivity {
                         List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                         // Set address
                         Log.d("address", addresses.get(0).getAddressLine(0));
-                        locationText.setText(addresses.get(0).getAddressLine(0));
+                        locationBtn.setText(addresses.get(0).getAddressLine(0));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
