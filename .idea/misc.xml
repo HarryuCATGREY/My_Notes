@@ -4,15 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/document.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.116" />
+        <entry key="app/src/main/res/drawable/ic_search.xml" value="0.157" />
+        <entry key="app/src/main/res/drawable/image.xml" value="0.157" />
+        <entry key="app/src/main/res/drawable/location.xml" value="0.157" />
+        <entry key="app/src/main/res/drawable/radius.xml" value="0.157" />
         <entry key="app/src/main/res/drawable/radius_bottom_half.xml" value="0.102" />
         <entry key="app/src/main/res/drawable/radius_bottom_half_filter.xml" value="0.102" />
         <entry key="app/src/main/res/layout/activity_edit_note_acticity.xml" value="0.17647058823529413" />
         <entry key="app/src/main/res/layout/activity_exist_login.xml" value="0.21655629475911461" />
         <entry key="app/src/main/res/layout/activity_exist_new_note.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_exist_note.xml" value="0.22135416666666666" />
-        <entry key="app/src/main/res/layout/activity_exist_user_main_page.xml" value="0.16847826086956522" />
+        <entry key="app/src/main/res/layout/activity_exist_user_main_page.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_forget_password.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_note_details.xml" value="0.24951782226562502" />
@@ -20,11 +25,11 @@
         <entry key="app/src/main/res/layout/activity_notes_taker.xml" value="0.23076923076923078" />
         <entry key="app/src/main/res/layout/activity_password_forget.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25833333333333336" />
-        <entry key="app/src/main/res/layout/exist_notes_list.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/exist_notes_list.xml" value="0.23628827403027716" />
         <entry key="app/src/main/res/layout/forgetpwd.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/ic_radius.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/login.xml" value="0.1585144927536232" />
-        <entry key="app/src/main/res/layout/notes_list.xml" value="0.15416666666666667" />
+        <entry key="app/src/main/res/layout/notes_list.xml" value="0.2941986083984375" />
         <entry key="app/src/main/res/layout/signup.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/menu/popup_menu.xml" value="0.3309234619140625" />
       </map>
