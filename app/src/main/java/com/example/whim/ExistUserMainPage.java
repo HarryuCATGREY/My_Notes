@@ -1,13 +1,13 @@
 package com.example.whim;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -70,7 +70,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         getSupportActionBar().setTitle("All Notes");
-        // setting database
+        
 
         TextView home_title = (TextView)findViewById(R.id.home_title);
 
@@ -230,4 +230,13 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             noteAdapter.stopListening();
         }
     }
+
+    public void setActionBarColor(int parsedColor){
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setBackgroundDrawable(new ColorDrawable(parsedColor));
+        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(true);
+    }
+
 }
+

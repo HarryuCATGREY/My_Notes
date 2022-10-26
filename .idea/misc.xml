@@ -12,7 +12,11 @@
         <entry key="app/src/main/res/layout/activity_exist_login.xml" value="0.39029083251953123" />
         <entry key="app/src/main/res/layout/activity_exist_new_note.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_exist_note.xml" value="0.22135416666666666" />
+<<<<<<< HEAD
         <entry key="app/src/main/res/layout/activity_exist_user_main_page.xml" value="0.16847826086956522" />
+=======
+        <entry key="app/src/main/res/layout/activity_exist_user_main_page.xml" value="0.12418670654296876" />
+>>>>>>> 5c8456918028e2267ad9568234e2e6d24c6bfb53
         <entry key="app/src/main/res/layout/activity_forget_password.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_note_details.xml" value="0.12343096234309624" />
