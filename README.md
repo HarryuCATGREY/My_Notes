@@ -14,7 +14,7 @@ Android SDK Android 9.0 Pie 28
 ### Step 1: create feature branch and write code
 ### Step 2: git add
 ### Step 3: git commit
-### Step 4: git push -u origin main
+### Step 4: git push -u origin yourbranchname
 ### Step 5: create a pull request on Github
 ### Step 6: get peer's approval
-### Step 7: merge pr to maste
+### Step 7: merge pr to main

@@ -1,47 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/white"
     android:id="@+id/notes_container"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="8dp"
-    android:layout_margin="8dp">
-    <LinearLayout
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="30dp"
+    android:layout_marginLeft="30dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/relativeLayout"
+            android:layout_width="353dp"
+            android:layout_height="99dp"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="0dp">
+
             <TextView
                 android:id="@+id/textView_title"
-                android:layout_width="match_parent"
+                android:layout_width="205dp"
                 android:layout_height="wrap_content"
-                android:text="Titile"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:padding="8dp"
-                android:singleLine="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="112dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="34dp"
+                android:layout_marginBottom="15dp"
                 android:ellipsize="marquee"
+                android:fontFamily="@font/opensans_bold"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
-                android:layout_alignParentStart="true">
-            </TextView>
+                android:singleLine="true"
+                android:text="Welcome to Whim."
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/note_content"
+                android:layout_width="223dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView_title"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="112dp"
+
+                android:layout_marginEnd="16dp"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/opensans_regular"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="You can record your daily whimsical ideas here."
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="normal"></TextView>
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="#67B1F9"
+                android:orientation="vertical"></LinearLayout>
+
         </RelativeLayout>
-        <TextView
-            android:id="@+id/note_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="normal"
-            android:text="Content..."
-            android:singleLine="true"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"></TextView>
-    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

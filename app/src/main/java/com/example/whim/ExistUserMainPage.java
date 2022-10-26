@@ -1,11 +1,14 @@
 package com.example.whim;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.graphics.drawable.ColorDrawable;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -62,13 +65,19 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         // recyclerView_exist = findViewById(R.id.recycle_home_exist);
         fab_add_exist = findViewById(R.id.fab_add_exist);
         searchView_home_exist = findViewById(R.id.searchView_home_exist);
-
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         getSupportActionBar().setTitle("All Notes");
-        // setting database
+        
+
+        TextView home_title = (TextView)findViewById(R.id.home_title);
+
+        String h = getColoredSpanned("h", "#67B1F9");
+        String i = getColoredSpanned("i","#6E80FA");
+        String dot = getColoredSpanned(".","#FFCA3A");
+        home_title.setText(Html.fromHtml("Today's W"+h+i+"m"+dot));
 
 
         // add new notes button listener
@@ -161,6 +170,11 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         mrecyclerview.setAdapter(noteAdapter);
     }
 
+    private String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
+    }
+
     public class NoteViewHolder extends RecyclerView.ViewHolder{
 
         private TextView notetitle;
@@ -219,4 +233,13 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             noteAdapter.stopListening();
         }
     }
+
+    public void setActionBarColor(int parsedColor){
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setBackgroundDrawable(new ColorDrawable(parsedColor));
+        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(true);
+    }
+
 }
+

@@ -97,12 +97,6 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         inputNoteText = findViewById(R.id.inputNote);
         textDateTime = findViewById(R.id.textDateTime);
         selectedImage = findViewById(R.id.imageNote);
-        // Camera, gallery and location button
-        cameraBtn = findViewById(R.id.camera);
-        galleryBtn = findViewById(R.id.gallery);
-        // Assign location value
-        locationBtn = findViewById(R.id.location);
-        locationText = findViewById(R.id.locationText);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -125,30 +119,14 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         }
 
 
+
+        // Note back button
+       // ImageView imageBack = findViewById(R.id.imageBack2);
+//        imageBack.setOnClickListener((v) -> {
+//            onBackPressed();
+//        });
+
         // Note save button
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(ExistNewNoteActivity.this);
-
-        cameraBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Camera button clicked.", Toast.LENGTH_SHORT).show();
-                askCameraPermissions();
-            }
-        });
-
-        galleryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                askGalleryPermissions();
-            }
-        });
-
-        locationBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                askLocationPermissions();
-            }
-        });
 
         ImageView imageBackedit3 = findViewById(R.id.imageBack);
         imageBackedit3.setOnClickListener(new View.OnClickListener() {

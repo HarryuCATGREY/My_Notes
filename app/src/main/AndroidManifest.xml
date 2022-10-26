@@ -83,6 +83,7 @@
         <activity
             android:name=".NotesTakerActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" /> <!-- <meta-data -->
         <!-- android:name="com.google.android.actions" -->
         <!-- android:resource="@xml/radius" /> -->
