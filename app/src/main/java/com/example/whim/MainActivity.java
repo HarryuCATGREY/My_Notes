@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         Log.d("101", "!!!");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         recyclerView = findViewById(R.id.recycle_home);
         fab_add = findViewById(R.id.fab_add);
         searchView_home = findViewById(R.id.searchView_home);

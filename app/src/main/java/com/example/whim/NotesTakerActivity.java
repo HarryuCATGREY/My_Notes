@@ -100,7 +100,9 @@ public class NotesTakerActivity extends AppCompatActivity {
         try {
             notes = (Notes) getIntent().getSerializableExtra("old_note");
             inputNoteTitle.setText(notes.getTitle());
-            inputNoteText.setText(notes.getNotes());
+            inputNoteText.setText(notes.getNotes()
+                    +"\n" +  notes.getImage()
+                    +"\n" + notes.getLocation());
             inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
             isOldNote = true;
         } catch (Exception e) {
@@ -190,8 +192,9 @@ public class NotesTakerActivity extends AppCompatActivity {
         notes.setTitle(inputNoteTitle.getText().toString());
         notes.setDate(textDateTime.getText().toString());
         notes.setNotes(inputNoteText.getText().toString());
-        //notes.setImage(selectedImagePath);
-        //notes.setAllocation();
+//        notes.setImage(selectedImagePath);
+        notes.setImage("Test Image");
+        notes.setLocation("Test Location");
 
 
 
@@ -275,6 +278,7 @@ public class NotesTakerActivity extends AppCompatActivity {
                 Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
             }
         }
+
         if (requestCode == LOCATION_REQUEST_CODE) {
             if (grantResults.length > 0 && (grantResults[0] + grantResults[1]== PackageManager.PERMISSION_GRANTED)) {
                 getLocation();
