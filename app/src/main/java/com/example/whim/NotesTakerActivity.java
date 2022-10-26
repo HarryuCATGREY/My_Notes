@@ -199,8 +199,9 @@ public class NotesTakerActivity extends AppCompatActivity {
         notes.setTitle(inputNoteTitle.getText().toString());
         notes.setDate(textDateTime.getText().toString());
         notes.setNotes(inputNoteText.getText().toString());
+        Log.d("Uri", imageUri);
         notes.setImage(imageUri);
-        Picasso.get().load(imageUri).into(selectedImage);
+        //Picasso.get().load(imageUri).into(selectedImage);
         notes.setLocation(locationBtn.getText().toString());
 
 
