@@ -278,6 +278,7 @@ public class NotesTakerActivity extends AppCompatActivity {
                 Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
             }
         }
+
         if (requestCode == LOCATION_REQUEST_CODE) {
             if (grantResults.length > 0 && (grantResults[0] + grantResults[1]== PackageManager.PERMISSION_GRANTED)) {
                 getLocation();
