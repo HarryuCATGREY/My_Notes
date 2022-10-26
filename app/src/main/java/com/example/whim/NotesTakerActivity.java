@@ -80,7 +80,8 @@ public class NotesTakerActivity extends AppCompatActivity {
         inputNoteText = findViewById(R.id.inputNote);
         textDateTime = findViewById(R.id.textDateTime);
         selectedImage = findViewById(R.id.imageNote);
-
+        // Assign location value
+        locationBtn = findViewById(R.id.location);
 
 
         TextView inputNoteText = (TextView)findViewById(R.id.inputNote);
@@ -97,12 +98,17 @@ public class NotesTakerActivity extends AppCompatActivity {
         );
 
         notes = new Notes();
+
         try {
             notes = (Notes) getIntent().getSerializableExtra("old_note");
             inputNoteTitle.setText(notes.getTitle());
-            inputNoteText.setText(notes.getNotes());
+            inputNoteText.setText(notes.getNotes()+"\nimage:"+ notes.getImage());
             inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
             isOldNote = true;
+            // if the location is recorded, show it out
+            if (notes.getLocation() != null) {
+                locationBtn.setText(notes.getLocation());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -123,8 +129,9 @@ public class NotesTakerActivity extends AppCompatActivity {
         // Camera, gallery and location button
         cameraBtn = findViewById(R.id.camera);
         galleryBtn = findViewById(R.id.gallery);
-        // Assign location value
-        locationBtn = findViewById(R.id.location);
+
+
+
 
         // Initialize fuse location provider client
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(NotesTakerActivity.this);
@@ -190,7 +197,7 @@ public class NotesTakerActivity extends AppCompatActivity {
         notes.setTitle(inputNoteTitle.getText().toString());
         notes.setDate(textDateTime.getText().toString());
         notes.setNotes(inputNoteText.getText().toString());
-        notes.setImage(selectedImagePath);
+        notes.setImage("000");
         notes.setLocation(locationBtn.getText().toString());
 
 
