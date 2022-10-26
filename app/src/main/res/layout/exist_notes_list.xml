@@ -63,8 +63,8 @@
                     android:id="@+id/popupbutton"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:padding="10dp"
                     android:layout_weight="0"
+                    android:padding="10dp"
                     android:src="@drawable/ic_baseline_more_vert_24"></ImageView>
             </LinearLayout>
 

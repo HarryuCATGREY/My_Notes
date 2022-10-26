@@ -30,12 +30,15 @@ import android.util.Log;
 import android.text.Html;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -65,7 +68,8 @@ public class EditNoteActivity extends AppCompatActivity {
     ImageButton cameraBtnedit, galleryBtnedit, locationBtnedit;
     Intent data;
     EditText editTitle, editContent;
-    TextView editDate, editLocation;
+    TextView editDate;
+    Button editLocation;
     ImageView editImg;
     ImageView saveUpdate;
     FirebaseAuth firebaseAuth;
@@ -74,6 +78,7 @@ public class EditNoteActivity extends AppCompatActivity {
     String newUri;
     String currentPhotoPath;
     StorageReference storageReference;
+    FusedLocationProviderClient fusedLocationProviderClient2;
 
 
     @Override
@@ -82,9 +87,9 @@ public class EditNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_note_acticity);
         editTitle = findViewById(R.id.storedTitle);
         editContent = findViewById(R.id.storedNote);
-        editDate = findViewById(R.id.existDateTime);
-        editLocation = findViewById(R.id.locationText1);
-        editImg = findViewById(R.id.imageExist);
+        editDate = findViewById(R.id.textDateTime1);
+        editLocation = findViewById(R.id.location2);
+        editImg = findViewById(R.id.imageExist1);
 
         saveUpdate = findViewById(R.id.editSave);
         data = getIntent();
@@ -93,8 +98,8 @@ public class EditNoteActivity extends AppCompatActivity {
         firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
 
         // Camera, gallery and location button
-        cameraBtnedit = findViewById(R.id.camera1);
-        galleryBtnedit = findViewById(R.id.gallery1);
+        cameraBtnedit = findViewById(R.id.camera11);
+        galleryBtnedit = findViewById(R.id.gallery11);
         TextView inputNoteText2 = (TextView)findViewById(R.id.storedNote);
 
         String img = getColoredSpanned("images", "#67B1F9");
@@ -115,13 +120,14 @@ public class EditNoteActivity extends AppCompatActivity {
         editContent.setText(currNote);
 
         editDate.setText(currTime);
+
         editLocation.setText(currLocation);
         // 可能有问题
         if(currImg != null){
             Picasso.get().load(Uri.parse(currImg)).into(editImg);
         }
 
-
+        fusedLocationProviderClient2 = LocationServices.getFusedLocationProviderClient(EditNoteActivity.this);
 
         cameraBtnedit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +144,12 @@ public class EditNoteActivity extends AppCompatActivity {
             }
         });
 
+        editLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                askLocationPermissions();
+            }
+        });
 
 
         ImageView imageBackedit = findViewById(R.id.imageBack2);
@@ -154,6 +166,9 @@ public class EditNoteActivity extends AppCompatActivity {
                 String newtitle = editTitle.getText().toString();
                 String newcontent = editContent.getText().toString();
                 String newimg = newUri;
+                String newlocation = editLocation.getText().toString();
+
+
                 // String newImg = currImg;
                 // image 要不别改了
 
@@ -165,6 +180,9 @@ public class EditNoteActivity extends AppCompatActivity {
                     Map<String, Object> note = new HashMap<>();
                     note.put("title", newtitle);
                     note.put("content",newcontent);
+                    note.put("image", newimg);
+                    note.put("location", newlocation);
+                    note.put("time", currTime);
 
                     documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -308,6 +326,34 @@ public class EditNoteActivity extends AppCompatActivity {
     }
 
 
+    // Get Location part
+    @SuppressLint("MissingPermission")
+    private void getLocation() {
+
+        fusedLocationProviderClient2.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+
+            public void onComplete(@NonNull Task<Location> task) {
+                Location location = task.getResult();
+                if (location != null) {
+                    // Initialize geoCoder
+                    Geocoder geocoder = new Geocoder(EditNoteActivity.this, Locale.getDefault());
+                    try {
+                        List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                        // Set address
+                        Log.d("address", addresses.get(0).getAddressLine(0));
+                        editLocation.setText(addresses.get(0).getAddressLine(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Toast.makeText(EditNoteActivity.this, "Location null error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -325,7 +371,15 @@ public class EditNoteActivity extends AppCompatActivity {
         return image;
     }
 
-
+    private void askLocationPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+        }
+        else {
+            getLocation();
+        }
+    }
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -366,5 +420,7 @@ public class EditNoteActivity extends AppCompatActivity {
     private String getColoredSpanned(String text, String color) {
         String input = "<font color=" + color + ">" + text + "</font>";
         return input;
+
+
     }
 }

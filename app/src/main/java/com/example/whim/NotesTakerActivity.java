@@ -62,7 +62,7 @@ public class NotesTakerActivity extends AppCompatActivity {
     ImageButton cameraBtn, galleryBtn;
     String currentPhotoPath;
 
-    TextView locationText;
+
     FusedLocationProviderClient fusedLocationProviderClient;
 
     public static final int CAMERA_PERM_CODE = 101;
@@ -100,9 +100,7 @@ public class NotesTakerActivity extends AppCompatActivity {
         try {
             notes = (Notes) getIntent().getSerializableExtra("old_note");
             inputNoteTitle.setText(notes.getTitle());
-            inputNoteText.setText(notes.getNotes()
-                    +"\n" +  notes.getImage()
-                    +"\n" + notes.getLocation());
+            inputNoteText.setText(notes.getNotes());
             inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
             isOldNote = true;
         } catch (Exception e) {
@@ -192,9 +190,8 @@ public class NotesTakerActivity extends AppCompatActivity {
         notes.setTitle(inputNoteTitle.getText().toString());
         notes.setDate(textDateTime.getText().toString());
         notes.setNotes(inputNoteText.getText().toString());
-//        notes.setImage(selectedImagePath);
-        notes.setImage("Test Image");
-        notes.setLocation("Test Location");
+        notes.setImage(selectedImagePath);
+        notes.setLocation(locationBtn.getText().toString());
 
 
 
