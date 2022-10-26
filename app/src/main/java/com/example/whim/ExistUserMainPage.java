@@ -1,6 +1,7 @@
 package com.example.whim;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -102,6 +104,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         FirestoreRecyclerOptions<firebasemodel> allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query, firebasemodel.class).build();
 
         noteAdapter = new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(allusernotes){
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             protected void onBindViewHolder(@NonNull NoteViewHolder noteViewHolder, int i, @NonNull firebasemodel firebasemodel) {
                 ImageView popuobutton = noteViewHolder.itemView.findViewById(R.id.popupbutton);
