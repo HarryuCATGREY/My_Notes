@@ -56,6 +56,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -169,6 +170,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 String imgUri = imageUri;
                 String time = textDateTime.getText().toString();
                 String location = locationBtn.getText().toString();
+                ArrayList<String> searchkeyword = generateKeyword(title);
 
                 if (title.isEmpty() || content.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please add title and content before save.", Toast.LENGTH_SHORT).show();
@@ -181,6 +183,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                     note.put("image",imgUri);
                     note.put("time",time);
                     note.put("location", location);
+                    note.put("searchkeyword", searchkeyword);
 
                     documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -425,4 +428,13 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         return filePath;
     }
 
+    public ArrayList<String> generateKeyword(String title){
+        ArrayList<String> keywords = new ArrayList<String>();
+        for(int i = 0; i < title.length() - 1; i++){
+            for(int j = i+1; j <= title.length(); j++){
+                keywords.add(title.substring(i,j).toLowerCase(Locale.ROOT).trim());
+            }
+        }
+        return keywords;
+    }
 }

@@ -56,6 +56,7 @@ import org.w3c.dom.Document;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -167,7 +168,7 @@ public class EditNoteActivity extends AppCompatActivity {
                 String newcontent = editContent.getText().toString();
                 String newimg = newUri;
                 String newlocation = editLocation.getText().toString();
-
+                ArrayList<String> newsearchkeyword = generateKeyword(newtitle);
 
                 // String newImg = currImg;
                 // image 要不别改了
@@ -183,6 +184,7 @@ public class EditNoteActivity extends AppCompatActivity {
                     note.put("image", newimg);
                     note.put("location", newlocation);
                     note.put("time", currTime);
+                    note.put("searchkeyword", newsearchkeyword);
 
                     documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -422,5 +424,14 @@ public class EditNoteActivity extends AppCompatActivity {
         return input;
 
 
+    }
+    public ArrayList<String> generateKeyword(String title){
+        ArrayList<String> keywords = new ArrayList<String>();
+        for(int i = 0; i < title.length() - 1; i++){
+            for(int j = i+1; j <=title.length(); j++){
+                keywords.add(title.substring(i,j).toLowerCase(Locale.ROOT).trim());
+            }
+        }
+        return keywords;
     }
 }
