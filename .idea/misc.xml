@@ -4,6 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        <entry key="app/src/main/res/drawable/edit.xml" value="0.1" />
+=======
+        <entry key="app/src/main/res/drawable/document.xml" value="0.201" />
+>>>>>>> 5c8456918028e2267ad9568234e2e6d24c6bfb53
+>>>>>>> a6aa080605c201e214ae6193bae2dd42734b9044
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.116" />
         <entry key="app/src/main/res/drawable/radius_bottom_half.xml" value="0.102" />
@@ -21,7 +29,11 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_note_details.xml" value="0.12343096234309624" />
         <entry key="app/src/main/res/layout/activity_note_exist.xml" value="0.19610507246376813" />
+<<<<<<< HEAD
         <entry key="app/src/main/res/layout/activity_notes_taker.xml" value="0.175" />
+=======
+        <entry key="app/src/main/res/layout/activity_notes_taker.xml" value="0.1" />
+>>>>>>> a6aa080605c201e214ae6193bae2dd42734b9044
         <entry key="app/src/main/res/layout/activity_password_forget.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/exist_notes_list.xml" value="0.1" />
