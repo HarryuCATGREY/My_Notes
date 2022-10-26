@@ -107,7 +107,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             protected void onBindViewHolder(@NonNull NoteViewHolder noteViewHolder, int i, @NonNull firebasemodel firebasemodel) {
-                ImageView popuobutton = noteViewHolder.itemView.findViewById(R.id.popupbutton);
+                //ImageView popuobutton = noteViewHolder.itemView.findViewById(R.id.popupbutton);
 
                 noteViewHolder.notetitle.setText(firebasemodel.getTitle());
                 noteViewHolder.notecontent.setText(firebasemodel.getContent());
@@ -130,32 +130,32 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
 
                 });
 
-                popuobutton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
-                        popupMenu.setGravity(Gravity.END);
-                        popupMenu.getMenu().add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem menuItem) {
-                                DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document(docId);
-                                documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(view.getContext(), "Your whim is deleted.", Toast.LENGTH_SHORT).show();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(view.getContext(), "Your whim failed to be deleted.", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                return false;
-                            }
-                        });
-
-                    }
-                });
+//                popuobutton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+//                        popupMenu.setGravity(Gravity.END);
+//                        popupMenu.getMenu().add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//                            @Override
+//                            public boolean onMenuItemClick(MenuItem menuItem) {
+//                                DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document(docId);
+//                                documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void unused) {
+//                                        Toast.makeText(view.getContext(), "Your whim is deleted.", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }).addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Toast.makeText(view.getContext(), "Your whim failed to be deleted.", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                                return false;
+//                            }
+//                        });
+//
+//                    }
+//                });
 
             }
             @NonNull

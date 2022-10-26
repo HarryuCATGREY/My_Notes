@@ -12,9 +12,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -28,7 +32,7 @@ public class noteDetails extends AppCompatActivity {
     Button existLocationText;
     TextView existTextDateTime;
     //TextView existLocationText;
-    ImageView existSelectedImage;
+    ImageView existSelectedImage, existdeletenote;
     StorageReference imgStorageReference;
     StorageReference storageReference;
 
@@ -50,6 +54,7 @@ public class noteDetails extends AppCompatActivity {
         existTextDateTime = findViewById(R.id.textDateTime);
         existSelectedImage = findViewById(R.id.imageExist);
         existLocationText = findViewById(R.id.location1);
+        existdeletenote = findViewById(R.id.deletenote);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -75,6 +80,26 @@ public class noteDetails extends AppCompatActivity {
                 view.getContext().startActivity(intent);
             }
         });
+
+        existdeletenote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document(data.getStringExtra("noteId"));
+                documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(view.getContext(), "Your whim is deleted.", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(noteDetails.this, ExistUserMainPage.class));
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(view.getContext(), "Your whim failed to be deleted.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
         ImageView imageBacknote = findViewById(R.id.imageBack1);
         imageBacknote.setOnClickListener(new View.OnClickListener() {
             @Override
