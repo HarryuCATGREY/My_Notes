@@ -41,6 +41,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,6 +56,7 @@ public class NotesTakerActivity extends AppCompatActivity {
     private TextView textDateTime;
     private ImageView selectedImage;
     private String selectedImagePath;
+    private String imageUri;
 
     Notes notes;
     boolean isOldNote = false;
@@ -197,7 +199,8 @@ public class NotesTakerActivity extends AppCompatActivity {
         notes.setTitle(inputNoteTitle.getText().toString());
         notes.setDate(textDateTime.getText().toString());
         notes.setNotes(inputNoteText.getText().toString());
-        notes.setImage("000");
+        notes.setImage(imageUri);
+        Picasso.get().load(imageUri).into(selectedImage);
         notes.setLocation(locationBtn.getText().toString());
 
 
@@ -306,6 +309,7 @@ public class NotesTakerActivity extends AppCompatActivity {
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri contentUri = Uri.fromFile(f);
 
+                imageUri = Uri.fromFile(f).toString();
                 mediaScanIntent.setData(contentUri);
                 this.sendBroadcast(mediaScanIntent);
 
