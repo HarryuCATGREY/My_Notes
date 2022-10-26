@@ -27,6 +27,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -76,7 +77,8 @@ public class ExistNewNoteActivity extends AppCompatActivity {
     Notes notes;
     boolean isOldNote = false;
 
-    ImageButton cameraBtn, galleryBtn, locationBtn;
+    ImageButton cameraBtn, galleryBtn;
+    Button locationBtn;
     String currentPhotoPath;
 
     TextView locationText;
@@ -102,6 +104,10 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        cameraBtn = findViewById(R.id.camera);
+        galleryBtn = findViewById(R.id.gallery);
+        locationBtn =findViewById(R.id.location);
+
         storageReference = FirebaseStorage.getInstance().getReference();
 
         textDateTime.setText(
@@ -117,7 +123,6 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         // Note save button
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(ExistNewNoteActivity.this);
@@ -144,11 +149,6 @@ public class ExistNewNoteActivity extends AppCompatActivity {
             }
         });
 
-        // Note back button
-       // ImageView imageBack = findViewById(R.id.imageBack2);
-//        imageBack.setOnClickListener((v) -> {
-//            onBackPressed();
-//        });
 
         // Note save button
 
@@ -156,7 +156,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         imageBackedit3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                startActivity(new Intent(ExistNewNoteActivity.this, ExistUserMainPage.class));
             }
         });
 
@@ -168,7 +168,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 String content = inputNoteText.getText().toString();
                 String imgUri = imageUri;
                 String time = textDateTime.getText().toString();
-                String location = locationText.getText().toString();
+                String location = locationBtn.getText().toString();
 
                 if (title.isEmpty() || content.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please add title and content before save.", Toast.LENGTH_SHORT).show();
@@ -243,7 +243,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                         List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                         // Set address
                         Log.d("address", addresses.get(0).getAddressLine(0));
-                        locationText.setText(addresses.get(0).getAddressLine(0));
+                        locationBtn.setText(addresses.get(0).getAddressLine(0));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

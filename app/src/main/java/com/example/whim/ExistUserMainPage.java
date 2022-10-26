@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -37,8 +38,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     //RecyclerView recyclerView_exist;
@@ -47,6 +51,8 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     FloatingActionButton fab_add_exist;
     SearchView searchView_home_exist;
     Notes selectedNote;
+
+    TextView todayDate;
 
     RecyclerView mrecyclerview;
     StaggeredGridLayoutManager staggeredGridLayoutManager;
@@ -68,9 +74,12 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
-
+        todayDate = findViewById(R.id.todayDate);
         getSupportActionBar().setTitle("All Notes");
-        
+
+        todayDate.setText(
+                new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
+        );
 
         TextView home_title = (TextView)findViewById(R.id.home_title);
 
@@ -99,6 +108,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
 
                 noteViewHolder.notetitle.setText(firebasemodel.getTitle());
                 noteViewHolder.notecontent.setText(firebasemodel.getContent());
+                noteViewHolder.notetime.setText(firebasemodel.getTime());
 
                 String docId = noteAdapter.getSnapshots().getSnapshot(i).getId();
                 noteViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +124,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
 
                         view.getContext().startActivity(intent);
                     }
+
                 });
 
                 popuobutton.setOnClickListener(new View.OnClickListener() {
@@ -121,17 +132,6 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
                     public void onClick(View view) {
                         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
                         popupMenu.setGravity(Gravity.END);
-                        popupMenu.getMenu().add("Edit").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem menuItem) {
-                                Intent intent = new Intent(view.getContext(), EditNoteActivity.class);
-                                intent.putExtra("title",firebasemodel.getTitle());
-                                intent.putExtra("content",firebasemodel.getContent());
-                                intent.putExtra("noteId", docId);
-                                view.getContext().startActivity(intent);
-                                return false;
-                            }
-                        });
                         popupMenu.getMenu().add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
@@ -179,11 +179,13 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
 
         private TextView notetitle;
         private TextView notecontent;
+        private TextView notetime;
         LinearLayout mnote;
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             notetitle = itemView.findViewById(R.id.exist_title);
             notecontent = itemView.findViewById(R.id.note_content);
+            notetime = itemView.findViewById(R.id.textView3);
             mnote = itemView.findViewById(R.id.whim);
         }
     }

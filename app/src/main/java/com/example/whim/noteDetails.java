@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,8 +25,9 @@ public class noteDetails extends AppCompatActivity {
 
     private TextView existTitleDetail, existNoteDetail;
     ImageView editNote;
+    Button existLocationText;
     TextView existTextDateTime;
-    TextView existLocationText;
+    //TextView existLocationText;
     ImageView existSelectedImage;
     StorageReference imgStorageReference;
     StorageReference storageReference;
@@ -45,9 +47,9 @@ public class noteDetails extends AppCompatActivity {
         existNoteDetail = findViewById(R.id.existNote1);
 
         editNote = findViewById(R.id.noteedit);
-        existTextDateTime = findViewById(R.id.existDateTime);
+        existTextDateTime = findViewById(R.id.textDateTime);
         existSelectedImage = findViewById(R.id.imageExist);
-        existLocationText = findViewById(R.id.locationText1);
+        existLocationText = findViewById(R.id.location1);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
