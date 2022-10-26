@@ -119,6 +119,30 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         }
 
 
+        // Note save button
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(ExistNewNoteActivity.this);
+
+        cameraBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Camera button clicked.", Toast.LENGTH_SHORT).show();
+                askCameraPermissions();
+            }
+        });
+
+        galleryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                askGalleryPermissions();
+            }
+        });
+
+        locationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                askLocationPermissions();
+            }
+        });
 
         // Note back button
        // ImageView imageBack = findViewById(R.id.imageBack2);
