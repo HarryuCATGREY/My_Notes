@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
 
+
         <Button
             android:id="@+id/location1"
             android:focusable="false"

@@ -11,9 +11,13 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -24,6 +28,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -57,6 +62,7 @@ public class NotesTakerActivity extends AppCompatActivity {
     private ImageView selectedImage;
     private String selectedImagePath;
     private String imageUri;
+    private TextView alertTextView;
 
     Notes notes;
     boolean isOldNote = false;
@@ -84,6 +90,8 @@ public class NotesTakerActivity extends AppCompatActivity {
         selectedImage = findViewById(R.id.imageNote);
         // Assign location value
         locationBtn = findViewById(R.id.location);
+
+
 
 
         TextView inputNoteText = (TextView)findViewById(R.id.inputNote);
@@ -141,14 +149,14 @@ public class NotesTakerActivity extends AppCompatActivity {
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                askCameraPermissions();
+                reminder();
             }
         });
 
         galleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                askGalleryPermissions();
+                reminder();
             }
         });
 
@@ -157,6 +165,59 @@ public class NotesTakerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 askLocationPermissions();
+            }
+        });
+
+
+    }
+
+    private void reminder() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(NotesTakerActivity.this);
+//
+//        builder.setCancelable(true);
+//        builder.setTitle("Login to have better Whims!");
+//        builder.setMessage("Sign up to unlock Camera and Gallery functions!");
+//
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                dialogInterface.cancel();
+//            }
+//        });
+//
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                alertTextView.setVisibility(View.VISIBLE);
+//            }
+//        });
+//        builder.show();
+        ImageView cancel;
+        Button signUp;
+        //will create a view of our custom dialog layout
+        View alertCustomdialog = LayoutInflater.from(NotesTakerActivity.this).inflate(R.layout.activity_reminder,null);
+        //initialize alert builder.
+        AlertDialog.Builder alert = new AlertDialog.Builder(NotesTakerActivity.this);
+
+        //set our custom alert dialog to tha alertdialog builder
+        alert.setView(alertCustomdialog);
+        cancel = (ImageView)alertCustomdialog.findViewById(R.id.cancel_button);
+        signUp = alertCustomdialog.findViewById(R.id.signUp_button);
+        final AlertDialog dialog = alert.create();
+        //this line removed app bar from dialog and make it transperent and you see the image is like floating outside dialog box.
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //finally show the dialog box in android all
+        dialog.show();
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(NotesTakerActivity.this, SignUpActivity.class));
             }
         });
 
