@@ -23,6 +23,7 @@ public class ExistLoginActivity extends AppCompatActivity {
 
     private Button loginbutton, signupbutton;
     private TextView forget;
+    private TextView guestlogin;
 
     private FirebaseAuth firebaseAuth;
 
@@ -40,7 +41,7 @@ public class ExistLoginActivity extends AppCompatActivity {
         signupbutton = findViewById(R.id.create_button);
         forget = findViewById(R.id.forget);
         mprogressbarforlogin=findViewById(R.id.progressbarforlogin);
-
+        guestlogin = findViewById(R.id.guestlogin);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
@@ -48,6 +49,13 @@ public class ExistLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ExistLoginActivity.this, SignUpActivity.class));
+            }
+        });
+
+        guestlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ExistLoginActivity.this, MainActivity.class));
             }
         });
 
