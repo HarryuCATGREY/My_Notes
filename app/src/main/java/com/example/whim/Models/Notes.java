@@ -16,8 +16,30 @@ public class Notes implements Serializable {
     String notes = "";
     @ColumnInfo(name = "date")
     String date = "";
+    @ColumnInfo(name = "location")
+    String location = "";
+
+    @ColumnInfo(name = "image")
+    String image = "";
     @ColumnInfo(name = "pinned")
     Boolean pinned = false;
+
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public int getID() {
         return ID;

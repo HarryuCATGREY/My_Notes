@@ -100,7 +100,9 @@ public class NotesTakerActivity extends AppCompatActivity {
         try {
             notes = (Notes) getIntent().getSerializableExtra("old_note");
             inputNoteTitle.setText(notes.getTitle());
-            inputNoteText.setText(notes.getNotes());
+            inputNoteText.setText(notes.getNotes()
+                    +"\n" +  notes.getImage()
+                    +"\n" + notes.getLocation());
             inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
             isOldNote = true;
         } catch (Exception e) {
@@ -190,8 +192,9 @@ public class NotesTakerActivity extends AppCompatActivity {
         notes.setTitle(inputNoteTitle.getText().toString());
         notes.setDate(textDateTime.getText().toString());
         notes.setNotes(inputNoteText.getText().toString());
-        //notes.setImage(selectedImagePath);
-        //notes.setAllocation();
+//        notes.setImage(selectedImagePath);
+        notes.setImage("Test Image");
+        notes.setLocation("Test Location");
 
 
 
