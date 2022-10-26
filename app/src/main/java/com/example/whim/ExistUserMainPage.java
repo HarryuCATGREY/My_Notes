@@ -160,7 +160,6 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     }
 
 
-
     private String getColoredSpanned(String text, String color) {
         String input = "<font color=" + color + ">" + text + "</font>";
         return input;
@@ -233,6 +232,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         mActionBar.setDisplayShowTitleEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(true);
     }
+
 
 }
 
