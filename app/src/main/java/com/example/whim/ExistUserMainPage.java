@@ -156,8 +156,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
                 return false;
             }
         });
-        currSearch = storeInvisible.getText().toString().toLowerCase(Locale.ROOT).trim();
-        currText = String.valueOf(search_home_exist.getQuery());
+
     }
 
 
