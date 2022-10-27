@@ -1,12 +1,16 @@
 package com.example.whim;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.view.Gravity;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -15,7 +19,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -25,25 +28,31 @@ import com.example.whim.Adapters.NoteListAdapter;
 import com.example.whim.Models.Notes;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     //RecyclerView recyclerView_exist;
     NoteListAdapter noteListAdapterExist;
     List<Notes> notes = new ArrayList<>();
     FloatingActionButton fab_add_exist;
-    SearchView searchView_home_exist;
+    SearchView search_home_exist;
     Notes selectedNote;
+    String currSearch;
+    public static String currText;
+
+    public static String enteredkeyword;
+
+    TextView todayDate, storeInvisible;
 
     RecyclerView mrecyclerview;
     StaggeredGridLayoutManager staggeredGridLayoutManager;
@@ -61,14 +70,25 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
 
         // recyclerView_exist = findViewById(R.id.recycle_home_exist);
         fab_add_exist = findViewById(R.id.fab_add_exist);
-        searchView_home_exist = findViewById(R.id.searchView_home_exist);
-
+        search_home_exist = findViewById(R.id.search_home_exist);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        todayDate = findViewById(R.id.todayDate);
 
+        storeInvisible = findViewById(R.id.invisible_store);
         getSupportActionBar().setTitle("All Notes");
-        // setting database
+
+        todayDate.setText(
+                new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
+        );
+
+        TextView home_title = (TextView)findViewById(R.id.home_title);
+
+        String h = getColoredSpanned("h", "#67B1F9");
+        String i = getColoredSpanned("i","#6E80FA");
+        String dot = getColoredSpanned(".","#FFCA3A");
+        home_title.setText(Html.fromHtml("Today's W"+h+i+"m"+dot));
 
 
         // add new notes button listener
@@ -79,17 +99,19 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             }
         });
 
-        Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
+        //Query testquery = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").whereArrayContains("searchkeyword", currSearch).orderBy("title", Query.Direction.ASCENDING);
 
+
+        Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
         FirestoreRecyclerOptions<firebasemodel> allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query, firebasemodel.class).build();
 
         noteAdapter = new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(allusernotes){
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             protected void onBindViewHolder(@NonNull NoteViewHolder noteViewHolder, int i, @NonNull firebasemodel firebasemodel) {
-                ImageView popuobutton = noteViewHolder.itemView.findViewById(R.id.popupbutton);
-
                 noteViewHolder.notetitle.setText(firebasemodel.getTitle());
                 noteViewHolder.notecontent.setText(firebasemodel.getContent());
+                noteViewHolder.notetime.setText(firebasemodel.getTime());
 
                 String docId = noteAdapter.getSnapshots().getSnapshot(i).getId();
                 noteViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -98,50 +120,15 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
                         Intent intent = new Intent(view.getContext(), noteDetails.class);
                         intent.putExtra("title",firebasemodel.getTitle());
                         intent.putExtra("content",firebasemodel.getContent());
+                        intent.putExtra("image", firebasemodel.getImage());
+                        intent.putExtra("time", firebasemodel.getTime());
+                        intent.putExtra("location", firebasemodel.getLocation());
+                        intent.putExtra("searchkeyword", firebasemodel.getSearchkeyword());
                         intent.putExtra("noteId", docId);
 
                         view.getContext().startActivity(intent);
                     }
                 });
-
-                popuobutton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
-                        popupMenu.setGravity(Gravity.END);
-                        popupMenu.getMenu().add("Edit").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem menuItem) {
-                                Intent intent = new Intent(view.getContext(), EditNoteActivity.class);
-                                intent.putExtra("title",firebasemodel.getTitle());
-                                intent.putExtra("content",firebasemodel.getContent());
-                                intent.putExtra("noteId", docId);
-                                view.getContext().startActivity(intent);
-                                return false;
-                            }
-                        });
-                        popupMenu.getMenu().add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem menuItem) {
-                                DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document(docId);
-                                documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(view.getContext(), "Your whim is deleted.", Toast.LENGTH_SHORT).show();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(view.getContext(), "Your whim failed to be deleted.", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                return false;
-                            }
-                        });
-
-                    }
-                });
-
             }
             @NonNull
             @Override
@@ -156,17 +143,39 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mrecyclerview.setLayoutManager(staggeredGridLayoutManager);
         mrecyclerview.setAdapter(noteAdapter);
+
+        search_home_exist.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //String currText;
+            @Override
+            public boolean onQueryTextSubmit(String newText) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+    }
+
+
+    private String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
     }
 
     public class NoteViewHolder extends RecyclerView.ViewHolder{
 
         private TextView notetitle;
         private TextView notecontent;
+        private TextView notetime;
         LinearLayout mnote;
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             notetitle = itemView.findViewById(R.id.exist_title);
             notecontent = itemView.findViewById(R.id.note_content);
+            notetime = itemView.findViewById(R.id.textView3);
             mnote = itemView.findViewById(R.id.whim);
         }
     }
@@ -216,4 +225,14 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             noteAdapter.stopListening();
         }
     }
+
+    public void setActionBarColor(int parsedColor){
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setBackgroundDrawable(new ColorDrawable(parsedColor));
+        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(true);
+    }
+
+
 }
+

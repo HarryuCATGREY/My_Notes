@@ -8,82 +8,116 @@
     tools:context=".ExistUserMainPage">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="756dp"
+        android:layout_below="@+id/header"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="0dp"
         android:orientation="vertical"
-        android:background="@drawable/radius_bottom_half"
-        >
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="0dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:textStyle="bold"
-            android:layout_height="30dp"
-            android:layout_marginTop="30dp"
-            android:text="Today's Whim."
-            android:textSize="25dp"
-            android:gravity="center"
-            android:textFontWeight="@integer/material_motion_duration_long_2"></TextView>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="Sunday, 18 September 2022"
-            android:textStyle="bold"></TextView>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchView_home_exist"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="120dp"
-            android:layout_marginRight="10dp"
-            app:queryHint="Search Notes..."
-            app:iconifiedByDefault = "false"
+            android:id="@+id/search_home_exist"
+            android:layout_width="349dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="30dp"
             android:background="@drawable/radius"
-            android:shadowRadius="20"
-            ></androidx.appcompat.widget.SearchView>
+            app:iconifiedByDefault="false"
+            app:queryHint="@string/hint">
 
-        <!--        <ImageView-->
-        <!--            android:layout_width="40dp"-->
-        <!--            android:layout_height="40dp"-->
-        <!--            android:layout_marginLeft="25dp"-->
-        <!--            android:layout_marginTop="125dp"-->
-        <!--            android:layout_alignParentRight="true"-->
-        <!--            android:src="@drawable/ic_search"></ImageView>-->
-    </RelativeLayout>
+        </androidx.appcompat.widget.SearchView>
 
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="150dp"-->
-    <!--        android:layout_height="30dp"-->
-    <!--        android:layout_marginLeft="10dp"-->
-    <!--        android:layout_marginTop="210dp"-->
-    <!--        android:background="@drawable/radius">-->
-    <!--                <LinearLayout-->
-    <!--                    android:layout_height="match_parent"-->
-    <!--                    android:layout_width="75dp"></LinearLayout>-->
-    <!--                <LinearLayout-->
-    <!--                    android:layout_height="match_parent"-->
-    <!--                    android:layout_width="75dp"-->
-    <!--                    android:background="@drawable/radius_bottom_half_filter"></LinearLayout>-->
-    <!--    </LinearLayout>-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle_home_exist"
+            android:layout_width="350dp"
+            android:layout_height="515dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:scrollbars="vertical" />
+    </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycle_home_exist"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="8dp"
-        android:scrollbars="vertical"/>
+        android:layout_height="131dp"
+        android:background="@drawable/radius_bottom_half">
+
+        <TextView
+            android:id="@+id/invisible_store"
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:layout_marginVertical="45dp"
+            android:fontFamily="@font/opensans_bold"
+            android:gravity="center"
+            android:text="Today's Whim."
+            android:textColor="@color/black"
+            android:textFontWeight="@integer/material_motion_duration_long_2"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.156"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.479"></TextView>
+
+        <TextView
+            android:id="@+id/home_title"
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:layout_marginVertical="45dp"
+            android:fontFamily="@font/opensans_bold"
+            android:gravity="center"
+            android:text="Today's Whim."
+            android:textColor="@color/black"
+            android:textFontWeight="@integer/material_motion_duration_long_2"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.156"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.479"></TextView>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="44dp"
+            android:background="@drawable/calender"
+            app:layout_constraintBottom_toBottomOf="@+id/todayDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/todayDate"
+            app:layout_constraintVertical_bias="1.0"></ImageView>
+
+        <TextView
+            android:id="@+id/todayDate"
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/opensans_bold"
+            android:gravity="center"
+            android:text="Sunday, 18 September 2022"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.063"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/home_title"></TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_exist"
@@ -92,30 +126,33 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:background="@color/theme_blue"
-        android:src="@drawable/ic_add" />
+        android:src="@drawable/plus"
+        app:backgroundTint="#6E80FA"
+        app:tint="@android:color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-
         android:background="@color/white">
 
         <Button
             android:layout_width="200dp"
             android:layout_height="50dp"
-            android:background="@color/white"
-            android:text="Home"></Button>
+            android:gravity="center"
+            android:background="@color/theme_blue"
+            android:paddingLeft="90dp"
+            android:drawableLeft="@drawable/home"></Button>
 
         <Button
             android:layout_width="211dp"
             android:layout_height="50dp"
             android:background="@color/white"
-            android:text="Me"></Button>
+            android:drawableLeft="@drawable/me"
+            android:paddingLeft="100dp"></Button>
+
     </LinearLayout>
 
 </RelativeLayout>

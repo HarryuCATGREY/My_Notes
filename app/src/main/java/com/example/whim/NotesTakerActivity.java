@@ -11,9 +11,13 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -24,6 +28,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -41,6 +46,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,14 +61,16 @@ public class NotesTakerActivity extends AppCompatActivity {
     private TextView textDateTime;
     private ImageView selectedImage;
     private String selectedImagePath;
+    private String imageUri;
+    private TextView alertTextView;
 
     Notes notes;
     boolean isOldNote = false;
-
-    ImageButton cameraBtn, galleryBtn, locationBtn;
+    Button locationBtn;
+    ImageButton cameraBtn, galleryBtn;
     String currentPhotoPath;
 
-    TextView locationText;
+
     FusedLocationProviderClient fusedLocationProviderClient;
 
     public static final int CAMERA_PERM_CODE = 101;
@@ -80,6 +88,18 @@ public class NotesTakerActivity extends AppCompatActivity {
         inputNoteText = findViewById(R.id.inputNote);
         textDateTime = findViewById(R.id.textDateTime);
         selectedImage = findViewById(R.id.imageNote);
+        // Assign location value
+        locationBtn = findViewById(R.id.location);
+
+
+
+
+        TextView inputNoteText = (TextView)findViewById(R.id.inputNote);
+
+        String img = getColoredSpanned("images", "#67B1F9");
+        String txt = getColoredSpanned("text","#FFCA3A");
+        String photos = getColoredSpanned("photos","#6E80FA");
+        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
 
 
         selectedImagePath = "";
@@ -88,11 +108,17 @@ public class NotesTakerActivity extends AppCompatActivity {
         );
 
         notes = new Notes();
+
         try {
             notes = (Notes) getIntent().getSerializableExtra("old_note");
             inputNoteTitle.setText(notes.getTitle());
-            inputNoteText.setText(notes.getNotes());
+            inputNoteText.setText(notes.getNotes()+"\nimage:"+ notes.getImage());
+            inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
             isOldNote = true;
+            // if the location is recorded, show it out
+            if (notes.getLocation() != null) {
+                locationBtn.setText(notes.getLocation());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -113,9 +139,9 @@ public class NotesTakerActivity extends AppCompatActivity {
         // Camera, gallery and location button
         cameraBtn = findViewById(R.id.camera);
         galleryBtn = findViewById(R.id.gallery);
-        // Assign location value
-        locationBtn = findViewById(R.id.location);
-        locationText = findViewById(R.id.locationText);
+
+
+
 
         // Initialize fuse location provider client
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(NotesTakerActivity.this);
@@ -123,21 +149,75 @@ public class NotesTakerActivity extends AppCompatActivity {
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                askCameraPermissions();
+                reminder();
             }
         });
 
         galleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                askGalleryPermissions();
+                reminder();
             }
         });
 
         locationBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 askLocationPermissions();
+            }
+        });
+
+
+    }
+
+    private void reminder() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(NotesTakerActivity.this);
+//
+//        builder.setCancelable(true);
+//        builder.setTitle("Login to have better Whims!");
+//        builder.setMessage("Sign up to unlock Camera and Gallery functions!");
+//
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                dialogInterface.cancel();
+//            }
+//        });
+//
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                alertTextView.setVisibility(View.VISIBLE);
+//            }
+//        });
+//        builder.show();
+        ImageView cancel;
+        Button signUp;
+        //will create a view of our custom dialog layout
+        View alertCustomdialog = LayoutInflater.from(NotesTakerActivity.this).inflate(R.layout.activity_reminder,null);
+        //initialize alert builder.
+        AlertDialog.Builder alert = new AlertDialog.Builder(NotesTakerActivity.this);
+
+        //set our custom alert dialog to tha alertdialog builder
+        alert.setView(alertCustomdialog);
+        cancel = (ImageView)alertCustomdialog.findViewById(R.id.cancel_button);
+        signUp = alertCustomdialog.findViewById(R.id.signUp_button);
+        final AlertDialog dialog = alert.create();
+        //this line removed app bar from dialog and make it transperent and you see the image is like floating outside dialog box.
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //finally show the dialog box in android all
+        dialog.show();
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(NotesTakerActivity.this, SignUpActivity.class));
             }
         });
 
@@ -151,6 +231,11 @@ public class NotesTakerActivity extends AppCompatActivity {
         else {
             getGallery();
         }
+    }
+
+    private String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
     }
 
     private void getGallery() {
@@ -175,7 +260,12 @@ public class NotesTakerActivity extends AppCompatActivity {
         notes.setTitle(inputNoteTitle.getText().toString());
         notes.setDate(textDateTime.getText().toString());
         notes.setNotes(inputNoteText.getText().toString());
-        //notes.setImage(selectedImagePath);
+        //Log.d("Uri", imageUri);
+        // Don't need set image to roomdb anymore, only register can
+        //notes.setImage(imageUri);
+        //Picasso.get().load(imageUri).into(selectedImage);
+        notes.setLocation(locationBtn.getText().toString());
+
 
 
         Intent intent = new Intent();
@@ -211,7 +301,7 @@ public class NotesTakerActivity extends AppCompatActivity {
                         List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                         // Set address
                         Log.d("address", addresses.get(0).getAddressLine(0));
-                        locationText.setText(addresses.get(0).getAddressLine(0));
+                        locationBtn.setText(addresses.get(0).getAddressLine(0));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -258,6 +348,7 @@ public class NotesTakerActivity extends AppCompatActivity {
                 Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
             }
         }
+
         if (requestCode == LOCATION_REQUEST_CODE) {
             if (grantResults.length > 0 && (grantResults[0] + grantResults[1]== PackageManager.PERMISSION_GRANTED)) {
                 getLocation();
@@ -281,6 +372,7 @@ public class NotesTakerActivity extends AppCompatActivity {
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri contentUri = Uri.fromFile(f);
 
+                imageUri = Uri.fromFile(f).toString();
                 mediaScanIntent.setData(contentUri);
                 this.sendBroadcast(mediaScanIntent);
 
