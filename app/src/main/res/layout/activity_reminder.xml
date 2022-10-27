@@ -17,11 +17,11 @@
 
         <ImageView
             android:id="@+id/cancel_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_centerHorizontal="true"
             android:layout_gravity="right"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/ic_close" />
 
@@ -45,9 +45,10 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
                 android:layout_gravity="center"
+                android:fontFamily="@font/opensans_regular"
                 android:text="Sign up to unlock Camera and Gallery functions!"
                 android:textColor="#000"
                 android:textStyle="bold" />

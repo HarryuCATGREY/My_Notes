@@ -240,7 +240,7 @@ public class NotesTakerActivity extends AppCompatActivity {
         }
 
         notes.setTitle(inputNoteTitle.getText().toString());
-        //notes.setDate(textDateTime.getText().toString());
+        notes.setDate(textDateTime.getText().toString());
         notes.setNotes(inputNoteText.getText().toString());
         notes.setLocation(locationBtn.getText().toString());
 

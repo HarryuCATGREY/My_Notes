@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.whim.Adapters.NoteListAdapter;
@@ -49,6 +51,15 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         database = RoomDB.getInstance(this);
         notes = database.mainDAO().getAll();
         updateRecycler(notes);
+
+
+        TextView home_title = (TextView)findViewById(R.id.textView);
+
+        String h = getColoredSpanned("h", "#67B1F9");
+        String i = getColoredSpanned("i","#6E80FA");
+        String dot = getColoredSpanned(".","#FFCA3A");
+        home_title.setText(Html.fromHtml("Today's W"+h+i+"m"+dot));
+
 
 
         // add new notes button listener
@@ -162,6 +173,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         recyclerView.setAdapter(noteListAdapter);
     }
 
+    private String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
+    }
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
