@@ -161,17 +161,24 @@ public class noteDetails extends AppCompatActivity {
 
 
         if(data.getStringExtra("image") != null){
-            StorageReference imgReference = storageReference.child("photos/").child(data.getStringExtra("imagename")+".jpg");
-            imgReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            StorageReference imgReference = storageReference.child("photos/").child(data.getStringExtra("imagename"));
+            imgReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if(task.isSuccessful()) {
-                        Uri downUri = task.getResult();
-                        String imageUrl = downUri.toString();
-                        Picasso.get().load(imageUrl).into(existSelectedImage);
-                    }
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri).into(existSelectedImage);
                 }
             });
+
+//            addOnCompleteListener(new OnCompleteListener<Uri>() {
+//                @Override
+//                public void onComplete(@NonNull Task<Uri> task) {
+//                    if(task.isSuccessful()) {
+//                        Uri downUri = task.getResult();
+//                        String imageUrl = downUri.toString();
+//                        Picasso.get().load(imageUrl).into(existSelectedImage);
+//                    }
+//                }
+//            });
         }
     }
 

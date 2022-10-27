@@ -150,16 +150,23 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         // 可能有问题
         if(currImg != null){
             if(data.getStringExtra("image") != null){
-                StorageReference imgReference = storageReference.child("photos/").child(data.getStringExtra("imagename")+".jpg");
-                imgReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                StorageReference imgReference = storageReference.child("photos/").child(data.getStringExtra("imagename"));
+                //StorageReference imgReference = storageReference.child("photos/").child(data.getStringExtra("imagename"));
+                imgReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if(task.isSuccessful()) {
-                            Uri downUri = task.getResult();
-                            String imageUrl = downUri.toString();
-                            Picasso.get().load(imageUrl).into(editImg);
-                        }
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(editImg);
                     }
+
+//                imgReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Uri> task) {
+//                        if(task.isSuccessful()) {
+//                            Uri downUri = task.getResult();
+//                            String imageUrl = downUri.toString();
+//                            Picasso.get().load(imageUrl).into(editImg);
+//                        }
+//                    }
                 });
            // Picasso.get().load(Uri.parse(currImg)).into(editImg);
         }
