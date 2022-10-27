@@ -15,6 +15,7 @@ import androidx.core.content.FileProvider;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,6 +26,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.text.Html;
@@ -34,6 +36,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +50,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -63,7 +67,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class EditNoteActivity extends AppCompatActivity {
+public class EditNoteActivity<Login> extends AppCompatActivity {
 
     private static final int GALLERY_PERM_CODE = 1;
     ImageButton cameraBtnedit, galleryBtnedit, locationBtnedit;
@@ -75,6 +79,10 @@ public class EditNoteActivity extends AppCompatActivity {
     ImageView saveUpdate;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
+    ProgressBar progressBar;
+    TextView textViewProgress;
+
+
     FirebaseUser firebaseUser;
     String newUri;
     String currentPhotoPath;
@@ -92,6 +100,12 @@ public class EditNoteActivity extends AppCompatActivity {
         editLocation = findViewById(R.id.location2);
         editImg = findViewById(R.id.imageExist1);
 
+        progressBar = findViewById(R.id.progress_loader);
+        textViewProgress = findViewById(R.id.textProgress);
+        progressBar.setVisibility(View.GONE);
+        textViewProgress.setVisibility(View.GONE);
+
+
         saveUpdate = findViewById(R.id.editSave);
         data = getIntent();
 
@@ -101,12 +115,13 @@ public class EditNoteActivity extends AppCompatActivity {
         // Camera, gallery and location button
         cameraBtnedit = findViewById(R.id.camera11);
         galleryBtnedit = findViewById(R.id.gallery11);
-        TextView inputNoteText2 = (TextView)findViewById(R.id.storedNote);
+
+        TextView inputNoteText = (TextView)findViewById(R.id.storedNote);
 
         String img = getColoredSpanned("images", "#67B1F9");
         String txt = getColoredSpanned("text","#FFCA3A");
         String photos = getColoredSpanned("photos","#6E80FA");
-        inputNoteText2.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
+        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
 
 
         String currTitle  = data.getStringExtra("title");
@@ -260,6 +275,12 @@ public class EditNoteActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
+
+                Log.d("happy", "progressbar visibility before is" + progressBar.getVisibility());
+                progressBar.setVisibility(View.VISIBLE);
+                textViewProgress.setVisibility(View.VISIBLE);
+                Log.d("happy", "progressbar visibility  after is" + progressBar.getVisibility());
+
                 File f = new File(currentPhotoPath);
                 //selectedImage.setImageURI(Uri.fromFile(f));
                 Log.d("tag", "Absolute Url of Image is" + Uri.fromFile(f));
@@ -278,6 +299,8 @@ public class EditNoteActivity extends AppCompatActivity {
 
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
+
+
                 Uri contentUri = data.getData();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStamp +"."+getFileExt(contentUri);
@@ -293,6 +316,7 @@ public class EditNoteActivity extends AppCompatActivity {
 
 
     private void uploadImageToFirebase(String name, Uri contentUri){
+
         StorageReference image = storageReference.child("photos/" + name);
         image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -300,18 +324,29 @@ public class EditNoteActivity extends AppCompatActivity {
                 image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        progressBar.setProgress((0));
+                        textViewProgress.setText("Uploaded 100%");
                         Picasso.get().load(uri).into(editImg);
                         Log.d("tag", "onSuccess: Upload image URL is: " + uri.toString());
                     }
                 });
 
                 Toast.makeText(getApplicationContext(), "Photo is uploaded! :) ", Toast.LENGTH_SHORT).show();
+
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getApplicationContext(), "Upload Failed :( ", Toast.LENGTH_SHORT).show();
 
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot snapshot) {
+                double progress = (100*snapshot.getBytesTransferred()/snapshot.getTotalByteCount());
+                progressBar.setProgress((int) progress);
+                textViewProgress.setText(progress+" %");
             }
         });
 

@@ -92,7 +92,7 @@ public class noteDetails extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(noteDetails.this);
 
                 builder.setCancelable(true);
-                builder.setTitle("Are you sure to delete thi note?");
+                builder.setTitle("Are you sure to delete the note?");
                 builder.setMessage("The process can't revert!");
 
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

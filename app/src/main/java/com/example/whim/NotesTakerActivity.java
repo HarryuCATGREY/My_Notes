@@ -260,8 +260,9 @@ public class NotesTakerActivity extends AppCompatActivity {
         notes.setTitle(inputNoteTitle.getText().toString());
         notes.setDate(textDateTime.getText().toString());
         notes.setNotes(inputNoteText.getText().toString());
-        Log.d("Uri", imageUri);
-        notes.setImage(imageUri);
+        //Log.d("Uri", imageUri);
+        // Don't need set image to roomdb anymore, only register can
+        //notes.setImage(imageUri);
         //Picasso.get().load(imageUri).into(selectedImage);
         notes.setLocation(locationBtn.getText().toString());
 

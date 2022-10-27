@@ -31,6 +31,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
@@ -48,6 +49,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -78,6 +80,9 @@ public class ExistNewNoteActivity extends AppCompatActivity {
     Notes notes;
     boolean isOldNote = false;
 
+    TextView textProgress;
+    ProgressBar progressBar;
+
     ImageButton cameraBtn, galleryBtn;
     Button locationBtn;
     String currentPhotoPath;
@@ -94,20 +99,29 @@ public class ExistNewNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes_taker);
+        setContentView(R.layout.activity_edit_note_acticity);
 
-        inputNoteTitle = findViewById(R.id.inputNoteTitle);
-        inputNoteText = findViewById(R.id.inputNote);
-        textDateTime = findViewById(R.id.textDateTime);
-        selectedImage = findViewById(R.id.imageNote);
+        textProgress = findViewById(R.id.textProgress);
+        progressBar = findViewById(R.id.progress_loader);
+
+        progressBar.setVisibility(View.GONE);
+        textProgress.setVisibility(View.GONE);
+
+
+        inputNoteTitle = findViewById(R.id.storedTitle);
+        inputNoteText = findViewById(R.id.storedNote);
+        textDateTime = findViewById(R.id.textDateTime1);
+        selectedImage = findViewById(R.id.imageExist1);
+
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        cameraBtn = findViewById(R.id.camera);
-        galleryBtn = findViewById(R.id.gallery);
-        locationBtn =findViewById(R.id.location);
+        cameraBtn = findViewById(R.id.camera11);
+        galleryBtn = findViewById(R.id.gallery11);
+        locationBtn =findViewById(R.id.location2);
 
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -153,15 +167,15 @@ public class ExistNewNoteActivity extends AppCompatActivity {
 
         // Note save button
 
-        ImageView imageBackedit3 = findViewById(R.id.imageBack);
-        imageBackedit3.setOnClickListener(new View.OnClickListener() {
+        ImageView imageBackedit2 = findViewById(R.id.imageBack2);
+        imageBackedit2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ExistNewNoteActivity.this, ExistUserMainPage.class));
             }
         });
 
-        ImageView imageSave = findViewById(R.id.imageSave);
+        ImageView imageSave = findViewById(R.id.editSave);
         imageSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -304,6 +318,9 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
+                progressBar.setVisibility(View.VISIBLE);
+                textProgress.setVisibility(View.VISIBLE);
+
                 File f = new File(currentPhotoPath);
                 //selectedImage.setImageURI(Uri.fromFile(f));
                 Log.d("tag", "Absolute Url of Image is" + Uri.fromFile(f));
@@ -322,6 +339,10 @@ public class ExistNewNoteActivity extends AppCompatActivity {
 
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
+
+                progressBar.setVisibility(View.VISIBLE);
+                textProgress.setVisibility(View.VISIBLE);
+
                 Uri contentUri = data.getData();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStamp +"."+getFileExt(contentUri);
@@ -348,14 +369,24 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                         Log.d("tag", "onSuccess: Upload image URL is: " + uri.toString());
                     }
                 });
-
+                progressBar.setProgress(0);
+                textProgress.setText("0.0 %");
                 Toast.makeText(getApplicationContext(), "Photo is uploaded! :) ", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                textProgress.setVisibility(View.GONE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getApplicationContext(), "Upload Failed :( ", Toast.LENGTH_SHORT).show();
 
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                double progress = (100 * snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                progressBar.setProgress((int)progress);
+                textProgress.setText(progress+" %");
             }
         });
 

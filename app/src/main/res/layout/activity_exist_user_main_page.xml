@@ -7,21 +7,6 @@
     android:background="@color/grey"
     tools:context=".ExistUserMainPage">
 
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="150dp"-->
-    <!--        android:layout_height="30dp"-->
-    <!--        android:layout_marginLeft="10dp"-->
-    <!--        android:layout_marginTop="210dp"-->
-    <!--        android:background="@drawable/radius">-->
-    <!--                <LinearLayout-->
-    <!--                    android:layout_height="match_parent"-->
-    <!--                    android:layout_width="75dp"></LinearLayout>-->
-    <!--                <LinearLayout-->
-    <!--                    android:layout_height="match_parent"-->
-    <!--                    android:layout_width="75dp"-->
-    <!--                    android:background="@drawable/radius_bottom_half_filter"></LinearLayout>-->
-    <!--    </LinearLayout>-->
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
