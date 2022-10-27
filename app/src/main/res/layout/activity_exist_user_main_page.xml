@@ -20,17 +20,21 @@
         tools:layout_editor_absoluteX="55dp"
         tools:layout_editor_absoluteY="0dp">
 
+        <EditText
+            android:id="@+id/search_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_search"
+            android:ems="15"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Find your whims..."
+            android:textColor="#999999"
+            android:textSize="16sp"></EditText>
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_home_exist"
-            android:layout_width="349dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/radius"
-            app:iconifiedByDefault="false"
-            app:queryHint="@string/hint">
-
-        </androidx.appcompat.widget.SearchView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_home_exist"

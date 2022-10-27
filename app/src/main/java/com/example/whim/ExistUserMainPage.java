@@ -74,6 +74,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
+
         todayDate = findViewById(R.id.todayDate);
 
         storeInvisible = findViewById(R.id.invisible_store);
