@@ -100,6 +100,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progress_loader);
         textViewProgress = findViewById(R.id.textProgress);
+
         progressBar.setVisibility(View.GONE);
         textViewProgress.setVisibility(View.GONE);
 
@@ -311,6 +312,8 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
+                progressBar.setVisibility(View.VISIBLE);
+                textViewProgress.setVisibility(View.VISIBLE);
 
                 Uri contentUri = data.getData();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -345,7 +348,8 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                 });
 
                 Toast.makeText(getApplicationContext(), "Photo is uploaded! :) ", Toast.LENGTH_SHORT).show();
-
+                progressBar.setVisibility(View.GONE);
+                textViewProgress.setVisibility(View.GONE);
 
             }
         }).addOnFailureListener(new OnFailureListener() {
