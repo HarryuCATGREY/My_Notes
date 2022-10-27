@@ -80,6 +80,7 @@ public class noteDetails extends AppCompatActivity {
                 intent.putExtra("image", data.getStringExtra("image"));
                 intent.putExtra("time", data.getStringExtra("time"));
                 intent.putExtra("location", data.getStringExtra("location"));
+                intent.putExtra("timestamp", data.getStringExtra("timestamp"));
                 intent.putExtra("noteId", data.getStringExtra("noteId"));
                 view.getContext().startActivity(intent);
             }
