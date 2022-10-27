@@ -108,7 +108,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
 
 
         //Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
-        Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("timestamp", Query.Direction.ASCENDING);
+        Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("timestamp", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<firebasemodel> allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query, firebasemodel.class).build();
 
