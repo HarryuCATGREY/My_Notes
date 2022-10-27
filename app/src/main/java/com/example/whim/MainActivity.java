@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -73,6 +74,23 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
 
 
+        });
+    }
+
+
+    // Personal Information
+    public void goToPersonalInformation(View view) {
+        // Personal information
+        Intent myIntent = new Intent(MainActivity.this, PersonalInformation.class);
+        //myIntent.putExtra("key", 1); //Optional parameters
+        MainActivity.this.startActivity(myIntent);
+
+        Button buttonMe = (Button) findViewById(R.id.buttonMe);
+        buttonMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), PersonalInformation.class);
+                view.getContext().startActivity(intent);}
         });
     }
 

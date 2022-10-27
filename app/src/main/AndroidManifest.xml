@@ -22,6 +22,13 @@
         android:theme="@style/Theme.Whim"
         tools:targetApi="31">
         <activity
+            android:name=".PersonalInformation"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".noteDetails"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -30,23 +37,20 @@
             android:name=".EditNoteActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Design.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Design.NoActionBar"></activity>
         <activity
             android:name=".ExistNewNoteActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:parentActivityName=".ExistUserMainPage"
-            android:theme="@style/Theme.Design.NoActionBar">
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Design.NoActionBar"></activity>
         <activity
             android:name=".ExistUserMainPage"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".ExistLoginActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,14 +59,12 @@
         </activity>
         <activity
             android:name=".PasswordForgetActivity"
-            android:exported="true">
-        </activity> <!-- <activity -->
+            android:exported="true"></activity> <!-- <activity -->
         <!-- android:name=".ExistLoginActivity" -->
         <!-- android:exported="false" /> -->
         <activity
             android:name=".SignUpActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".NotesTakerActivity"
             android:exported="true"
@@ -72,8 +74,7 @@
         <!-- android:resource="@xml/radius" /> -->
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
