@@ -63,11 +63,12 @@
                 android:textSize="14sp"
                 android:textStyle="normal"></TextView>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/note_time"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:background="#67B1F9"
-                android:orientation="vertical"></LinearLayout>
+                android:orientation="vertical"></TextView>
 
         </RelativeLayout>
 
