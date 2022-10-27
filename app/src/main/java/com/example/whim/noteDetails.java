@@ -16,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,6 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import io.grpc.Context;
 
 public class noteDetails extends AppCompatActivity {
 
@@ -81,6 +85,7 @@ public class noteDetails extends AppCompatActivity {
                 intent.putExtra("time", data.getStringExtra("time"));
                 intent.putExtra("location", data.getStringExtra("location"));
                 intent.putExtra("timestamp", data.getStringExtra("timestamp"));
+                intent.putExtra("imagename", data.getStringExtra("imagename"));
                 intent.putExtra("noteId", data.getStringExtra("noteId"));
                 view.getContext().startActivity(intent);
             }
@@ -153,8 +158,20 @@ public class noteDetails extends AppCompatActivity {
         existTextDateTime.setText(data.getStringExtra("time"));
         existLocationText.setText(data.getStringExtra("location"));
 
+
+
         if(data.getStringExtra("image") != null){
-            Picasso.get().load(Uri.parse(data.getStringExtra("image"))).into(existSelectedImage);
+            StorageReference imgReference = storageReference.child("photos/").child(data.getStringExtra("imagename")+".jpg");
+            imgReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if(task.isSuccessful()) {
+                        Uri downUri = task.getResult();
+                        String imageUrl = downUri.toString();
+                        Picasso.get().load(imageUrl).into(existSelectedImage);
+                    }
+                }
+            });
         }
     }
 

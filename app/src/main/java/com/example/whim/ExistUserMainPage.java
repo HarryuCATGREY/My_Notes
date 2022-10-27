@@ -132,6 +132,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
                         intent.putExtra("location", firebasemodel.getLocation());
                         intent.putExtra("searchkeyword", firebasemodel.getSearchkeyword());
                         intent.putExtra("timestamp", firebasemodel.getTimestamp());
+                        intent.putExtra("imagename", firebasemodel.getImagename());
                         intent.putExtra("noteId", docId);
 
                         view.getContext().startActivity(intent);

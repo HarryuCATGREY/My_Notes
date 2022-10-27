@@ -82,7 +82,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
     Date prevDate;
 
     FirebaseUser firebaseUser;
-    String newUri;
+    String newUri, newImagename;
     String currentPhotoPath;
     StorageReference storageReference;
     FusedLocationProviderClient fusedLocationProviderClient2;
@@ -131,6 +131,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         String currLocation = data.getStringExtra("location");
         String currTime = data.getStringExtra("time");
         String currImg = data.getStringExtra("image");
+        String currImgName = data.getStringExtra("imagename");
         try {
             prevDate = formatterTime.parse(data.getStringExtra("time"));
         } catch (ParseException e) {
@@ -138,6 +139,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         }
 
         newUri = currImg;
+        newImagename = currImgName;
 
         editTitle.setText(currTitle);
         editContent.setText(currNote);
@@ -147,7 +149,20 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         editLocation.setText(currLocation);
         // 可能有问题
         if(currImg != null){
-            Picasso.get().load(Uri.parse(currImg)).into(editImg);
+            if(data.getStringExtra("image") != null){
+                StorageReference imgReference = storageReference.child("photos/").child(data.getStringExtra("imagename")+".jpg");
+                imgReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if(task.isSuccessful()) {
+                            Uri downUri = task.getResult();
+                            String imageUrl = downUri.toString();
+                            Picasso.get().load(imageUrl).into(editImg);
+                        }
+                    }
+                });
+           // Picasso.get().load(Uri.parse(currImg)).into(editImg);
+        }
         }
 
         fusedLocationProviderClient2 = LocationServices.getFusedLocationProviderClient(EditNoteActivity.this);
@@ -189,6 +204,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                 String newtitle = editTitle.getText().toString();
                 String newcontent = editContent.getText().toString();
                 String newimg = newUri;
+                String newimgname = newImagename;
                 String newlocation = editLocation.getText().toString();
                 ArrayList<String> newsearchkeyword = generateKeyword(newtitle);
 
@@ -207,6 +223,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                     note.put("location", newlocation);
                     note.put("time", currTime);
                     note.put("timestamp",prevDate);
+                    note.put("imagename", newimgname);
                     note.put("searchkeyword", newsearchkeyword);
 
                     documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -301,6 +318,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                 Uri contentUri = Uri.fromFile(f);
                 // 能不能吧image的uri存成string再之后转换
                 newUri = Uri.fromFile(f).toString();
+                newImagename = f.getName();
 
                 mediaScanIntent.setData(contentUri);
                 this.sendBroadcast(mediaScanIntent);
@@ -321,6 +339,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                 Log.d("tag", "onActivityResult: Gallery Image Uri:  " +  imageFileName);
                 //selectedImage.setImageURI(contentUri);
                 newUri = contentUri.toString();
+                newImagename = imageFileName;
 
                 Log.d("imagefile", imageFileName);
                 uploadImageToFirebase(imageFileName, contentUri);

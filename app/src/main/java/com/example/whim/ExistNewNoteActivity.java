@@ -73,6 +73,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
     private TextView textDateTime;
     private ImageView selectedImage;
     private String imageUri;
+    private String imageName;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -188,6 +189,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 String title = inputNoteTitle.getText().toString();
                 String content = inputNoteText.getText().toString();
                 String imgUri = imageUri;
+                String imgName = imageName;
                 String time = textDateTime.getText().toString();
                 String location = locationBtn.getText().toString();
                 ArrayList<String> searchkeyword = generateKeyword(title);
@@ -209,6 +211,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                     note.put("time",time);
                     note.put("location", location);
                     note.put("searchkeyword", searchkeyword);
+                    note.put("imagename", imgName);
 
                     documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -340,7 +343,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 Uri contentUri = Uri.fromFile(f);
                 // 能不能吧image的uri存成string再之后转换
                 imageUri = Uri.fromFile(f).toString();
-
+                imageName = f.getName();
                 mediaScanIntent.setData(contentUri);
                 this.sendBroadcast(mediaScanIntent);
 
@@ -360,7 +363,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 Log.d("tag", "onActivityResult: Gallery Image Uri:  " +  imageFileName);
                 //selectedImage.setImageURI(contentUri);
                 imageUri = contentUri.toString();
-
+                imageName = imageFileName;
                 uploadImageToFirebase(imageFileName, contentUri);
 
             }
