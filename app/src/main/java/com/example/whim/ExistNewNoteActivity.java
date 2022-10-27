@@ -57,8 +57,10 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -122,6 +124,10 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         cameraBtn = findViewById(R.id.camera11);
         galleryBtn = findViewById(R.id.gallery11);
         locationBtn =findViewById(R.id.location2);
+
+        SimpleDateFormat formatterTime = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a");
+
+        Date notesDate = Calendar.getInstance().getTime();
 
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -191,7 +197,12 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 } else {
                     DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document();
                     Map<String, Object> note = new HashMap<>();
-
+                    try {
+                        Date realStamp = formatterTime.parse(time);
+                        note.put("timestamp", realStamp);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     note.put("title", title);
                     note.put("content", content);
                     note.put("image",imgUri);

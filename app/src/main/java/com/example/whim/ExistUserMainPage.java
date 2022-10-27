@@ -3,6 +3,8 @@ package com.example.whim;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
+import java.util.Calendar;
+import java.util.Date;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +51,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     Notes selectedNote;
     String currSearch;
     public static String currText;
+    Date notesDate;
 
     public static String enteredkeyword;
 
@@ -79,6 +82,8 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         storeInvisible = findViewById(R.id.invisible_store);
         getSupportActionBar().setTitle("All Notes");
 
+        notesDate = Calendar.getInstance().getTime();
+
         todayDate.setText(
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
         );
@@ -102,7 +107,9 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         //Query testquery = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").whereArrayContains("searchkeyword", currSearch).orderBy("title", Query.Direction.ASCENDING);
 
 
-        Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
+        //Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
+        Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("timestamp", Query.Direction.ASCENDING);
+
         FirestoreRecyclerOptions<firebasemodel> allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query, firebasemodel.class).build();
 
         noteAdapter = new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(allusernotes){
@@ -124,6 +131,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
                         intent.putExtra("time", firebasemodel.getTime());
                         intent.putExtra("location", firebasemodel.getLocation());
                         intent.putExtra("searchkeyword", firebasemodel.getSearchkeyword());
+                        intent.putExtra("timestamp", firebasemodel.getTimestamp());
                         intent.putExtra("noteId", docId);
 
                         view.getContext().startActivity(intent);

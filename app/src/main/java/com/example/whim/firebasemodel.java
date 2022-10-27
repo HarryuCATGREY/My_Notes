@@ -1,6 +1,7 @@
 package com.example.whim;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class firebasemodel {
 
@@ -11,18 +12,21 @@ public class firebasemodel {
     private String time;
     private String location;
     private ArrayList<String> searchkeyword;
+    private Date timestamp;
 
     public firebasemodel(){
 
     }
 
-    public firebasemodel(String title, String content, String image, String time, String location, ArrayList<String> searchkeyword){
+
+    public firebasemodel(String title, String content, String image, String time, String location, ArrayList<String> searchkeyword, Date timestamp){
         this.title = title;
         this.content = content;
         this.image = image;
         this.time = time;
         this.location = location;
         this.searchkeyword = searchkeyword;
+        this.timestamp = timestamp;
 
     }
 
@@ -56,6 +60,10 @@ public class firebasemodel {
 
     public ArrayList<String> getSearchkeyword() {
         return searchkeyword;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
     }
 }
 

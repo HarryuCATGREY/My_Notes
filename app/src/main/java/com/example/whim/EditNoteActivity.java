@@ -15,7 +15,6 @@ import androidx.core.content.FileProvider;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,7 +25,6 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.text.Html;
@@ -56,10 +54,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Document;
-
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -82,7 +79,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     ProgressBar progressBar;
     TextView textViewProgress;
-
+    Date prevDate;
 
     FirebaseUser firebaseUser;
     String newUri;
@@ -125,12 +122,19 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         String photos = getColoredSpanned("photos","#6E80FA");
         inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
 
+        SimpleDateFormat formatterTime = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a");
+
 
         String currTitle  = data.getStringExtra("title");
         String currNote = data.getStringExtra("content");
         String currLocation = data.getStringExtra("location");
         String currTime = data.getStringExtra("time");
         String currImg = data.getStringExtra("image");
+        try {
+            prevDate = formatterTime.parse(data.getStringExtra("time"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         newUri = currImg;
 
@@ -201,6 +205,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                     note.put("image", newimg);
                     note.put("location", newlocation);
                     note.put("time", currTime);
+                    note.put("timestamp",prevDate);
                     note.put("searchkeyword", newsearchkeyword);
 
                     documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
