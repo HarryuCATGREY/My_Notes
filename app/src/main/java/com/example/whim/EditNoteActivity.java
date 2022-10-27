@@ -50,6 +50,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -105,6 +106,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
         textViewProgress.setVisibility(View.GONE);
 
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         saveUpdate = findViewById(R.id.editSave);
         data = getIntent();
