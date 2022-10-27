@@ -24,10 +24,12 @@
         <activity
             android:name=".noteDetails"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
         <activity
             android:name=".EditNoteActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +40,7 @@
         <activity
             android:name=".ExistNewNoteActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:parentActivityName=".ExistUserMainPage"
             android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
@@ -57,6 +60,7 @@
         </activity>
         <activity
             android:name=".ExistLoginActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
