@@ -4,15 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/delete.xml" value="0.1985" />
         <entry key="app/src/main/res/drawable/edit.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/email.xml" value="0.1985" />
+        <entry key="app/src/main/res/drawable/end_icon_state.xml" value="0.1985" />
+        <entry key="app/src/main/res/drawable/gradient.xml" value="0.1985" />
         <entry key="app/src/main/res/drawable/home.xml" value="0.198" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.116" />
         <entry key="app/src/main/res/drawable/location.xml" value="0.1265" />
+        <entry key="app/src/main/res/drawable/radius.xml" value="0.1985" />
         <entry key="app/src/main/res/drawable/radius_bottom_half.xml" value="0.102" />
         <entry key="app/src/main/res/drawable/radius_bottom_half_filter.xml" value="0.102" />
         <entry key="app/src/main/res/layout/activity_edit_note_acticity.xml" value="0.20095196892233458" />
-        <entry key="app/src/main/res/layout/activity_exist_login.xml" value="0.21655629475911461" />
+        <entry key="app/src/main/res/layout/activity_exist_login.xml" value="0.26595744680851063" />
         <entry key="app/src/main/res/layout/activity_exist_new_note.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_exist_note.xml" value="0.22135416666666666" />
         <entry key="app/src/main/res/layout/activity_exist_user_main_page.xml" value="0.1884048461914063" />

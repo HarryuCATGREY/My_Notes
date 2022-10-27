@@ -2,6 +2,7 @@ package com.example.whim;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +45,14 @@ public class ExistLoginActivity extends AppCompatActivity {
         guestlogin = findViewById(R.id.guestlogin);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        TextView login_title = (TextView)findViewById(R.id.login_title);
+
+        String h = getColoredSpanned("h", "#67B1F9");
+        String i = getColoredSpanned("i","#6E80FA");
+        String dot = getColoredSpanned(".","#FFCA3A");
+        login_title.setText(Html.fromHtml("W"+h+i+"m"+dot));
+
 
         signupbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,5 +115,9 @@ public class ExistLoginActivity extends AppCompatActivity {
             firebaseAuth.signOut();
         }
 
+    }
+    private String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
     }
 }
