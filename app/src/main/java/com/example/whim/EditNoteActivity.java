@@ -312,6 +312,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                 //selectedImage.setImageURI(contentUri);
                 newUri = contentUri.toString();
 
+                Log.d("imagefile", imageFileName);
                 uploadImageToFirebase(imageFileName, contentUri);
 
             }
@@ -320,7 +321,8 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
 
 
     private void uploadImageToFirebase(String name, Uri contentUri){
-
+        Log.d("photo", "123");
+        Log.d("photoname", name);
         StorageReference image = storageReference.child("photos/" + name);
         image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
