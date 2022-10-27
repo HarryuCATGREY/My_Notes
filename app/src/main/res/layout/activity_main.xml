@@ -111,10 +111,14 @@
             android:text="Home"></Button>
 
         <Button
+            android:id="@+id/buttonMe"
             android:layout_width="211dp"
             android:layout_height="50dp"
             android:background="@color/white"
+            android:onClick="goToPersonalInformation"
             android:text="Me"></Button>
+
+
     </LinearLayout>
 
 </RelativeLayout>
