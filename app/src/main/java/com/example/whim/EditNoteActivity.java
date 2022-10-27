@@ -276,10 +276,9 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
-                Log.d("happy", "progressbar visibility before is" + progressBar.getVisibility());
+
                 progressBar.setVisibility(View.VISIBLE);
                 textViewProgress.setVisibility(View.VISIBLE);
-                Log.d("happy", "progressbar visibility  after is" + progressBar.getVisibility());
 
                 File f = new File(currentPhotoPath);
                 //selectedImage.setImageURI(Uri.fromFile(f));
