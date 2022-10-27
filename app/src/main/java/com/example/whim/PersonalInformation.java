@@ -1,10 +1,13 @@
 package com.example.whim;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
 
 public class PersonalInformation extends AppCompatActivity {
 

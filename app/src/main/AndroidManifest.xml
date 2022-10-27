@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.whim" >
+    package="com.example.whim">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -20,11 +20,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Whim"
-        tools:targetApi="31" >
+        tools:targetApi="31">
+        <activity
+            android:name=".PersonalInformation"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".noteDetails"
             android:exported="false"
-            android:theme="@style/Theme.Design.NoActionBar"/>
+            android:theme="@style/Theme.Design.NoActionBar" />
         <activity
             android:name=".EditNoteActivity"
             android:exported="true"
@@ -39,7 +46,7 @@
             android:name=".ExistNewNoteActivity"
             android:exported="true"
             android:parentActivityName=".ExistUserMainPage"
-            android:theme="@style/Theme.Design.NoActionBar" >
+            android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,7 +55,7 @@
         </activity>
         <activity
             android:name=".ExistUserMainPage"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,7 +64,7 @@
         </activity>
         <activity
             android:name=".ExistLoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -66,7 +73,7 @@
         </activity>
         <activity
             android:name=".PasswordForgetActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -75,7 +82,7 @@
         <!-- android:exported="false" /> -->
         <activity
             android:name=".SignUpActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -88,7 +95,7 @@
         <!-- android:resource="@xml/radius" /> -->
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -100,7 +107,7 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.whim.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
