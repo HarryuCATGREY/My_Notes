@@ -67,7 +67,7 @@ public class NotesTakerActivity extends AppCompatActivity {
     Notes notes;
     boolean isOldNote = false;
     Button locationBtn;
-    ImageButton cameraBtn, galleryBtn;
+    ImageButton cameraBtn, galleryBtn, paletteBtn;
     String currentPhotoPath;
 
 
@@ -140,7 +140,7 @@ public class NotesTakerActivity extends AppCompatActivity {
         // Camera, gallery and location button
         cameraBtn = findViewById(R.id.camera);
         galleryBtn = findViewById(R.id.gallery);
-
+        paletteBtn = findViewById(R.id.palette);
 
 
 
@@ -155,6 +155,13 @@ public class NotesTakerActivity extends AppCompatActivity {
         });
 
         galleryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reminder();
+            }
+        });
+
+        paletteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 reminder();
