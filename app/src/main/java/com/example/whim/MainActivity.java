@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     }
 
 
-    // Personal Information
+    // Goto Personal Information
     public void goToPersonalInformation(View view) {
         // Personal information
         Intent myIntent = new Intent(MainActivity.this, PersonalInformation.class);
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 view.getContext().startActivity(intent);}
         });
     }
+
 
     // click on old notes
     private final NotesClickListener notesClickListener = new NotesClickListener() {

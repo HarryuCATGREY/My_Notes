@@ -83,7 +83,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"></activity>
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.whim.fileprovider"
