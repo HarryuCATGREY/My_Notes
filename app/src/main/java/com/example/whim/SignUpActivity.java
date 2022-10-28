@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,7 @@ import java.util.concurrent.Executor;
 public class SignUpActivity extends AppCompatActivity {
     private EditText signupemail, signupwd;
     private Button signupbutton;
-    private Button mlogin;
+    private TextView mlogin;
 
     private FirebaseAuth firebaseAuth;
 
@@ -37,7 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         signupemail = findViewById(R.id.email_input);
-        signupwd = findViewById(R.id.acc_input);
+        signupwd = findViewById(R.id.acc_pwd);
         signupbutton = findViewById(R.id.continue_button);
         mlogin = findViewById(R.id.gotologin);
 
