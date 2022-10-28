@@ -86,7 +86,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
     TextView textProgress;
     ProgressBar progressBar;
 
-    ImageButton cameraBtn, galleryBtn;
+    ImageButton cameraBtn, galleryBtn, paletteBtn;
     Button locationBtn;
     String currentPhotoPath;
 
@@ -124,6 +124,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
 
         cameraBtn = findViewById(R.id.camera11);
         galleryBtn = findViewById(R.id.gallery11);
+        paletteBtn = findViewById(R.id.exist_palette);
         locationBtn =findViewById(R.id.location2);
 
         SimpleDateFormat formatterTime = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a");
@@ -161,6 +162,13 @@ public class ExistNewNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 askGalleryPermissions();
+            }
+        });
+
+        paletteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPalette();
             }
         });
 
@@ -231,6 +239,10 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void getPalette() {
+        startActivity(new Intent(ExistNewNoteActivity.this, drawController.class));
     }
 
     private void askGalleryPermissions() {

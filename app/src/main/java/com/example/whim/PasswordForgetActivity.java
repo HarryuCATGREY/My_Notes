@@ -15,12 +15,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
 public class PasswordForgetActivity extends AppCompatActivity {
-
-    private EditText forgetemail;
-    private Button recoverbutton;
-    private TextView backlogin;
-
     FirebaseAuth firebaseAuth;
 
     @Override
@@ -28,10 +25,12 @@ public class PasswordForgetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
 
-        getSupportActionBar().hide();
-        forgetemail = findViewById(R.id.forget_email);
-        recoverbutton = findViewById(R.id.recover_button);
-        backlogin = findViewById(R.id.backlogin);
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
+        EditText forgetemail = findViewById(R.id.forget_email);
+        EditText verifyCode = findViewById(R.id.forget_verify);
+        Button recoverbutton = findViewById(R.id.recover_button);
+        TextView backlogin = findViewById(R.id.backlogin);
 
         firebaseAuth = FirebaseAuth.getInstance();
 

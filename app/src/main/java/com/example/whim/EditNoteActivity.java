@@ -68,7 +68,7 @@ import java.util.Map;
 public class EditNoteActivity<Login> extends AppCompatActivity {
 
     private static final int GALLERY_PERM_CODE = 1;
-    ImageButton cameraBtnedit, galleryBtnedit, locationBtnedit;
+    ImageButton cameraBtnedit, galleryBtnedit, locationBtnedit, paletteBtnexdit;
     Intent data;
     EditText editTitle, editContent;
     TextView editDate;
@@ -115,6 +115,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         // Camera, gallery and location button
         cameraBtnedit = findViewById(R.id.camera11);
         galleryBtnedit = findViewById(R.id.gallery11);
+        paletteBtnexdit = findViewById(R.id.exist_palette);
 
         TextView inputNoteText = (TextView)findViewById(R.id.storedNote);
 
@@ -186,6 +187,13 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 askGalleryPermissions();
+            }
+        });
+
+        paletteBtnexdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPalette();
             }
         });
 
@@ -267,6 +275,10 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
     private void getGallery() {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(gallery, GALLERY_REQUEST_CODE);
+    }
+
+    private void getPalette() {
+        startActivity(new Intent(EditNoteActivity.this, drawController.class));
     }
 
 

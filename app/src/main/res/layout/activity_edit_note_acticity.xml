@@ -188,6 +188,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/storedNote"
                 tools:ignore="MissingConstraints" />
+
+            <ImageButton
+                android:id="@+id/exist_palette"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="152dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/ic_palette"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/storedNote"
+                tools:ignore="MissingConstraints" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

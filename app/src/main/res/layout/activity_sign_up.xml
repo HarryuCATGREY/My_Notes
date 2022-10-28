@@ -62,6 +62,17 @@
             android:textSize="14sp"
             android:textStyle="normal"
             android:fontFamily="@font/opensans_regular"/>
+
+        <ToggleButton
+            android:id="@+id/toggle_Pwd"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_closed_eye"
+            android:padding="10dp"
+            android:textOff=""
+            android:textOn="" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -86,6 +97,17 @@
             android:textSize="14sp"
             android:textStyle="normal"
             android:fontFamily="@font/opensans_regular"/>
+
+<!--        <ToggleButton-->
+<!--            android:id="@+id/toggle_Pwd2"-->
+<!--            android:layout_width="20dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:background="@drawable/ic_closed_eye"-->
+<!--            android:padding="10dp"-->
+<!--            android:textOff=""-->
+<!--            android:textOn="" />-->
+
     </LinearLayout>
 
 
