@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.TypedValue;
+import android.widget.ImageView;
 
 
 public class DrawingView extends View {
@@ -31,6 +32,7 @@ public class DrawingView extends View {
 
     private float brushSize, lastBrushSize;
     private boolean erase = false;
+
 
     public DrawingView(Context context, AttributeSet attrs)
     {

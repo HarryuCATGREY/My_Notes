@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.util.UUID;
@@ -20,6 +21,7 @@ public class drawController extends AppCompatActivity implements OnClickListener
     private DrawingView drawView;
     private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn;
     private float smallBrush, mediumBrush, largeBrush;
+    private ImageView backIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,6 @@ public class drawController extends AppCompatActivity implements OnClickListener
 
         LinearLayout paintLayout = (LinearLayout)findViewById(R.id.paint_colors);
         currPaint = (ImageButton)paintLayout.getChildAt(0);
-        currPaint.setImageDrawable(getResources().getDrawable(R.drawable.paint_pressed));
 
         smallBrush = getResources().getInteger(R.integer.small_size);
         mediumBrush = getResources().getInteger(R.integer.medium_size);
@@ -48,6 +49,9 @@ public class drawController extends AppCompatActivity implements OnClickListener
 
         saveBtn = (ImageButton)findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
+
+        backIcon = findViewById(R.id.close);
+        backIcon.setOnClickListener((v) -> {onBackPressed();});
     }
 
     public void paintClicked(View view)
@@ -63,7 +67,6 @@ public class drawController extends AppCompatActivity implements OnClickListener
             drawView.setColor(color);
 
             //reflect in the UI
-            imgView.setImageDrawable(getResources().getDrawable(R.drawable.paint_pressed));
             currPaint.setImageDrawable(getResources().getDrawable(R.drawable.paint));
             currPaint = (ImageButton)view;
         }
