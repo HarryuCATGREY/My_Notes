@@ -20,12 +20,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
 import java.util.concurrent.Executor;
 
 public class SignUpActivity extends AppCompatActivity {
-    private EditText signupemail, signupwd, pwdConfirm;
-    private Button signupbutton;
-    private TextView mlogin, signTitle;
     private FirebaseAuth firebaseAuth;
 
 
@@ -35,14 +33,14 @@ public class SignUpActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_sign_up);
 
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
-        signTitle = findViewById(R.id.signup_title);
-        signupemail = findViewById(R.id.email_input);
-        signupwd = findViewById(R.id.acc_pwd);
-        signupbutton = findViewById(R.id.continue_button);
-        mlogin = findViewById(R.id.gotologin);
-        pwdConfirm = findViewById(R.id.acc_pwd_ag);
+        TextView signTitle = findViewById(R.id.signup_title);
+        EditText signupemail = findViewById(R.id.email_input);
+        EditText signupwd = findViewById(R.id.acc_pwd);
+        Button signupbutton = findViewById(R.id.continue_button);
+        TextView mlogin = findViewById(R.id.gotologin);
+        EditText pwdConfirm = findViewById(R.id.acc_pwd_ag);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -123,7 +121,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private String getColoredSpanned(String text, String color) {
-        String input = "<font color=" + color + ">" + text + "</font>";
-        return input;
+        return "<font color=" + color + ">" + text + "</font>";
     }
 }
