@@ -60,6 +60,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
+                android:backgroundTint="@color/black"
                 android:text="Sign UP Now!" />
         </LinearLayout>
     </LinearLayout>

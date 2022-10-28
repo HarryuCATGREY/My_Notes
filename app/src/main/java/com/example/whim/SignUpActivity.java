@@ -2,6 +2,7 @@ package com.example.whim;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,27 +23,38 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.concurrent.Executor;
 
 public class SignUpActivity extends AppCompatActivity {
-    private EditText signupemail, signupwd;
+    private EditText signupemail, signupwd, pwdConfirm;
     private Button signupbutton;
-    private TextView mlogin;
-
+    private TextView mlogin, signTitle;
     private FirebaseAuth firebaseAuth;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_sign_up);
 
         getSupportActionBar().hide();
 
+        signTitle = findViewById(R.id.signup_title);
         signupemail = findViewById(R.id.email_input);
         signupwd = findViewById(R.id.acc_pwd);
         signupbutton = findViewById(R.id.continue_button);
         mlogin = findViewById(R.id.gotologin);
+        pwdConfirm = findViewById(R.id.acc_pwd_ag);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        String already = getColoredSpanned("Already have an account?", "#042243");
+        mlogin.setText(Html.fromHtml(already + " Login"));
+
+        String i = getColoredSpanned("i", "#67B1F9");
+        String g = getColoredSpanned("g","#6E80FA");
+        String p = getColoredSpanned("p","#FFCA3A");
+        signTitle.setText(Html.fromHtml("S"+ i + g + "n " + "U" + p));
+
+
 
         mlogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,15 +69,18 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String mail = signupemail.getText().toString().trim();
                 String pwd = signupwd.getText().toString().trim();
+                String pwd2 = pwdConfirm.getText().toString().trim();
+
+
 
                 if (mail.isEmpty() || pwd.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
+                }else if(!pwd.equals(pwd2)){
+                    Toast.makeText(getApplication(),"Confirm fails，Please enter same password.",Toast.LENGTH_SHORT).show();
                 }else if(pwd.length() < 7){
                     Toast.makeText(getApplicationContext(), "Password should be longer than 7 digits.", Toast.LENGTH_SHORT).show();
-
-                }else{
+                }else {
                     // register in firebase
-
                     firebaseAuth.createUserWithEmailAndPassword(mail, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -105,5 +120,10 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Verification email sent failed.", Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    private String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
     }
 }

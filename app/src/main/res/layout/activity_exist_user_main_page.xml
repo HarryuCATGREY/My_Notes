@@ -140,13 +140,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
+        android:background="@color/black"
         android:weightSum="2">
 
         <Button
             android:layout_width="196dp"
             android:layout_height="50dp"
-            android:background="@color/theme_blue"
+            android:backgroundTint="@color/black"
             android:drawableLeft="@drawable/home"
             android:gravity="center"
             android:paddingLeft="80dp"
@@ -156,7 +156,7 @@
             android:layout_width="198dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:background="@color/white"
+            android:backgroundTint="@color/black"
             android:drawableLeft="@drawable/me"
             android:paddingLeft="100dp"
             android:gravity="center_horizontal|top"
