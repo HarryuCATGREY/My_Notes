@@ -29,7 +29,7 @@ public class drawController extends AppCompatActivity implements OnClickListener
         setContentView(R.layout.draw);
 
         drawView = (DrawingView)findViewById(R.id.drawing);
-        drawView.setBrushSize(mediumBrush);
+        drawView.setColor("#FA5151");
 
         LinearLayout paintLayout = (LinearLayout)findViewById(R.id.paint_colors);
         currPaint = (ImageButton)paintLayout.getChildAt(0);
@@ -37,6 +37,8 @@ public class drawController extends AppCompatActivity implements OnClickListener
         smallBrush = getResources().getInteger(R.integer.small_size);
         mediumBrush = getResources().getInteger(R.integer.medium_size);
         largeBrush = getResources().getInteger(R.integer.large_size);
+
+        drawView.setBrushSize(mediumBrush);
 
         drawBtn = (ImageButton)findViewById(R.id.draw_btn);
         drawBtn.setOnClickListener(this);
