@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/grey"
-    tools:context=".NotesTakerActivity">
+    tools:context=".postDetails">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="fill_parent"
@@ -14,7 +14,7 @@
 
 
         <Button
-            android:id="@+id/location1"
+            android:id="@+id/locationpost"
             android:focusable="false"
             android:layout_width="204dp"
             android:layout_height="36dp"
@@ -34,7 +34,7 @@
 
 
         <TextView
-            android:id="@+id/textDateTime"
+            android:id="@+id/postDateTime"
             android:layout_width="340dp"
             android:layout_height="28dp"
             android:layout_marginTop="72dp"
@@ -48,18 +48,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/noteedit"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="20dp"
-            android:contentDescription="Notes"
-            android:src="@drawable/edit"
-            app:layout_constraintBottom_toBottomOf="@+id/imageBack1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageBack1" />
-
-        <ImageView
-            android:id="@+id/imageBack1"
+            android:id="@+id/backpost"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="20dp"
@@ -78,33 +67,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location1"
+            app:layout_constraintTop_toBottomOf="@+id/locationpost"
             tools:ignore="MissingConstraints">
 
             <ImageView
-                android:id="@+id/postnote"
+                android:id="@+id/likenote"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.899"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/deletenote"
+                app:layout_constraintTop_toBottomOf="@+id/postexist"
                 app:srcCompat="@drawable/delete" />
 
             <ImageView
-                android:id="@+id/deletenote"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.899"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/existNote1"
-                app:srcCompat="@drawable/delete" />
-
-            <ImageView
-                android:id="@+id/imageExist"
+                android:id="@+id/postimage"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -112,10 +90,10 @@
                 android:contentDescription="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/existTitle1" />
+                app:layout_constraintTop_toBottomOf="@id/posttitle" />
 
             <TextView
-                android:id="@+id/existTitle1"
+                android:id="@+id/posttitle"
                 android:focusable="false"
                 android:layout_width="341dp"
                 android:layout_height="36dp"
@@ -140,7 +118,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/existNote1"
+                android:id="@+id/postexist"
                 android:focusable="false"
                 android:layout_width="338dp"
                 android:layout_height="190dp"
@@ -160,7 +138,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageExist" />
+                app:layout_constraintTop_toBottomOf="@+id/postimage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
