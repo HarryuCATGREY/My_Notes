@@ -1,8 +1,11 @@
 package com.example.whim;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.whim.Models.DrawableUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class ExistLoginActivity extends AppCompatActivity {
 
     private EditText loginemail, loginpwd;
-
+    private boolean isHideFirst = true;
     private Button loginbutton, signupbutton;
     private TextView forget;
     private TextView guestlogin;
@@ -52,6 +56,37 @@ public class ExistLoginActivity extends AppCompatActivity {
         String i = getColoredSpanned("i","#6E80FA");
         String dot = getColoredSpanned(".","#FFCA3A");
         login_title.setText(Html.fromHtml("W"+h+i+"m"+dot));
+
+        final Drawable drawableEyeOpen = getResources().getDrawable(R.drawable.open);
+        final Drawable drawableEyeCLose = getResources().getDrawable(R.drawable.hidden);
+        final Drawable edit_ic = getResources().getDrawable(R.drawable.edit);
+
+
+        DrawableUtil pwdCheck = new DrawableUtil(loginpwd, new DrawableUtil.OnDrawableListener(){
+            @Override
+            public void onLeft(View v, Drawable left) {
+                Toast.makeText(getApplicationContext(), "input password", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRight(View v, Drawable right) {
+                isHideFirst = !isHideFirst;
+                if (isHideFirst) {
+                    loginpwd.setCompoundDrawablesWithIntrinsicBounds(edit_ic,
+                            null,
+                            drawableEyeCLose, null);
+
+                    loginpwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                } else {
+                    loginpwd.setCompoundDrawablesWithIntrinsicBounds(edit_ic, null,
+                            drawableEyeOpen,
+                            null);
+                    loginpwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+                }
+            }
+        });
 
 
         signupbutton.setOnClickListener(new View.OnClickListener() {

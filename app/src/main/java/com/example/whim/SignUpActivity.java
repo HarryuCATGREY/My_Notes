@@ -1,11 +1,18 @@
 package com.example.whim;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.whim.Models.DrawableUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,8 +33,12 @@ import java.util.concurrent.Executor;
 
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
+    private ImageView iv_eye1;
+    private EditText signupwd, pwdConfirm;
+    private boolean isHideFirst = true;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +49,69 @@ public class SignUpActivity extends AppCompatActivity {
 
         TextView signTitle = findViewById(R.id.signup_title);
         EditText signupemail = findViewById(R.id.email_input);
-        EditText signupwd = findViewById(R.id.acc_pwd);
+        signupwd = findViewById(R.id.acc_pwd);
         Button signupbutton = findViewById(R.id.continue_button);
         TextView mlogin = findViewById(R.id.gotologin);
-        EditText pwdConfirm = findViewById(R.id.acc_pwd_ag);
+        pwdConfirm = findViewById(R.id.acc_pwd_ag);
+
+        final Drawable drawableEyeOpen = getResources().getDrawable(R.drawable.open);
+        final Drawable drawableEyeCLose = getResources().getDrawable(R.drawable.hidden);
+        final Drawable edit_ic = getResources().getDrawable(R.drawable.edit);
+
+
+        DrawableUtil pwdCheck = new DrawableUtil(signupwd, new DrawableUtil.OnDrawableListener(){
+            @Override
+            public void onLeft(View v, Drawable left) {
+                Toast.makeText(getApplicationContext(), "input password", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRight(View v, Drawable right) {
+                isHideFirst = !isHideFirst;
+                if (isHideFirst) {
+                    signupwd.setCompoundDrawablesWithIntrinsicBounds(edit_ic,
+                            null,
+                            drawableEyeCLose, null);
+
+                    signupwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                } else {
+                    signupwd.setCompoundDrawablesWithIntrinsicBounds(edit_ic, null,
+                            drawableEyeOpen,
+                            null);
+                    signupwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+                }
+            }
+        });
+
+        DrawableUtil pwdCheckAg = new DrawableUtil(pwdConfirm, new DrawableUtil.OnDrawableListener(){
+            @Override
+            public void onLeft(View v, Drawable left) {
+                Toast.makeText(getApplicationContext(), "input password", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRight(View v, Drawable right) {
+                isHideFirst = !isHideFirst;
+                if (isHideFirst) {
+                    pwdConfirm.setCompoundDrawablesWithIntrinsicBounds(edit_ic,
+                            null,
+                            drawableEyeCLose, null);
+
+                    pwdConfirm.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                } else {
+                    pwdConfirm.setCompoundDrawablesWithIntrinsicBounds(edit_ic, null,
+                            drawableEyeOpen,
+                            null);
+                    pwdConfirm.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+                }
+            }
+        });
+
+
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -51,7 +122,6 @@ public class SignUpActivity extends AppCompatActivity {
         String g = getColoredSpanned("g","#6E80FA");
         String p = getColoredSpanned("p","#FFCA3A");
         signTitle.setText(Html.fromHtml("S"+ i + g + "n " + "U" + p));
-
 
 
         mlogin.setOnClickListener(new View.OnClickListener() {
@@ -123,4 +193,5 @@ public class SignUpActivity extends AppCompatActivity {
     private String getColoredSpanned(String text, String color) {
         return "<font color=" + color + ">" + text + "</font>";
     }
+
 }
