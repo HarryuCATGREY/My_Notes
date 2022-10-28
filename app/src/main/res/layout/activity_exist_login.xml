@@ -47,6 +47,7 @@
             android:textAllCaps="false"
             android:textSize="14sp"
             android:textStyle="normal"
+            android:inputType="textNoSuggestions"
             android:fontFamily="@font/opensans_regular"/>
     </LinearLayout>
 
