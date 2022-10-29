@@ -158,6 +158,9 @@ public class PostActivity extends AppCompatActivity {
 
     }
 
+    public void onBackPressed() {
+
+    }
 
 
 
