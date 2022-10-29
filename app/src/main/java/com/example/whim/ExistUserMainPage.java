@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -233,6 +235,18 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         mActionBar.setDisplayShowTitleEnabled(true);
     }
 
+    // Goto Personal Information
+    public void goToPersonalInformation(View view) {
+        // Personal information
+        Intent myIntent = new Intent(ExistUserMainPage.this, UserPersonalInformation.class);
+        //myIntent.putExtra("key", 1); //Optional parameters
+        ExistUserMainPage.this.startActivity(myIntent);
+
+        Button buttonMe = (Button) findViewById(R.id.buttonMe);
+        buttonMe.setOnClickListener(view1 -> {
+            Intent intent = new Intent(view1.getContext(), UserPersonalInformation.class);
+            view1.getContext().startActivity(intent);});
+    }
 
 }
 

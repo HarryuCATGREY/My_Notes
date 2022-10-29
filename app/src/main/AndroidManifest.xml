@@ -22,7 +22,24 @@
         android:theme="@style/Theme.Whim"
         tools:targetApi="31">
         <activity
-            android:name=".PersonalInformation"
+            android:name=".UserPersonalInformation"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".postDetails"
+            android:exported="true"></activity>
+        <activity
+            android:name=".PostActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".drawController"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GuestPersonalInformation"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -74,7 +91,8 @@
         <!-- android:resource="@xml/radius" /> -->
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.whim.fileprovider"

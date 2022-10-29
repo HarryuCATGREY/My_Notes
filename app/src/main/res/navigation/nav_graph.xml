@@ -22,9 +22,9 @@
         tools:layout="@layout/activity_exist_new_note" />
     <activity
         android:id="@+id/personalInformation"
-        android:name="com.example.whim.PersonalInformation"
+        android:name="com.example.whim.GuestPersonalInformation"
         android:label="activity_personal_information"
-        tools:layout="@layout/activity_personal_information" />
+        tools:layout="@layout/activity_guest_personal_information" />
     <activity
         android:id="@+id/existLoginActivity"
         android:name="com.example.whim.ExistLoginActivity"

@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.Context;
 
-public class PersonalInformation extends AppCompatActivity {
+public class GuestPersonalInformation extends AppCompatActivity {
 
     // Toolbar
     private Toolbar mainToolbar;
@@ -17,7 +15,7 @@ public class PersonalInformation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_information);
+        setContentView(R.layout.activity_guest_personal_information);
 
 
         // Call by main activity
