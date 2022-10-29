@@ -38,6 +38,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NotesViewHolder>{
         holder.textView_title.setText(list.get(position).getTitle());
         holder.textView_title.setSelected(true);
         holder.note_content.setText(list.get(position).getNotes());
+        holder.time_text.setText(list.get(position).getDate());
 
         holder.notes_container.setOnClickListener(new View.OnClickListener() {
 
@@ -72,11 +73,12 @@ public class NoteListAdapter extends RecyclerView.Adapter<NotesViewHolder>{
 
 class NotesViewHolder extends RecyclerView.ViewHolder {
     CardView notes_container;
-    TextView textView_title, note_content;
+    TextView textView_title, note_content, time_text;
     public NotesViewHolder(@NonNull View itemView) {
         super(itemView);
         notes_container = itemView.findViewById(R.id.notes_container);
         textView_title = itemView.findViewById(R.id.textView_title);
         note_content = itemView.findViewById(R.id.note_content);
+        time_text = itemView.findViewById(R.id.note_time);
     }
 }

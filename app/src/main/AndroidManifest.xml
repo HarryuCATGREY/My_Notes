@@ -14,7 +14,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_icon_foreground"
         android:label="Whim"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -54,16 +54,16 @@
             android:name=".EditNoteActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Design.NoActionBar"></activity>
+            android:theme="@style/Theme.Design.NoActionBar" />
         <activity
             android:name=".ExistNewNoteActivity"
             android:exported="true"
             android:parentActivityName=".ExistUserMainPage"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Design.NoActionBar"></activity>
+            android:theme="@style/Theme.Design.NoActionBar" />
         <activity
             android:name=".ExistUserMainPage"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".ExistLoginActivity"
             android:exported="true"
@@ -76,12 +76,12 @@
         </activity>
         <activity
             android:name=".PasswordForgetActivity"
-            android:exported="true"></activity> <!-- <activity -->
+            android:exported="true" /> <!-- <activity -->
         <!-- android:name=".ExistLoginActivity" -->
         <!-- android:exported="false" /> -->
         <activity
             android:name=".SignUpActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".NotesTakerActivity"
             android:exported="true"

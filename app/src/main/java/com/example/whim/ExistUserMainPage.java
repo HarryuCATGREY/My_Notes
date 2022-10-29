@@ -3,6 +3,8 @@ package com.example.whim;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
+import java.util.Calendar;
+import java.util.Date;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,6 +53,11 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     Notes selectedNote;
     String currSearch;
     public static String currText;
+    Date notesDate;
+    ImageButton like;
+    ImageButton home;
+    ImageButton profile;
+    ImageButton community;
 
     public static String enteredkeyword;
 
@@ -77,9 +84,17 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
         todayDate = findViewById(R.id.todayDate);
+        community = findViewById(R.id.community);
+        home = findViewById(R.id.home);
+        like = findViewById(R.id.like);
+        profile = findViewById(R.id.profile);
+
+
+        getSupportActionBar().hide();
 
         storeInvisible = findViewById(R.id.invisible_store);
-        getSupportActionBar().setTitle("All Notes");
+
+        notesDate = Calendar.getInstance().getTime();
 
         todayDate.setText(
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
@@ -103,8 +118,17 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
 
         //Query testquery = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").whereArrayContains("searchkeyword", currSearch).orderBy("title", Query.Direction.ASCENDING);
 
+        community.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ExistUserMainPage.this, PostActivity.class));
+            }
+        });
 
-        Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
+
+        //Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
+        Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("timestamp", Query.Direction.DESCENDING);
+
         FirestoreRecyclerOptions<firebasemodel> allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query, firebasemodel.class).build();
 
         noteAdapter = new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(allusernotes){
@@ -126,6 +150,8 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
                         intent.putExtra("time", firebasemodel.getTime());
                         intent.putExtra("location", firebasemodel.getLocation());
                         intent.putExtra("searchkeyword", firebasemodel.getSearchkeyword());
+                        intent.putExtra("timestamp", firebasemodel.getTimestamp());
+                        intent.putExtra("imagename", firebasemodel.getImagename());
                         intent.putExtra("noteId", docId);
 
                         view.getContext().startActivity(intent);

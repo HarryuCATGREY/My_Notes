@@ -15,7 +15,6 @@ import androidx.core.content.FileProvider;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,7 +25,6 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.text.Html;
@@ -50,15 +48,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Document;
-
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -70,7 +68,7 @@ import java.util.Map;
 public class EditNoteActivity<Login> extends AppCompatActivity {
 
     private static final int GALLERY_PERM_CODE = 1;
-    ImageButton cameraBtnedit, galleryBtnedit, locationBtnedit;
+    ImageButton cameraBtnedit, galleryBtnedit, locationBtnedit, paletteBtnexdit;
     Intent data;
     EditText editTitle, editContent;
     TextView editDate;
@@ -81,10 +79,10 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     ProgressBar progressBar;
     TextView textViewProgress;
-
+    Date prevDate;
 
     FirebaseUser firebaseUser;
-    String newUri;
+    String newUri, newImagename;
     String currentPhotoPath;
     StorageReference storageReference;
     FusedLocationProviderClient fusedLocationProviderClient2;
@@ -102,9 +100,11 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progress_loader);
         textViewProgress = findViewById(R.id.textProgress);
+
         progressBar.setVisibility(View.GONE);
         textViewProgress.setVisibility(View.GONE);
 
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         saveUpdate = findViewById(R.id.editSave);
         data = getIntent();
@@ -115,13 +115,16 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         // Camera, gallery and location button
         cameraBtnedit = findViewById(R.id.camera11);
         galleryBtnedit = findViewById(R.id.gallery11);
+        paletteBtnexdit = findViewById(R.id.exist_palette);
 
         TextView inputNoteText = (TextView)findViewById(R.id.storedNote);
 
         String img = getColoredSpanned("images", "#67B1F9");
         String txt = getColoredSpanned("text","#FFCA3A");
-        String photos = getColoredSpanned("photos","#6E80FA");
-        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
+        String photos = getColoredSpanned("doodles","#6E80FA");
+        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or draw "+photos+"."));
+
+        SimpleDateFormat formatterTime = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a");
 
 
         String currTitle  = data.getStringExtra("title");
@@ -129,8 +132,15 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         String currLocation = data.getStringExtra("location");
         String currTime = data.getStringExtra("time");
         String currImg = data.getStringExtra("image");
+        String currImgName = data.getStringExtra("imagename");
+        try {
+            prevDate = formatterTime.parse(data.getStringExtra("time"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         newUri = currImg;
+        newImagename = currImgName;
 
         editTitle.setText(currTitle);
         editContent.setText(currNote);
@@ -140,7 +150,27 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         editLocation.setText(currLocation);
         // 可能有问题
         if(currImg != null){
-            Picasso.get().load(Uri.parse(currImg)).into(editImg);
+            if(data.getStringExtra("image") != null){
+                StorageReference imgReference = storageReference.child("photos/").child(data.getStringExtra("imagename"));
+                //StorageReference imgReference = storageReference.child("photos/").child(data.getStringExtra("imagename"));
+                imgReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(editImg);
+                    }
+
+//                imgReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Uri> task) {
+//                        if(task.isSuccessful()) {
+//                            Uri downUri = task.getResult();
+//                            String imageUrl = downUri.toString();
+//                            Picasso.get().load(imageUrl).into(editImg);
+//                        }
+//                    }
+                });
+           // Picasso.get().load(Uri.parse(currImg)).into(editImg);
+        }
         }
 
         fusedLocationProviderClient2 = LocationServices.getFusedLocationProviderClient(EditNoteActivity.this);
@@ -157,6 +187,13 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 askGalleryPermissions();
+            }
+        });
+
+        paletteBtnexdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPalette();
             }
         });
 
@@ -182,6 +219,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                 String newtitle = editTitle.getText().toString();
                 String newcontent = editContent.getText().toString();
                 String newimg = newUri;
+                String newimgname = newImagename;
                 String newlocation = editLocation.getText().toString();
                 ArrayList<String> newsearchkeyword = generateKeyword(newtitle);
 
@@ -199,6 +237,8 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                     note.put("image", newimg);
                     note.put("location", newlocation);
                     note.put("time", currTime);
+                    note.put("timestamp",prevDate);
+                    note.put("imagename", newimgname);
                     note.put("searchkeyword", newsearchkeyword);
 
                     documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -235,6 +275,10 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
     private void getGallery() {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(gallery, GALLERY_REQUEST_CODE);
+    }
+
+    private void getPalette() {
+        startActivity(new Intent(EditNoteActivity.this, drawController.class));
     }
 
 
@@ -293,6 +337,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                 Uri contentUri = Uri.fromFile(f);
                 // 能不能吧image的uri存成string再之后转换
                 newUri = Uri.fromFile(f).toString();
+                newImagename = f.getName();
 
                 mediaScanIntent.setData(contentUri);
                 this.sendBroadcast(mediaScanIntent);
@@ -304,6 +349,8 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
+                progressBar.setVisibility(View.VISIBLE);
+                textViewProgress.setVisibility(View.VISIBLE);
 
                 Uri contentUri = data.getData();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -311,7 +358,9 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                 Log.d("tag", "onActivityResult: Gallery Image Uri:  " +  imageFileName);
                 //selectedImage.setImageURI(contentUri);
                 newUri = contentUri.toString();
+                newImagename = imageFileName;
 
+                Log.d("imagefile", imageFileName);
                 uploadImageToFirebase(imageFileName, contentUri);
 
             }
@@ -320,7 +369,8 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
 
 
     private void uploadImageToFirebase(String name, Uri contentUri){
-
+        Log.d("photo", "123");
+        Log.d("photoname", name);
         StorageReference image = storageReference.child("photos/" + name);
         image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -336,7 +386,8 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                 });
 
                 Toast.makeText(getApplicationContext(), "Photo is uploaded! :) ", Toast.LENGTH_SHORT).show();
-
+                progressBar.setVisibility(View.GONE);
+                textViewProgress.setVisibility(View.GONE);
 
             }
         }).addOnFailureListener(new OnFailureListener() {

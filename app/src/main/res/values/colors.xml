@@ -9,4 +9,13 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#F3F2EE</color>
     <color name="theme_blue">#6E80FA</color>
+
+        <color name="purple" >#BBC2F3</color>
+        <color name="blue" >#ADD5FB</color>
+        <color name="lightgreen" >#D0FDCF</color>
+        <color name="yellow" >#FFF8C6</color>
+        <color name="color2" >#B0D6D0</color>
+        <color name="color3" >#ccf6c8</color>
+
+
 </resources>

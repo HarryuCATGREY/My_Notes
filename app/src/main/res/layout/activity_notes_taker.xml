@@ -143,7 +143,7 @@
                             android:textColorHint="#9E9E9E"
                             android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.493"
+                            app:layout_constraintHorizontal_bias="0.52"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/imageNote" />
 
@@ -154,6 +154,17 @@
                             android:layout_marginStart="96dp"
                             android:layout_marginTop="20dp"
                             android:background="@drawable/image"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/inputNote"
+                            tools:ignore="MissingConstraints" />
+
+                        <ImageButton
+                            android:id="@+id/palette"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginStart="152dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/ic_palette"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/inputNote"
                             tools:ignore="MissingConstraints" />

@@ -164,7 +164,6 @@
                 android:background="@null"
                 android:fontFamily="@font/opensans_regular"
                 android:gravity="top"
-                android:hint="What is on your mind today? You can insert images, texts or take photos."
                 android:importantForAutofill="no"
                 android:includeFontPadding="false"
                 android:inputType="textMultiLine"
@@ -185,6 +184,17 @@
                 android:layout_marginStart="96dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/storedNote"
+                tools:ignore="MissingConstraints" />
+
+            <ImageButton
+                android:id="@+id/exist_palette"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="155dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/ic_palette"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/storedNote"
                 tools:ignore="MissingConstraints" />

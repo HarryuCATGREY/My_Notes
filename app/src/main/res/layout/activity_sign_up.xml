@@ -2,8 +2,10 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation = "vertical"
     android:layout_height="match_parent">
+
 
     <TextView
         android:id="@+id/signup_title"
@@ -11,6 +13,7 @@
         android:layout_marginStart="30dp"
         android:textStyle="bold"
         android:textSize="35sp"
+        android:fontFamily="@font/opensans_bold"
         android:textColor="@color/black"
         android:text="Sign Up"
         android:layout_width="wrap_content"
@@ -27,12 +30,18 @@
 
         <EditText
             android:id="@+id/email_input"
-            android:textStyle="normal"
-            android:textSize="18sp"
-            android:textAllCaps="false"
-            android:hint="Email"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:background="@drawable/email"
+            android:textColorHint="#95a1aa"
+            android:hint="Email"
+            android:singleLine="true"
+            android:paddingStart="17dp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:fontFamily="@font/opensans_regular"/>
     </LinearLayout>
 
     <LinearLayout
@@ -45,48 +54,86 @@
         android:layout_height="50dp">
 
         <EditText
-            android:id="@+id/acc_input"
-            android:textStyle="normal"
-            android:textSize="18sp"
-            android:textAllCaps="false"
-            android:hint="Verification"
+            android:id="@+id/acc_pwd"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:textColorHint="#95a1aa"
+            android:drawableEnd="@drawable/hidden"
+            android:clickable="true"
+            android:paddingEnd="17dp"
+            android:background="@drawable/email"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:paddingStart="17dp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:fontFamily="@font/opensans_regular"/>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/signup_verify_ag"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <EditText
+            android:id="@+id/acc_pwd_ag"
+            android:layout_width="match_parent"
+            android:drawableEnd="@drawable/hidden"
+            android:clickable="true"
+            android:paddingEnd="17dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/email"
+            android:textColorHint="#95a1aa"
+            android:inputType="textPassword"
+            android:hint="Password confirm"
+            android:singleLine="true"
+            android:paddingStart="17dp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:fontFamily="@font/opensans_regular"/>
+
     </LinearLayout>
 
 
     <Button
         android:id="@+id/continue_button"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="125dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="50dp"
-        android:gravity="center"
+
+        android:layout_marginTop="20dp"
         android:text="Continue"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        android:background="@drawable/gradient"
+        app:backgroundTint="@null"
+        android:src="@drawable/gradient"
+        android:fontFamily="@font/opensans_regular"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <TextView
+        android:id="@+id/gotologin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="10dp"
+        android:gravity="right"
+        android:fontFamily="@font/opensans_regular"
         android:layout_marginRight="50dp"
-        android:gravity="center"
-        android:text="Already have an account?"
-        android:textColor="@color/theme_blue"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="10dp"
+        android:text="Already have an account? Login"
+        android:textColor="#2E94F7"
+        android:textSize="13sp"/>
 
-    <Button
-        android:id="@+id/gotologin"
-        android:layout_marginTop="5dp"
-        android:text="Login"
-        android:textSize="13sp"
-        android:gravity="center"
-        android:layout_marginStart="170dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
 
 
 

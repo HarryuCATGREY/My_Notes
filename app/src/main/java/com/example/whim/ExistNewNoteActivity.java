@@ -24,6 +24,7 @@ import android.os.Bundle;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -57,8 +58,10 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -71,6 +74,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
     private TextView textDateTime;
     private ImageView selectedImage;
     private String imageUri;
+    private String imageName;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -83,7 +87,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
     TextView textProgress;
     ProgressBar progressBar;
 
-    ImageButton cameraBtn, galleryBtn;
+    ImageButton cameraBtn, galleryBtn, paletteBtn;
     Button locationBtn;
     String currentPhotoPath;
 
@@ -121,13 +125,25 @@ public class ExistNewNoteActivity extends AppCompatActivity {
 
         cameraBtn = findViewById(R.id.camera11);
         galleryBtn = findViewById(R.id.gallery11);
+        paletteBtn = findViewById(R.id.exist_palette);
         locationBtn =findViewById(R.id.location2);
+
+        SimpleDateFormat formatterTime = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a");
+
+        Date notesDate = Calendar.getInstance().getTime();
 
         storageReference = FirebaseStorage.getInstance().getReference();
 
         textDateTime.setText(
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
         );
+
+        TextView inputNoteText = (TextView)findViewById(R.id.storedNote);
+        String img = getColoredSpanned("images", "#67B1F9");
+        String txt = getColoredSpanned("text","#FFCA3A");
+        String photos = getColoredSpanned("doodles","#6E80FA");
+        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or draw "+photos+"."));
+
 
         notes = new Notes();
         try {
@@ -157,6 +173,13 @@ public class ExistNewNoteActivity extends AppCompatActivity {
             }
         });
 
+        paletteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPalette();
+            }
+        });
+
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,6 +205,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 String title = inputNoteTitle.getText().toString();
                 String content = inputNoteText.getText().toString();
                 String imgUri = imageUri;
+                String imgName = imageName;
                 String time = textDateTime.getText().toString();
                 String location = locationBtn.getText().toString();
                 ArrayList<String> searchkeyword = generateKeyword(title);
@@ -191,13 +215,19 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 } else {
                     DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document();
                     Map<String, Object> note = new HashMap<>();
-
+                    try {
+                        Date realStamp = formatterTime.parse(time);
+                        note.put("timestamp", realStamp);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     note.put("title", title);
                     note.put("content", content);
                     note.put("image",imgUri);
                     note.put("time",time);
                     note.put("location", location);
                     note.put("searchkeyword", searchkeyword);
+                    note.put("imagename", imgName);
 
                     documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -218,6 +248,16 @@ public class ExistNewNoteActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void getPalette() {
+        startActivity(new Intent(ExistNewNoteActivity.this, drawController.class));
+    }
+
+    private String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
+    }
+
 
     private void askGalleryPermissions() {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) !=
@@ -329,7 +369,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 Uri contentUri = Uri.fromFile(f);
                 // 能不能吧image的uri存成string再之后转换
                 imageUri = Uri.fromFile(f).toString();
-
+                imageName = f.getName();
                 mediaScanIntent.setData(contentUri);
                 this.sendBroadcast(mediaScanIntent);
 
@@ -349,7 +389,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 Log.d("tag", "onActivityResult: Gallery Image Uri:  " +  imageFileName);
                 //selectedImage.setImageURI(contentUri);
                 imageUri = contentUri.toString();
-
+                imageName = imageFileName;
                 uploadImageToFirebase(imageFileName, contentUri);
 
             }

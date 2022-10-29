@@ -67,7 +67,7 @@ public class NotesTakerActivity extends AppCompatActivity {
     Notes notes;
     boolean isOldNote = false;
     Button locationBtn;
-    ImageButton cameraBtn, galleryBtn;
+    ImageButton cameraBtn, galleryBtn, paletteBtn;
     String currentPhotoPath;
 
 
@@ -92,27 +92,28 @@ public class NotesTakerActivity extends AppCompatActivity {
         locationBtn = findViewById(R.id.location);
 
 
-
-
         TextView inputNoteText = (TextView)findViewById(R.id.inputNote);
 
         String img = getColoredSpanned("images", "#67B1F9");
         String txt = getColoredSpanned("text","#FFCA3A");
-        String photos = getColoredSpanned("photos","#6E80FA");
-        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
+        String photos = getColoredSpanned("doodles","#6E80FA");
+        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or draw "+photos+"."));
 
 
         selectedImagePath = "";
-        textDateTime.setText(
-                new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
-        );
+        if (textDateTime.getText().length() == 0) {
+            textDateTime.setText(
+                    new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
+            );
+        }
+
 
         notes = new Notes();
 
         try {
             notes = (Notes) getIntent().getSerializableExtra("old_note");
             inputNoteTitle.setText(notes.getTitle());
-            inputNoteText.setText(notes.getNotes()+"\nimage:"+ notes.getImage());
+            inputNoteText.setText(notes.getNotes());
             inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
             isOldNote = true;
             // if the location is recorded, show it out
@@ -139,7 +140,7 @@ public class NotesTakerActivity extends AppCompatActivity {
         // Camera, gallery and location button
         cameraBtn = findViewById(R.id.camera);
         galleryBtn = findViewById(R.id.gallery);
-
+        paletteBtn = findViewById(R.id.palette);
 
 
 
@@ -160,6 +161,13 @@ public class NotesTakerActivity extends AppCompatActivity {
             }
         });
 
+        paletteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reminder();
+            }
+        });
+
         locationBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -172,26 +180,7 @@ public class NotesTakerActivity extends AppCompatActivity {
     }
 
     private void reminder() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(NotesTakerActivity.this);
-//
-//        builder.setCancelable(true);
-//        builder.setTitle("Login to have better Whims!");
-//        builder.setMessage("Sign up to unlock Camera and Gallery functions!");
-//
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.cancel();
-//            }
-//        });
-//
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                alertTextView.setVisibility(View.VISIBLE);
-//            }
-//        });
-//        builder.show();
+
         ImageView cancel;
         Button signUp;
         //will create a view of our custom dialog layout
@@ -260,10 +249,6 @@ public class NotesTakerActivity extends AppCompatActivity {
         notes.setTitle(inputNoteTitle.getText().toString());
         notes.setDate(textDateTime.getText().toString());
         notes.setNotes(inputNoteText.getText().toString());
-        //Log.d("Uri", imageUri);
-        // Don't need set image to roomdb anymore, only register can
-        //notes.setImage(imageUri);
-        //Picasso.get().load(imageUri).into(selectedImage);
         notes.setLocation(locationBtn.getText().toString());
 
 
