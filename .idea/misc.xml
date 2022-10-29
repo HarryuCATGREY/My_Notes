@@ -22,9 +22,16 @@
         <entry key="app/src/main/res/drawable/delete.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/document.xml" value="0.135" />
         <entry key="app/src/main/res/drawable/edit.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/end_icon_state.xml" value="0.216" />
+        <entry key="app/src/main/res/drawable/eraser.xml" value="0.216" />
+        <entry key="app/src/main/res/drawable/group.xml" value="0.216" />
         <entry key="app/src/main/res/drawable/hidden.xml" value="0.135" />
+        <entry key="app/src/main/res/drawable/home.xml" value="0.216" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.116" />
+        <entry key="app/src/main/res/drawable/ic_brush__1_.xml" value="0.216" />
+        <entry key="app/src/main/res/drawable/ic_closed_eye.xml" value="0.216" />
+        <entry key="app/src/main/res/drawable/ic_image.xml" value="0.216" />
         <entry key="app/src/main/res/drawable/ic_note_save.xml" value="0.216" />
         <entry key="app/src/main/res/drawable/ic_opened_eye.xml" value="0.216" />
         <entry key="app/src/main/res/drawable/large.xml" value="0.149" />
@@ -47,29 +54,30 @@
         <entry key="app/src/main/res/layout/activity_exist_note.xml" value="0.22135416666666666" />
         <entry key="app/src/main/res/layout/activity_exist_user_main_page.xml" value="0.30403429890236666" />
         <entry key="app/src/main/res/layout/activity_forget_password.xml" value="0.25833333333333336" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.41568603515625" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.31314849853515625" />
         <entry key="app/src/main/res/layout/activity_note_details.xml" value="0.3434747798238591" />
         <entry key="app/src/main/res/layout/activity_note_exist.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/activity_notes_taker.xml" value="0.27143859863281256" />
         <entry key="app/src/main/res/layout/activity_password_forget.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_personal_information.xml" value="0.17291666666666666" />
-        <entry key="app/src/main/res/layout/activity_post.xml" value="0.24744995702812672" />
-        <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_post.xml" value="0.16779327392578125" />
+        <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.289935302734375" />
         <entry key="app/src/main/res/layout/activity_reminder.xml" value="0.24114583333333334" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/brush_chooser.xml" value="0.24010416666666667" />
-        <entry key="app/src/main/res/layout/draw.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/draw.xml" value="0.2983444213867188" />
         <entry key="app/src/main/res/layout/exist_notes_list.xml" value="0.48813099290174966" />
         <entry key="app/src/main/res/layout/forgetpwd.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/ic_radius.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/large.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/like.xml" value="0.2390625" />
         <entry key="app/src/main/res/layout/login.xml" value="0.1585144927536232" />
         <entry key="app/src/main/res/layout/medium.xml" value="0.1" />
         <entry key="app/src/main/res/layout/notes_list.xml" value="0.44392038981119797" />
         <entry key="app/src/main/res/layout/paint.xml" value="0.1" />
         <entry key="app/src/main/res/layout/paint_pressed.xml" value="0.1" />
         <entry key="app/src/main/res/layout/post_notes_list.xml" value="0.3597587917162025" />
-        <entry key="app/src/main/res/layout/post_notes_list_pic.xml" value="0.5427459716796875" />
+        <entry key="app/src/main/res/layout/post_notes_list_pic.xml" value="0.12351531982421876" />
         <entry key="app/src/main/res/layout/signup.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/small.xml" value="0.1" />
         <entry key="app/src/main/res/menu/popup_menu.xml" value="0.3309234619140625" />
