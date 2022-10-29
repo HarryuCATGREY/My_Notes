@@ -15,7 +15,6 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/radius"
         android:paddingBottom="20dp"
-        app:cardElevation="0dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="8dp">
 

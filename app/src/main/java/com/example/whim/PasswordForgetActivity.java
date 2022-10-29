@@ -28,11 +28,13 @@ public class PasswordForgetActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
 
         EditText forgetemail = findViewById(R.id.forget_email);
-        EditText verifyCode = findViewById(R.id.forget_verify);
+//        EditText verifyCode = findViewById(R.id.forget_verify);
         Button recoverbutton = findViewById(R.id.recover_button);
         TextView backlogin = findViewById(R.id.backlogin);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+
 
         backlogin.setOnClickListener(new View.OnClickListener() {
             @Override

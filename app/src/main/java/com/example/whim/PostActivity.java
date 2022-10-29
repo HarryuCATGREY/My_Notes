@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,6 +50,11 @@ public class PostActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     StorageReference storageReference;
 
+    ImageButton like;
+    ImageButton home;
+    ImageButton profile;
+    ImageButton community;
+
     FirestoreRecyclerAdapter<postmodel, PostViewHolder> postAdapter;
 
     @Override
@@ -65,6 +71,23 @@ public class PostActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         posttodayDate = findViewById(R.id.todaypostDate);
         storageReference = FirebaseStorage.getInstance().getReference();
+
+        community = findViewById(R.id.community);
+        home = findViewById(R.id.home);
+        like = findViewById(R.id.like);
+        profile = findViewById(R.id.profile);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PostActivity.this, ExistUserMainPage.class));
+            }
+        });
+
+
+
+
+
 
         posttodayDate.setText(
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
@@ -132,6 +155,8 @@ public class PostActivity extends AppCompatActivity {
     }
 
 
+
+
     public class PostViewHolder extends RecyclerView.ViewHolder{
 
         private TextView posttitle;
@@ -169,12 +194,10 @@ public class PostActivity extends AppCompatActivity {
     {
         List<Integer> colorcode=new ArrayList<>();
         colorcode.add(R.color.purple);
-        colorcode.add(R.color.pink);
         colorcode.add(R.color.lightgreen);
         colorcode.add(R.color.blue);
         colorcode.add(R.color.yellow);
         colorcode.add(R.color.color3);
-        colorcode.add(R.color.color5);
 
 
         Random random=new Random();
