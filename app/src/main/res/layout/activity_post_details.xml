@@ -95,6 +95,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/postexist" />
 
             <ImageView
+                android:id="@+id/deletepost"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/thumb"
+                android:backgroundTint="#9E9E9E"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.899"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/likenote" />
+
+            <ImageView
                 android:id="@+id/postimage"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
