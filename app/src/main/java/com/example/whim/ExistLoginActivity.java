@@ -116,16 +116,12 @@ public class ExistLoginActivity extends AppCompatActivity {
                     // login the user
 
                     mprogressbarforlogin.setVisibility(View.VISIBLE);
-                    firebaseAuth.signInWithEmailAndPassword(mail,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                checkEmailVerification();
-                            }else{
-                                Toast.makeText(getApplicationContext(), "Account does not exist.", Toast.LENGTH_SHORT).show();
-                                mprogressbarforlogin.setVisibility(View.INVISIBLE);
-
-                            }
+                    firebaseAuth.signInWithEmailAndPassword(mail,pwd).addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            checkEmailVerification();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Account does not exist.", Toast.LENGTH_SHORT).show();
+                            mprogressbarforlogin.setVisibility(View.INVISIBLE);
                         }
                     });
                 }
