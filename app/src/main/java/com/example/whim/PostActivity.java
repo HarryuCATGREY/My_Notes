@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,9 +85,12 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+        TextView login_title = (TextView)findViewById(R.id.textView5);
 
-
-
+        String h = getColoredSpanned("h", "#67B1F9");
+        String i = getColoredSpanned("i","#6E80FA");
+        String dot = getColoredSpanned(".","#FFCA3A");
+        login_title.setText(Html.fromHtml("W"+h+i+"m"+dot));
 
 
         posttodayDate.setText(
@@ -115,8 +119,8 @@ public class PostActivity extends AppCompatActivity {
                     });
                 }
 
-                int colorcode = getRandomColor();
-                postViewHolder.mpost.setBackgroundColor(postViewHolder.itemView.getResources().getColor(colorcode, null));
+//                int colorcode = getRandomColor();
+//                postViewHolder.mpost.setBackgroundColor(postViewHolder.itemView.getResources().getColor(colorcode, null));
 
                 String postId = postAdapter.getSnapshots().getSnapshot(i).getId();
                 postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +150,7 @@ public class PostActivity extends AppCompatActivity {
         };
 
         postrecyclerview=findViewById(R.id.recycle_post);
-        postrecyclerview.setHasFixedSize(true);
+        postrecyclerview.setHasFixedSize(false);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         postrecyclerview.setLayoutManager(staggeredGridLayoutManager);
         postrecyclerview.setAdapter(postAdapter);
@@ -154,6 +158,9 @@ public class PostActivity extends AppCompatActivity {
 
     }
 
+    public void onBackPressed() {
+
+    }
 
 
 
@@ -203,6 +210,11 @@ public class PostActivity extends AppCompatActivity {
         Random random=new Random();
         int number=random.nextInt(colorcode.size());
         return colorcode.get(number);
+    }
+
+    private String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
     }
 
 }

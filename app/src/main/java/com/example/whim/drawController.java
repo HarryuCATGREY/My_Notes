@@ -1,5 +1,6 @@
 package com.example.whim;
 
+import android.content.Intent;
 import android.provider.ContactsContract;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,6 +57,8 @@ public class drawController extends AppCompatActivity implements OnClickListener
         backIcon = findViewById(R.id.close);
         backIcon.setOnClickListener((v) -> {onBackPressed();});
     }
+
+
 
     public void paintClicked(View view)
     {

@@ -216,8 +216,8 @@ public class noteDetails extends AppCompatActivity {
         imageBacknote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                startActivity(new Intent(noteDetails.this, ExistUserMainPage.class));;
+                onBackPressed();
+                //startActivity(new Intent(noteDetails.this, ExistUserMainPage.class));;
             }
         });
         existTitleDetail.setText(data.getStringExtra("title"));
@@ -249,7 +249,7 @@ public class noteDetails extends AppCompatActivity {
         }
     }
 
-
-
-
+    public void onBackPressed() {
+        startActivity(new Intent(noteDetails.this, ExistUserMainPage.class));
+    }
 }
