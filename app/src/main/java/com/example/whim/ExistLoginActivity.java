@@ -24,11 +24,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 public class ExistLoginActivity extends AppCompatActivity {
 
-    private EditText loginemail, loginpwd;
-    private boolean isHideFirst = true;
-    private Button loginbutton, signupbutton;
-    private TextView forget;
-    private TextView guestlogin;
+    private EditText loginemail, loginpwd; // login text
+    private boolean isHideFirst = true;  //
+    private Button loginbutton, signupbutton;  // two buttons
+    private TextView forget;  // forget password link
+    private TextView guestlogin;  // guestLogin link
 
     private FirebaseAuth firebaseAuth;
 
@@ -39,6 +39,7 @@ public class ExistLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exist_login);
 
+        // Bind view and functions
         getSupportActionBar().hide();
         loginemail = findViewById(R.id.acc_input);
         loginpwd = findViewById(R.id.password_input);
@@ -48,7 +49,7 @@ public class ExistLoginActivity extends AppCompatActivity {
         mprogressbarforlogin=findViewById(R.id.progressbarforlogin);
         guestlogin = findViewById(R.id.guestlogin);
         firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();  // never used
 
         TextView login_title = (TextView)findViewById(R.id.login_title);
 
@@ -62,7 +63,7 @@ public class ExistLoginActivity extends AppCompatActivity {
 //        final Drawable edit_ic = getResources().getDrawable(R.drawable.edit);
 
 
-        DrawableUtil pwdCheck = new DrawableUtil(loginpwd, new DrawableUtil.OnDrawableListener(){
+        new DrawableUtil(loginpwd, new DrawableUtil.OnDrawableListener() {
             @Override
             public void onLeft(View v, Drawable left) {
                 Toast.makeText(getApplicationContext(), "input password", Toast.LENGTH_SHORT).show();
