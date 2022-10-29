@@ -121,8 +121,8 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
 
         String img = getColoredSpanned("images", "#67B1F9");
         String txt = getColoredSpanned("text","#FFCA3A");
-        String photos = getColoredSpanned("photos","#6E80FA");
-        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
+        String photos = getColoredSpanned("doodles","#6E80FA");
+        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or draw "+photos+"."));
 
         SimpleDateFormat formatterTime = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a");
 

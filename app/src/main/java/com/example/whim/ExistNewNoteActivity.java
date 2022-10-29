@@ -24,6 +24,7 @@ import android.os.Bundle;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -137,6 +138,13 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
         );
 
+        TextView inputNoteText = (TextView)findViewById(R.id.storedNote);
+        String img = getColoredSpanned("images", "#67B1F9");
+        String txt = getColoredSpanned("text","#FFCA3A");
+        String photos = getColoredSpanned("doodles","#6E80FA");
+        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or draw "+photos+"."));
+
+
         notes = new Notes();
         try {
             notes = (Notes) getIntent().getSerializableExtra("old_note");
@@ -244,6 +252,12 @@ public class ExistNewNoteActivity extends AppCompatActivity {
     private void getPalette() {
         startActivity(new Intent(ExistNewNoteActivity.this, drawController.class));
     }
+
+    private String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
+    }
+
 
     private void askGalleryPermissions() {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) !=

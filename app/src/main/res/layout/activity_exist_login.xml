@@ -38,17 +38,16 @@
             android:id="@+id/acc_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:drawableStart="@drawable/ic_email"
-            android:textColorHint="#95a1aa"
             android:background="@drawable/email"
+            android:fontFamily="@font/opensans_regular"
             android:hint="Email"
-            android:singleLine="true"
-            android:paddingStart="10dp"
-            android:textAllCaps="false"
-            android:textSize="14sp"
-            android:textStyle="normal"
             android:inputType="textNoSuggestions"
-            android:fontFamily="@font/opensans_regular"/>
+            android:paddingStart="17dp"
+            android:singleLine="true"
+            android:textAllCaps="false"
+            android:textColorHint="#95a1aa"
+            android:textSize="14sp"
+            android:textStyle="normal" />
     </LinearLayout>
 
     <LinearLayout
@@ -67,15 +66,14 @@
             android:layout_width="match_parent"
             android:background="@drawable/email"
             android:textColorHint="#95a1aa"
-            android:drawableStart="@drawable/edit"
             android:drawableEnd="@drawable/hidden"
             android:clickable="true"
-            android:paddingEnd="10dp"
+            android:paddingEnd="17dp"
             android:layout_height="match_parent"
             android:fontFamily="@font/opensans_regular"
             android:textAllCaps="false"
             android:textSize="14sp"
-            android:paddingStart="10dp"
+            android:paddingStart="17dp"
             android:hint="Password"
             android:textStyle="normal"
         />
@@ -134,6 +132,7 @@
         android:backgroundTint="@color/black"
         android:fontFamily="@font/opensans_regular"
         android:gravity="center"
+        android:textStyle="bold"
         android:text="Create New Account"
         android:textSize="13sp" />
 
