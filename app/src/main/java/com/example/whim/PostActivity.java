@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -25,8 +26,11 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -68,9 +72,17 @@ public class PostActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             protected void onBindViewHolder(@NonNull PostViewHolder postViewHolder, int i, @NonNull postmodel postmodel) {
+
+
+
+
                 postViewHolder.posttitle.setText(postmodel.getTitle());
                 postViewHolder.postcontent.setText(postmodel.getContent());
-                postViewHolder.posttime.setText(postmodel.getTime());
+
+                int colorcode = getRandomColor();
+
+
+                postViewHolder.mpost.setBackgroundColor(postViewHolder.itemView.getResources().getColor(colorcode, null));
 
                 String postId = postAdapter.getSnapshots().getSnapshot(i).getId();
                 postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -94,14 +106,14 @@ public class PostActivity extends AppCompatActivity {
             @NonNull
             @Override
             public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exist_notes_list,parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_notes_list_pic,parent, false);
                 return new PostViewHolder(view);
             }
         };
 
         postrecyclerview=findViewById(R.id.recycle_post);
         postrecyclerview.setHasFixedSize(true);
-        staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         postrecyclerview.setLayoutManager(staggeredGridLayoutManager);
         postrecyclerview.setAdapter(postAdapter);
         postAdapter.notifyDataSetChanged();
@@ -114,13 +126,16 @@ public class PostActivity extends AppCompatActivity {
         private TextView posttitle;
         private TextView postcontent;
         private TextView posttime;
+        private ConstraintLayout postcolour;
+
+
         LinearLayout mpost;
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             posttitle = itemView.findViewById(R.id.exist_title);
             postcontent = itemView.findViewById(R.id.note_content);
-            posttime = itemView.findViewById(R.id.textView3);
             mpost = itemView.findViewById(R.id.whim);
+            postcolour = itemView.findViewById(R.id.post_colour);
         }
     }
     @Override
@@ -135,6 +150,20 @@ public class PostActivity extends AppCompatActivity {
         if(postAdapter != null){
             postAdapter.stopListening();
         }
+    }
+
+    private int getRandomColor()
+    {
+        List<Integer> colorcode=new ArrayList<>();
+        colorcode.add(R.color.purple);
+        colorcode.add(R.color.blue);
+        colorcode.add(R.color.yellow);
+        colorcode.add(R.color.white);
+        colorcode.add(R.color.green);
+
+        Random random=new Random();
+        int number=random.nextInt(colorcode.size());
+        return colorcode.get(number);
     }
 
 }

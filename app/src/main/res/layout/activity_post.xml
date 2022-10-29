@@ -38,12 +38,8 @@
             android:id="@+id/recycle_post"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="30dp"
             android:clipToPadding="false"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:paddingBottom="90dp"
             android:scrollbars="vertical" />
     </LinearLayout>
