@@ -179,6 +179,10 @@ public class NotesTakerActivity extends AppCompatActivity {
 
     }
 
+    public void onBackPressed() {
+        startActivity(new Intent(NotesTakerActivity.this, MainActivity.class));
+    }
+
     private void reminder() {
 
         ImageView cancel;
