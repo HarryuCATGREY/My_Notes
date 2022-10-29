@@ -156,10 +156,13 @@ public class PostActivity extends AppCompatActivity {
     {
         List<Integer> colorcode=new ArrayList<>();
         colorcode.add(R.color.purple);
+        colorcode.add(R.color.pink);
+        colorcode.add(R.color.lightgreen);
         colorcode.add(R.color.blue);
         colorcode.add(R.color.yellow);
-        colorcode.add(R.color.white);
-        colorcode.add(R.color.green);
+        colorcode.add(R.color.color3);
+        colorcode.add(R.color.color5);
+
 
         Random random=new Random();
         int number=random.nextInt(colorcode.size());

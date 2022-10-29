@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -52,6 +53,10 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     String currSearch;
     public static String currText;
     Date notesDate;
+    ImageButton like;
+    ImageButton home;
+    ImageButton profile;
+    ImageButton community;
 
     public static String enteredkeyword;
 
@@ -78,6 +83,12 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
         todayDate = findViewById(R.id.todayDate);
+        community = findViewById(R.id.community);
+        home = findViewById(R.id.home);
+        like = findViewById(R.id.like);
+        profile = findViewById(R.id.profile);
+
+
         getSupportActionBar().hide();
 
         storeInvisible = findViewById(R.id.invisible_store);
@@ -105,6 +116,13 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         });
 
         //Query testquery = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").whereArrayContains("searchkeyword", currSearch).orderBy("title", Query.Direction.ASCENDING);
+
+        community.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ExistUserMainPage.this, PostActivity.class));
+            }
+        });
 
 
         //Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);

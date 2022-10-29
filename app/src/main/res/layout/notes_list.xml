@@ -7,12 +7,12 @@
     app:cardBackgroundColor="@color/white"
     android:id="@+id/notes_container"
     app:cardCornerRadius="10dp"
-    android:layout_margin="12dp">
+    android:layout_margin="12dp"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         >
 
         <RelativeLayout
