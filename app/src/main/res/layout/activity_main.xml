@@ -154,6 +154,7 @@
             android:backgroundTint="@color/black"
             android:drawableLeft="@drawable/me"
             android:paddingLeft="100dp"
+            android:onClick="goToPersonalInformation"
             android:layout_weight="1"></Button>
     </LinearLayout>
 

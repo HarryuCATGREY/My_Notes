@@ -85,20 +85,10 @@ public class NotesTakerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notes_taker);
 
         inputNoteTitle = findViewById(R.id.inputNoteTitle);
-        inputNoteText = findViewById(R.id.inputNote);
         textDateTime = findViewById(R.id.textDateTime);
         selectedImage = findViewById(R.id.imageNote);
         // Assign location value
         locationBtn = findViewById(R.id.location);
-
-
-        TextView inputNoteText = (TextView)findViewById(R.id.inputNote);
-
-        String img = getColoredSpanned("images", "#67B1F9");
-        String txt = getColoredSpanned("text","#FFCA3A");
-        String photos = getColoredSpanned("photos","#6E80FA");
-        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
-
 
         selectedImagePath = "";
         if (textDateTime.getText().length() == 0) {
@@ -108,13 +98,22 @@ public class NotesTakerActivity extends AppCompatActivity {
         }
 
 
+
         notes = new Notes();
+
+
 
         try {
             notes = (Notes) getIntent().getSerializableExtra("old_note");
             inputNoteTitle.setText(notes.getTitle());
             inputNoteText.setText(notes.getNotes());
-            inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
+
+            TextView inputNoteText = (TextView)findViewById(R.id.inputNote);
+            String img = getColoredSpanned("images", "#67B1F9");
+            String txt = getColoredSpanned("text","#FFCA3A");
+            String photos = getColoredSpanned("doodles","#6E80FA");
+            inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or draw "+photos+"."));
+
             isOldNote = true;
             // if the location is recorded, show it out
             if (notes.getLocation() != null) {
@@ -123,6 +122,7 @@ public class NotesTakerActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
         // Note back button
         ImageView imageBack = findViewById(R.id.imageBack);

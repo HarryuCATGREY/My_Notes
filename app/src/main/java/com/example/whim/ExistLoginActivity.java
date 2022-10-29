@@ -59,7 +59,7 @@ public class ExistLoginActivity extends AppCompatActivity {
 
         final Drawable drawableEyeOpen = getResources().getDrawable(R.drawable.open);
         final Drawable drawableEyeCLose = getResources().getDrawable(R.drawable.hidden);
-        final Drawable edit_ic = getResources().getDrawable(R.drawable.edit);
+//        final Drawable edit_ic = getResources().getDrawable(R.drawable.edit);
 
 
         DrawableUtil pwdCheck = new DrawableUtil(loginpwd, new DrawableUtil.OnDrawableListener(){
@@ -72,14 +72,14 @@ public class ExistLoginActivity extends AppCompatActivity {
             public void onRight(View v, Drawable right) {
                 isHideFirst = !isHideFirst;
                 if (isHideFirst) {
-                    loginpwd.setCompoundDrawablesWithIntrinsicBounds(edit_ic,
+                    loginpwd.setCompoundDrawablesWithIntrinsicBounds(null,
                             null,
                             drawableEyeCLose, null);
 
                     loginpwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
                 } else {
-                    loginpwd.setCompoundDrawablesWithIntrinsicBounds(edit_ic, null,
+                    loginpwd.setCompoundDrawablesWithIntrinsicBounds(null, null,
                             drawableEyeOpen,
                             null);
                     loginpwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
