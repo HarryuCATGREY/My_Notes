@@ -40,7 +40,7 @@ public class postDetails extends AppCompatActivity {
     String postImgUri, postImgName;
     Button postLocationText;
     TextView postTextDateTime;
-    ImageView postImage, likenote;
+    ImageView postImage, likenote, deletepost;
 
 
     @Override
@@ -56,6 +56,7 @@ public class postDetails extends AppCompatActivity {
         postLocationText = findViewById(R.id.location1);
         likenote = findViewById(R.id.likenote);
 
+        deletepost = findViewById(R.id.deletepost);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -77,8 +78,8 @@ public class postDetails extends AppCompatActivity {
 
         postTitle.setText(data.getStringExtra("title"));
         postcontent.setText(data.getStringExtra("content"));
-        postTextDateTime.setText(data.getStringExtra("time"));
-        postLocationText.setText(data.getStringExtra("location"));
+        //postTextDateTime.setText(data.getStringExtra("time"));
+       // postLocationText.setText(data.getStringExtra("location"));
 
 
         if(data.getStringExtra("image") != null){
@@ -95,6 +96,26 @@ public class postDetails extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     startActivity(new Intent(postDetails.this, PostActivity.class));;
+                }
+            });
+        }
+
+            deletepost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DocumentReference documentReference = firebaseFirestore.collection("posts").document(data.getStringExtra("postId"));
+                    documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(view.getContext(), "Your post is deleted.", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(postDetails.this, PostActivity.class));
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(view.getContext(), "Your post failed to be deleted.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
 
@@ -145,4 +166,3 @@ public class postDetails extends AppCompatActivity {
 
 
     }
-}

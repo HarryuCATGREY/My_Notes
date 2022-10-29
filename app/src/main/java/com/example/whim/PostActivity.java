@@ -9,21 +9,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,12 +64,13 @@ public class PostActivity extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
         posttodayDate = findViewById(R.id.todaypostDate);
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         posttodayDate.setText(
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
         );
 
-        Query postquery = firebaseFirestore.collection("posts").orderBy("title", Query.Direction.DESCENDING);
+        Query postquery = firebaseFirestore.collection("posts").orderBy("timestamp", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<postmodel> allposts = new FirestoreRecyclerOptions.Builder<postmodel>().setQuery(postquery, postmodel.class).build();
 
@@ -73,15 +79,20 @@ public class PostActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull PostViewHolder postViewHolder, int i, @NonNull postmodel postmodel) {
 
-
-
-
                 postViewHolder.posttitle.setText(postmodel.getTitle());
                 postViewHolder.postcontent.setText(postmodel.getContent());
 
+                if (postmodel.getImage() != null){
+                    StorageReference imgReference = storageReference.child("photos/").child(postmodel.getImagename());
+                    imgReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Picasso.get().load(uri).into(postViewHolder.postimgview);
+                        }
+                    });
+                }
+
                 int colorcode = getRandomColor();
-
-
                 postViewHolder.mpost.setBackgroundColor(postViewHolder.itemView.getResources().getColor(colorcode, null));
 
                 String postId = postAdapter.getSnapshots().getSnapshot(i).getId();
@@ -126,6 +137,7 @@ public class PostActivity extends AppCompatActivity {
         private TextView posttitle;
         private TextView postcontent;
         private TextView posttime;
+        private ImageView postimgview;
         private ConstraintLayout postcolour;
 
 
@@ -134,6 +146,7 @@ public class PostActivity extends AppCompatActivity {
             super(itemView);
             posttitle = itemView.findViewById(R.id.exist_title);
             postcontent = itemView.findViewById(R.id.note_content);
+            postimgview = itemView.findViewById(R.id.postimgview);
             mpost = itemView.findViewById(R.id.whim);
             postcolour = itemView.findViewById(R.id.post_colour);
         }
