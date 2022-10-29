@@ -27,7 +27,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     RecyclerView recyclerView;
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     // Goto Personal Information
     public void goToPersonalInformation(View view) {
         // Personal information
-        Intent myIntent = new Intent(MainActivity.this, PersonalInformation.class);
+        Intent myIntent = new Intent(MainActivity.this, GuestPersonalInformation.class);
         //myIntent.putExtra("key", 1); //Optional parameters
         MainActivity.this.startActivity(myIntent);
 
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         buttonMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), PersonalInformation.class);
+                Intent intent = new Intent(view.getContext(), GuestPersonalInformation.class);
                 view.getContext().startActivity(intent);}
         });
     }
