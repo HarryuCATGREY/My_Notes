@@ -78,9 +78,9 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
         todayDate = findViewById(R.id.todayDate);
+        getSupportActionBar().hide();
 
         storeInvisible = findViewById(R.id.invisible_store);
-        getSupportActionBar().setTitle("All Notes");
 
         notesDate = Calendar.getInstance().getTime();
 

@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("101", "!!!");
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recycle_home);
         fab_add = findViewById(R.id.fab_add);
