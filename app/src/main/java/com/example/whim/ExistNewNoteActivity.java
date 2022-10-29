@@ -193,8 +193,11 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         ImageView imageBackedit2 = findViewById(R.id.imageBack2);
         imageBackedit2.setOnClickListener(new View.OnClickListener() {
             @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(ExistNewNoteActivity.this, ExistUserMainPage.class));
+//            }
             public void onClick(View view) {
-                startActivity(new Intent(ExistNewNoteActivity.this, ExistUserMainPage.class));
+                onBackPressed();
             }
         });
 
@@ -247,6 +250,10 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void onBackPressed() {
+        startActivity(new Intent(ExistNewNoteActivity.this, ExistUserMainPage.class));
     }
 
     private void getPalette() {

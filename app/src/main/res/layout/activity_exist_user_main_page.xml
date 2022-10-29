@@ -165,6 +165,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.439"
             app:layout_constraintStart_toEndOf="@+id/like"
+            android:onClick="goToPersonalInformation"
             app:layout_constraintTop_toTopOf="parent"></ImageButton>
 
         <ImageButton
