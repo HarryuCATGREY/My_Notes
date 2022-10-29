@@ -47,6 +47,8 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
+        getSupportActionBar().hide();
+
         //getSupportActionBar().setTitle("All Posts");
 
         firebaseAuth = FirebaseAuth.getInstance();

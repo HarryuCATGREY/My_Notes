@@ -83,14 +83,14 @@
 
             <ImageView
                 android:id="@+id/postnote"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.899"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                app:layout_constraintBottom_toBottomOf="@+id/deletenote"
+                app:layout_constraintEnd_toStartOf="@+id/deletenote"
+                app:layout_constraintHorizontal_bias="0.975"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/deletenote"
-                app:srcCompat="@drawable/delete" />
+                app:layout_constraintTop_toTopOf="@+id/deletenote"
+                app:srcCompat="@drawable/post" />
 
             <ImageView
                 android:id="@+id/deletenote"

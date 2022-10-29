@@ -10,12 +10,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="93dp">
+        android:layout_height="135dp"
+        android:background="@drawable/radius_bottom_half"
+        android:backgroundTint="#F3F2EE">
 
         <LinearLayout
             android:layout_width="208dp"
             android:layout_height="75dp"
             android:layout_gravity="center"
+            android:layout_marginTop="30dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -164,55 +167,71 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
         android:background="#FFFFFFFF" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/document"
+        android:backgroundTint="#F3F2EE">
 
-        <ImageButton
-            android:id="@+id/new_btn"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+        <LinearLayout
+            android:layout_width="272dp"
+            android:layout_height="47dp"
             android:layout_gravity="center"
+            android:orientation="horizontal"
 
-            android:background="@drawable/new_pic"
-            android:contentDescription="@string/start_new" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.509">
 
-        <ImageButton
-            android:id="@+id/draw_btn"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
+            <ImageButton
+                android:id="@+id/new_btn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
 
-            android:background="@drawable/ic_brush__1_"
-            android:contentDescription="@string/brush" />
+                android:background="@drawable/new_pic"
+                android:backgroundTint="#9E9E9E"
+                android:contentDescription="@string/start_new" />
 
-        <ImageButton
-            android:id="@+id/erase_btn"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/eraser"
-            android:contentDescription="@string/erase" />
+            <ImageButton
+                android:id="@+id/draw_btn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/ic_brush__1_"
+                android:backgroundTint="#9E9E9E"
+                android:contentDescription="@string/brush" />
 
-        <ImageButton
-            android:id="@+id/save_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/save"
-            android:contentDescription="@string/save" />
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/erase_btn"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/eraser"
+                android:backgroundTint="#9E9E9E"
+                android:contentDescription="@string/erase" />
+
+            <ImageButton
+                android:id="@+id/save_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/save"
+                android:backgroundTint="#9E9E9E"
+                android:contentDescription="@string/save" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
