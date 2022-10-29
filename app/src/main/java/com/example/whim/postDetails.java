@@ -43,17 +43,19 @@ public class postDetails extends AppCompatActivity {
     ImageView postImage, likenote, deletepost;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
+        getSupportActionBar().hide();
 
         postTitle = findViewById(R.id.posttitle);
         postcontent = findViewById(R.id.postexist);
 
-        postTextDateTime = findViewById(R.id.textDateTime);
+        postTextDateTime = findViewById(R.id.postDateTime);
         postImage = findViewById(R.id.postimage);
-        postLocationText = findViewById(R.id.location1);
+        postLocationText = findViewById(R.id.locationpost);
         likenote = findViewById(R.id.likenote);
 
         deletepost = findViewById(R.id.deletepost);
@@ -78,8 +80,8 @@ public class postDetails extends AppCompatActivity {
 
         postTitle.setText(data.getStringExtra("title"));
         postcontent.setText(data.getStringExtra("content"));
-        //postTextDateTime.setText(data.getStringExtra("time"));
-       // postLocationText.setText(data.getStringExtra("location"));
+        postTextDateTime.setText(data.getStringExtra("time"));
+        postLocationText.setText(data.getStringExtra("location"));
 
 
         if(data.getStringExtra("image") != null){
