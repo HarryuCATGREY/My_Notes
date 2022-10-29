@@ -60,8 +60,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="1000dp"
+            android:layout_width="419dp"
+            android:layout_height="563dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/document"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,16 +70,29 @@
             app:layout_constraintTop_toBottomOf="@+id/locationpost"
             tools:ignore="MissingConstraints">
 
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="55"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/likenote"
+                app:layout_constraintHorizontal_bias="0.978"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/postexist" />
+
             <ImageView
                 android:id="@+id/likenote"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/thumb"
+                android:backgroundTint="#9E9E9E"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.899"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/postexist"
-                app:srcCompat="@drawable/delete" />
+                app:layout_constraintTop_toBottomOf="@+id/postexist" />
 
             <ImageView
                 android:id="@+id/postimage"
@@ -94,13 +107,13 @@
 
             <TextView
                 android:id="@+id/posttitle"
-                android:focusable="false"
                 android:layout_width="341dp"
                 android:layout_height="36dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginRight="20dp"
                 android:background="@null"
+                android:focusable="false"
                 android:fontFamily="@font/opensans_bold"
                 android:hint="Title"
                 android:imeOptions="actionDone"
@@ -119,11 +132,11 @@
 
             <TextView
                 android:id="@+id/postexist"
-                android:focusable="false"
                 android:layout_width="338dp"
                 android:layout_height="190dp"
                 android:layout_marginTop="4dp"
                 android:background="@null"
+                android:focusable="false"
                 android:fontFamily="@font/opensans_regular"
                 android:gravity="top"
                 android:hint="What is on your mind today? You can insert images, texts or take photos. : )  "
