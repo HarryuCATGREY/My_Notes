@@ -125,6 +125,15 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             }
         });
 
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ExistUserMainPage.this, ProfileActivity.class));
+            }
+        });
+
+
+
 
         //Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
         Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("timestamp", Query.Direction.DESCENDING);
@@ -264,18 +273,18 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         mActionBar.setDisplayShowTitleEnabled(true);
     }
 
-    // Goto Personal Information
-    public void goToPersonalInformation(View view) {
-        // Personal information
-        Intent myIntent = new Intent(ExistUserMainPage.this, UserPersonalInformation.class);
-        //myIntent.putExtra("key", 1); //Optional parameters
-        ExistUserMainPage.this.startActivity(myIntent);
-
-        Button buttonMe = (Button) findViewById(R.id.buttonMe);
-        buttonMe.setOnClickListener(view1 -> {
-            Intent intent = new Intent(view1.getContext(), UserPersonalInformation.class);
-            view1.getContext().startActivity(intent);});
-    }
+//    // Goto Personal Information
+//    public void goToPersonalInformation(View view) {
+//        // Personal information
+//        Intent myIntent = new Intent(ExistUserMainPage.this, UserPersonalInformation.class);
+//        //myIntent.putExtra("key", 1); //Optional parameters
+//        ExistUserMainPage.this.startActivity(myIntent);
+//
+//        Button buttonMe = (Button) findViewById(R.id.buttonMe);
+//        buttonMe.setOnClickListener(view1 -> {
+//            Intent intent = new Intent(view1.getContext(), UserPersonalInformation.class);
+//            view1.getContext().startActivity(intent);});
+//    }
 
 }
 

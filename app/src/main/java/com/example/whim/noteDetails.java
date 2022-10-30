@@ -220,6 +220,7 @@ public class noteDetails extends AppCompatActivity {
                 //startActivity(new Intent(noteDetails.this, ExistUserMainPage.class));;
             }
         });
+
         existTitleDetail.setText(data.getStringExtra("title"));
         existNoteDetail.setText(data.getStringExtra("content"));
         existTextDateTime.setText(data.getStringExtra("time"));
