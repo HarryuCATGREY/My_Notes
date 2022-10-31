@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="250dp"
+    android:layout_height="250dp"
+    android:background="#000000"
+    android:orientation="vertical"
+    android:paddingLeft="7dip"
+    android:paddingTop="7dip"
+    android:paddingRight="7dip"
+    android:paddingBottom="7dip">
+
+    <EditText
+        android:id="@+id/edit_pop"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:ems="10"/>
+
+    <Button
+        android:id="@+id/btok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OK" />
+
+</LinearLayout>
