@@ -85,6 +85,13 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PostActivity.this, ProfileActivity.class));
+            }
+        });
+
         TextView login_title = (TextView)findViewById(R.id.textView5);
 
         String h = getColoredSpanned("h", "#67B1F9");

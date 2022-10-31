@@ -418,12 +418,12 @@ public class ProfileActivity extends AppCompatActivity {
                         //DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("profile").document();
                     }
                 });
-                Toast.makeText(getApplicationContext(), "Photo is uploaded! :) ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Profile updated! :) ", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Upload Failed :( ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Update failed :( ", Toast.LENGTH_SHORT).show();
             }
         });
     }

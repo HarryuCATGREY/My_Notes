@@ -14,7 +14,7 @@ public class postmodel {
     private Date timestamp;
     private String imagename;
     private ArrayList<String> likedusers;
-    private int numlikes;
+    private int  numlikes;
     private String uid;
 
 
