@@ -15,12 +15,12 @@
 
         <Button
             android:id="@+id/locationpost"
-            android:focusable="false"
             android:layout_width="204dp"
             android:layout_height="36dp"
             android:layout_marginTop="116dp"
             android:background="@drawable/location"
             android:drawableLeft="@drawable/ic_loc"
+            app:backgroundTint="@null"
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"

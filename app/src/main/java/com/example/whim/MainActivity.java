@@ -8,14 +8,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     FloatingActionButton fab_add;
     SearchView searchView_home;
     Notes selectedNote;
+    ImageButton community, profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         recyclerView = findViewById(R.id.recycle_home);
         fab_add = findViewById(R.id.fab_add);
         searchView_home = findViewById(R.id.searchView_home);
+        community = findViewById(R.id.community);
+        profile = findViewById(R.id.buttonMe);
 
         // setting database
         database = RoomDB.getInstance(this);
@@ -84,13 +92,58 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 filter(newText);
                 return true;
             }
+        });
 
+        community.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reminder();
 
+            }
+        });
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reminder();
+            }
         });
     }
 
     public void onBackPressed() {
 
+    }
+
+    private void reminder() {
+
+        ImageView cancel;
+        Button signUp;
+        //will create a view of our custom dialog layout
+        View alertCustomdialog = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_reminder,null);
+        //initialize alert builder.
+        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+
+        //set our custom alert dialog to tha alertdialog builder
+        alert.setView(alertCustomdialog);
+        cancel = (ImageView)alertCustomdialog.findViewById(R.id.cancel_button);
+        signUp = alertCustomdialog.findViewById(R.id.signUp_button);
+        final AlertDialog dialog = alert.create();
+        //this line removed app bar from dialog and make it transperent and you see the image is like floating outside dialog box.
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //finally show the dialog box in android all
+        dialog.show();
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, SignUpActivity.class));
+            }
+        });
     }
 
 

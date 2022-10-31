@@ -15,7 +15,7 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="412dp"
+            android:layout_width="match_parent"
             android:layout_height="182dp"
             android:background="@drawable/background"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,16 +52,17 @@
             android:id="@+id/changeprofile"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginStart="72dp"
             android:layout_marginTop="68dp"
             android:background="@drawable/large"
             android:backgroundTint="@color/white"
             android:elevation="5dp"
             android:foregroundGravity="center"
             android:src="@drawable/camera"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.601"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/profilepic" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="@+id/profilepic"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textName"
@@ -109,29 +110,40 @@
             android:src="@drawable/edit"
             app:layout_constraintBottom_toBottomOf="@+id/textName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.684"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textName" />
+            app:layout_constraintHorizontal_bias="0.024"
+            app:layout_constraintStart_toEndOf="@+id/textName"
+            app:layout_constraintTop_toTopOf="@+id/textName"
+            app:layout_constraintVertical_bias="0.0" />
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="411dp"
-            android:layout_height="600dp"
-            android:layout_marginTop="12dp"
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="900dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:fontFamily="@font/opensans_bold"
+            android:gravity="left"
+            android:padding="10dp"
+            android:paddingStart="20dp"
+            android:text="My Post"
+            android:textColor="@color/black"
+            android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textName"
-            app:srcCompat="@drawable/document" />
+            app:layout_constraintTop_toBottomOf="@+id/textName" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewmypost"
-            android:layout_width="410dp"
-            android:layout_height="414dp"
-            android:layout_marginTop="64dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:paddingBottom="390dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textName" />
+            app:layout_constraintTop_toTopOf="@+id/textView6" />
 
         <!--        <androidx.recyclerview.widget.RecyclerView-->
         <!--            android:id="@+id/recycle_post"-->
