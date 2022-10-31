@@ -32,12 +32,18 @@ import androidx.core.content.ContextCompat;
 
 import com.example.whim.Models.DrawableUtil;
 import com.google.android.gms.cast.framework.media.ImagePicker;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -68,6 +74,9 @@ public class ProfileActivity extends AppCompatActivity {
     ImageButton profile;
     ImageButton community;
     ImageButton logOut;
+    ArrayList<String> idlist = new ArrayList<String>();
+    ArrayList<String> thisid = new ArrayList<String>();
+
 
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
@@ -140,58 +149,159 @@ public class ProfileActivity extends AppCompatActivity {
 //                v.getContext().startActivity(intent);
                 Toast.makeText(getApplicationContext(), "Camera button clicked.", Toast.LENGTH_SHORT).show();
                 askGalleryPermissions();
-                editUpload();
             }
         });
 
-        if(data.getStringExtra("image") != null) {
-            Toast.makeText(getApplicationContext(), "yes profile", Toast.LENGTH_SHORT).show();
-            StorageReference imgReference = storageReference.child("profile/").child(data.getStringExtra("imagename"));
-            imgReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Picasso.get().load(uri).into(profilePic);
+        // check if the profile collection exists
+        CollectionReference currprofile = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("profile");
+        currprofile.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.isEmpty()){
+                    nameText.setText("Whim User");
+                    Toast.makeText(getApplicationContext(),"Collection is Empty",Toast.LENGTH_SHORT).show();
                 }
-            });
-        }
-        else{
-            Toast.makeText(getApplicationContext(), "No profile", Toast.LENGTH_SHORT).show();
-        }
+
+                if(!queryDocumentSnapshots.isEmpty()){
+                    currprofile.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(QueryDocumentSnapshot document : task.getResult()){
+                                    String s = document.getId();
+                                    thisid.add(s);
+                                }
+                                DocumentReference currprofile = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("profile").document(thisid.get(0));
+                                currprofile.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot doc = task.getResult();
+                                            nameText.setText(doc.get("content").toString());
+
+                                            if (doc.get("image") != null) {
+                                                StorageReference profilepicReference = storageReference.child("profile/" + doc.get("imagename"));
+                                                profilepicReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
+                                                        Picasso.get().load(uri).into(profilePic);
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                    }
+                                });
+
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
 
 
 
-        }
+//        if(data.getStringExtra("image") != null) {
+//            Toast.makeText(getApplicationContext(), "yes profile", Toast.LENGTH_SHORT).show();
+//            StorageReference imgReference = storageReference.child("profile/").child(data.getStringExtra("imagename"));
+//            imgReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                @Override
+//                public void onSuccess(Uri uri) {
+//                    Picasso.get().load(uri).into(profilePic);
+//                }
+//            });
+//        }
+//        else{
+//            Toast.makeText(getApplicationContext(), "No profile", Toast.LENGTH_SHORT).show();
+//        }
+
+
+
+    }
 
     private void editUpload() {
         String content = nameText.getText().toString();
-        String imgUri = imageUri;
-        String imgName = imageName;
+//        String imgUri = imageUri;
+//        String imgName = imageName;
 
-        DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("profile").document();
-        Map<String, Object> note = new HashMap<>();
+        CollectionReference profileRef = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("profile");
 
-        note.put("content", content);
-        note.put("image",imgUri);
-        note.put("imagename", imgName);
-
-        documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
+        profileRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(Void unused) {
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.isEmpty()){
+                    DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("profile").document();
+                    Map<String, Object> note = new HashMap<>();
 
-                Intent data = getIntent();
-                if(data.getStringExtra("image") != null) {
-                    Toast.makeText(getApplicationContext(), "profile pic present", Toast.LENGTH_SHORT).show();
+                    note.put("content", content);
+                    note.put("image",imageUri);
+                    note.put("imagename", imageName);
+
+
+
+                    documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+
+                            Intent data = getIntent();
+                            if(data.getStringExtra("image") != null) {
+                                Toast.makeText(getApplicationContext(), "profile pic present", Toast.LENGTH_SHORT).show();
+                            }
+
+                            Toast.makeText(getApplicationContext(), "Your whim is safely stored :)", Toast.LENGTH_SHORT).show();
+                            //startActivity(new Intent(ExistNewNoteActivity.this, ExistUserMainPage.class));
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Failed to store whim, please try again later :(", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
+                    profileRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(QueryDocumentSnapshot document : task.getResult()){
+                                    String s = document.getId();
+                                    idlist.add(s);
+                                }
+                            }
+                            DocumentReference profileReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("profile").document(idlist.get(0));
+                            Map<String, Object> note = new HashMap<>();
+
+                            note.put("content", content);
+                            note.put("image",imageUri);
+                            note.put("imagename", imageName);
+
+                            profileReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+
+                                    //Intent data = getIntent();
+//                            if(data.getStringExtra("image") != null) {
+//                                Toast.makeText(getApplicationContext(), "profile pic present", Toast.LENGTH_SHORT).show();
+//                            }
+
+                                    Toast.makeText(getApplicationContext(), "Your whim is safely stored :)", Toast.LENGTH_SHORT).show();
+                                    //startActivity(new Intent(ExistNewNoteActivity.this, ExistUserMainPage.class));
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Failed to store whim, please try again later :(", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+
                 }
-
-                Toast.makeText(getApplicationContext(), "Your whim is safely stored :)", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(ExistNewNoteActivity.this, ExistUserMainPage.class));
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Failed to store whim, please try again later :(", Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
     private void askGalleryPermissions() {
@@ -229,8 +339,9 @@ public class ProfileActivity extends AppCompatActivity {
                 //selectedImage.setImageURI(contentUri);
                 imageUri = contentUri.toString();
                 imageName = imageFileName;
-                uploadImageToFirebase(imageFileName, contentUri);
 
+                uploadImageToFirebase(imageFileName, contentUri);
+                editUpload();
             }
         }
     }
