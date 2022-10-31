@@ -8,33 +8,38 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Html;
 import android.text.InputType;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.example.whim.Models.DrawableUtil;
-import com.google.android.gms.cast.framework.media.ImagePicker;
+//import com.example.whim.Models.DrawableUtil;
+//import com.google.android.gms.cast.framework.media.ImagePicker;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,16 +50,14 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -68,6 +71,11 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView profilePic;
     ImageView postImage;
     ImageButton editbtn;
+
+    RecyclerView mypostrecyclerview;
+    StaggeredGridLayoutManager staggeredGridLayoutManager;
+    FirestoreRecyclerAdapter<postmodel, MyPostViewHolder> mypostAdapter;
+
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -174,24 +182,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                         nameText.setText(input.getText().toString());
                         editUpload();
-
-
-
-
-
-//                        DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document(data.getStringExtra("noteId"));
-//                        documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void unused) {
-//                                Toast.makeText(view.getContext(), "Your whim is deleted.", Toast.LENGTH_SHORT).show();
-//                                startActivity(new Intent(noteDetails.this, ExistUserMainPage.class));
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(view.getContext(), "Your whim failed to be deleted.", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
                     }
                 });
                 builder.show();
@@ -203,9 +193,6 @@ public class ProfileActivity extends AppCompatActivity {
         editProfile.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-//                Intent intent = new Intent(v.getContext(), ProfileActivity.class);
-//                intent.putExtra("image", data.getStringExtra("image"));
-//                v.getContext().startActivity(intent);
                 Toast.makeText(getApplicationContext(), "Camera button clicked.", Toast.LENGTH_SHORT).show();
                 askGalleryPermissions();
             }
@@ -261,30 +248,64 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
+        Query mypostquery = firebaseFirestore.collection("posts").whereEqualTo("uid", firebaseUser.getUid()).orderBy("timestamp", Query.Direction.DESCENDING);
 
-//        if(data.getStringExtra("image") != null) {
-//            Toast.makeText(getApplicationContext(), "yes profile", Toast.LENGTH_SHORT).show();
-//            StorageReference imgReference = storageReference.child("profile/").child(data.getStringExtra("imagename"));
-//            imgReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                @Override
-//                public void onSuccess(Uri uri) {
-//                    Picasso.get().load(uri).into(profilePic);
-//                }
-//            });
-//        }
-//        else{
-//            Toast.makeText(getApplicationContext(), "No profile", Toast.LENGTH_SHORT).show();
-//        }
+        FirestoreRecyclerOptions<postmodel> allmyposts = new FirestoreRecyclerOptions.Builder<postmodel>().setQuery(mypostquery, postmodel.class).build();
 
+        mypostAdapter = new FirestoreRecyclerAdapter<postmodel, MyPostViewHolder>(allmyposts){
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            protected void onBindViewHolder(@NonNull MyPostViewHolder mypostViewHolder, int i, @NonNull postmodel postmodel) {
 
+                mypostViewHolder.posttitle.setText(postmodel.getTitle());
+                mypostViewHolder.postcontent.setText(postmodel.getContent());
 
+                if (postmodel.getImage() != null){
+                    StorageReference imgReference = storageReference.child("photos/").child(postmodel.getImagename());
+                    imgReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Picasso.get().load(uri).into(mypostViewHolder.postimgview);
+                        }
+                    });
+                }
+                String postId = mypostAdapter.getSnapshots().getSnapshot(i).getId();
+                mypostViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), MyPostActivity.class);
+                        intent.putExtra("title",postmodel.getTitle());
+                        intent.putExtra("content",postmodel.getContent());
+                        intent.putExtra("image", postmodel.getImage());
+                        intent.putExtra("time", postmodel.getTime());
+                        intent.putExtra("location", postmodel.getLocation());
+                        intent.putExtra("likedusers", postmodel.getLikedusers());
+                        intent.putExtra("timestamp", postmodel.getTimestamp());
+                        intent.putExtra("imagename", postmodel.getImagename());
+                        intent.putExtra("uid", postmodel.getUid());
+                        intent.putExtra("postId", postId);
+                        view.getContext().startActivity(intent);
+                    }
+                });
+            }
+            @NonNull
+            @Override
+            public MyPostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_notes_list_pic,parent, false);
+                return new MyPostViewHolder(view);
+            }
+        };
+
+        mypostrecyclerview = findViewById(R.id.recyclerViewmypost);
+        mypostrecyclerview.setHasFixedSize(false);
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mypostrecyclerview.setLayoutManager(staggeredGridLayoutManager);
+        mypostrecyclerview.setAdapter(mypostAdapter);
+        mypostAdapter.notifyDataSetChanged();
     }
 
     private void editUpload() {
         String content = nameText.getText().toString();
-//        String imgUri = imageUri;
-//        String imgName = imageName;
-
         CollectionReference profileRef = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("profile");
 
         profileRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -297,8 +318,6 @@ public class ProfileActivity extends AppCompatActivity {
                     note.put("content", content);
                     note.put("image",imageUri);
                     note.put("imagename", imageName);
-
-
 
                     documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -338,14 +357,7 @@ public class ProfileActivity extends AppCompatActivity {
                             profileReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-
-                                    //Intent data = getIntent();
-//                            if(data.getStringExtra("image") != null) {
-//                                Toast.makeText(getApplicationContext(), "profile pic present", Toast.LENGTH_SHORT).show();
-//                            }
-
                                     Toast.makeText(getApplicationContext(), "Your whim is safely stored :)", Toast.LENGTH_SHORT).show();
-                                    //startActivity(new Intent(ExistNewNoteActivity.this, ExistUserMainPage.class));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -415,7 +427,6 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         Picasso.get().load(uri).into(profilePic);
                         Log.d("tag", "onSuccess: Upload image URL is: " + uri.toString());
-                        //DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("profile").document();
                     }
                 });
                 Toast.makeText(getApplicationContext(), "Photo is uploaded! :) ", Toast.LENGTH_SHORT).show();
@@ -432,4 +443,36 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    public class MyPostViewHolder extends RecyclerView.ViewHolder{
+
+        private TextView posttitle;
+        private TextView postcontent;
+        private TextView posttime;
+        private ImageView postimgview;
+        private ConstraintLayout postcolour;
+
+
+        LinearLayout mpost;
+        public MyPostViewHolder(@NonNull View itemView) {
+            super(itemView);
+            posttitle = itemView.findViewById(R.id.exist_title);
+            postcontent = itemView.findViewById(R.id.note_content);
+            postimgview = itemView.findViewById(R.id.postimgview);
+            mpost = itemView.findViewById(R.id.whim);
+            postcolour = itemView.findViewById(R.id.post_colour);
+        }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mypostAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mypostAdapter != null){
+            mypostAdapter.stopListening();
+        }
+    }
 }
