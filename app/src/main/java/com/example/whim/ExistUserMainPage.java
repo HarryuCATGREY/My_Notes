@@ -141,6 +141,13 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             }
         });
 
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ExistUserMainPage.this, WhatYouLikedActivity.class));
+
+            }
+        });
 
 
 

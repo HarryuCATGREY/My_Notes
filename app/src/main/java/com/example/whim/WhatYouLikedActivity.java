@@ -3,7 +3,6 @@ package com.example.whim;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -33,15 +32,11 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
-public class PostActivity extends AppCompatActivity {
-
-    RecyclerView postrecyclerview;
+public class WhatYouLikedActivity extends AppCompatActivity {
+    RecyclerView likerecyclerview;
     StaggeredGridLayoutManager staggeredGridLayoutManager;
 
     TextView posttodayDate;
@@ -56,12 +51,11 @@ public class PostActivity extends AppCompatActivity {
     ImageButton profile;
     ImageButton community;
 
-    FirestoreRecyclerAdapter<postmodel, PostViewHolder> postAdapter;
-
+    FirestoreRecyclerAdapter<postmodel, LikeViewHolder> likeAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
+        setContentView(R.layout.activity_what_you_liked);
 
         getSupportActionBar().hide();
 
@@ -73,30 +67,29 @@ public class PostActivity extends AppCompatActivity {
         posttodayDate = findViewById(R.id.todaypostDate);
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        community = findViewById(R.id.community);
-        home = findViewById(R.id.home);
-        like = findViewById(R.id.like);
-        profile = findViewById(R.id.profile);
+        community = findViewById(R.id.communityfromlike);
+        home = findViewById(R.id.homefromlike);
+        like = findViewById(R.id.likefromlike);
+        profile = findViewById(R.id.profilefromlike);
 
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PostActivity.this, ExistUserMainPage.class));
+                startActivity(new Intent(WhatYouLikedActivity.this, ExistUserMainPage.class));
             }
         });
 
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PostActivity.this, ProfileActivity.class));
+                startActivity(new Intent(WhatYouLikedActivity.this, ProfileActivity.class));
             }
         });
 
-        like.setOnClickListener(new View.OnClickListener() {
+        community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PostActivity.this, WhatYouLikedActivity.class));
-
+                startActivity(new Intent(WhatYouLikedActivity.this, PostActivity.class));
             }
         });
 
@@ -112,32 +105,33 @@ public class PostActivity extends AppCompatActivity {
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
         );
 
-        Query postquery = firebaseFirestore.collection("posts").orderBy("timestamp", Query.Direction.DESCENDING);
 
-        FirestoreRecyclerOptions<postmodel> allposts = new FirestoreRecyclerOptions.Builder<postmodel>().setQuery(postquery, postmodel.class).build();
+        Query likequery = firebaseFirestore.collection("posts").whereArrayContains("likedusers", firebaseUser.getUid()).orderBy("timestamp", Query.Direction.DESCENDING);
 
-        postAdapter = new FirestoreRecyclerAdapter<postmodel, PostViewHolder>(allposts){
+        FirestoreRecyclerOptions<postmodel> alllikes = new FirestoreRecyclerOptions.Builder<postmodel>().setQuery(likequery, postmodel.class).build();
+
+        likeAdapter = new FirestoreRecyclerAdapter<postmodel, LikeViewHolder>(alllikes){
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
-            protected void onBindViewHolder(@NonNull PostViewHolder postViewHolder, int i, @NonNull postmodel postmodel) {
+            protected void onBindViewHolder(@NonNull LikeViewHolder likeViewHolder, int i, @NonNull postmodel postmodel) {
 
-                postViewHolder.posttitle.setText(postmodel.getTitle());
-                postViewHolder.postcontent.setText(postmodel.getContent());
+                likeViewHolder.liketitle.setText(postmodel.getTitle());
+                likeViewHolder.likecontent.setText(postmodel.getContent());
 
                 if (postmodel.getImage() != null){
                     StorageReference imgReference = storageReference.child("photos/").child(postmodel.getImagename());
                     imgReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Picasso.get().load(uri).into(postViewHolder.postimgview);
+                            Picasso.get().load(uri).into(likeViewHolder.likeimgview);
                         }
                     });
                 }
-                String postId = postAdapter.getSnapshots().getSnapshot(i).getId();
-                postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                String postId = likeAdapter.getSnapshots().getSnapshot(i).getId();
+                likeViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(view.getContext(), postDetails.class);
+                        Intent intent = new Intent(view.getContext(), LikedDetails.class);
                         intent.putExtra("title",postmodel.getTitle());
                         intent.putExtra("content",postmodel.getContent());
                         intent.putExtra("image", postmodel.getImage());
@@ -146,6 +140,7 @@ public class PostActivity extends AppCompatActivity {
                         intent.putExtra("likedusers", postmodel.getLikedusers());
                         intent.putExtra("timestamp", postmodel.getTimestamp());
                         intent.putExtra("imagename", postmodel.getImagename());
+                        intent.putExtra("numlikes", postmodel.getNumlikes());
                         intent.putExtra("uid", postmodel.getUid());
                         intent.putExtra("postId", postId);
                         view.getContext().startActivity(intent);
@@ -154,78 +149,56 @@ public class PostActivity extends AppCompatActivity {
             }
             @NonNull
             @Override
-            public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public LikeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_notes_list_pic,parent, false);
-                return new PostViewHolder(view);
+                return new LikeViewHolder(view);
             }
         };
 
-        postrecyclerview=findViewById(R.id.recycle_post);
-        postrecyclerview.setHasFixedSize(false);
+        likerecyclerview=findViewById(R.id.recycle_liked);
+        likerecyclerview.setHasFixedSize(false);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        postrecyclerview.setLayoutManager(staggeredGridLayoutManager);
-        postrecyclerview.setAdapter(postAdapter);
-        postAdapter.notifyDataSetChanged();
+        likerecyclerview.setLayoutManager(staggeredGridLayoutManager);
+        likerecyclerview.setAdapter(likeAdapter);
+        likeAdapter.notifyDataSetChanged();
+
+
 
     }
+    public class LikeViewHolder extends RecyclerView.ViewHolder{
 
-    public void onBackPressed() {
-
-    }
-
-
-
-    public class PostViewHolder extends RecyclerView.ViewHolder{
-
-        private TextView posttitle;
-        private TextView postcontent;
-        private TextView posttime;
-        private ImageView postimgview;
-        private ConstraintLayout postcolour;
-
+        private TextView liketitle;
+        private TextView likecontent;
+        private TextView liketime;
+        private ImageView likeimgview;
+        private ConstraintLayout likecolour;
 
         LinearLayout mpost;
-        public PostViewHolder(@NonNull View itemView) {
+        public LikeViewHolder(@NonNull View itemView) {
             super(itemView);
-            posttitle = itemView.findViewById(R.id.exist_title);
-            postcontent = itemView.findViewById(R.id.note_content);
-            postimgview = itemView.findViewById(R.id.postimgview);
+            liketitle = itemView.findViewById(R.id.exist_title);
+            likecontent = itemView.findViewById(R.id.note_content);
+            likeimgview = itemView.findViewById(R.id.postimgview);
             mpost = itemView.findViewById(R.id.whim);
-            postcolour = itemView.findViewById(R.id.post_colour);
+            likecolour = itemView.findViewById(R.id.post_colour);
         }
     }
     @Override
     protected void onStart() {
         super.onStart();
-        postAdapter.startListening();
+        likeAdapter.startListening();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if(postAdapter != null){
-            postAdapter.stopListening();
+        if(likeAdapter != null){
+            likeAdapter.stopListening();
         }
-    }
-
-    private int getRandomColor()
-    {
-        List<Integer> colorcode=new ArrayList<>();
-        colorcode.add(R.color.purple);
-        colorcode.add(R.color.lightgreen);
-        colorcode.add(R.color.blue);
-        colorcode.add(R.color.yellow);
-        colorcode.add(R.color.color3);
-
-
-        Random random=new Random();
-        int number=random.nextInt(colorcode.size());
-        return colorcode.get(number);
     }
 
     private String getColoredSpanned(String text, String color) {
         String input = "<font color=" + color + ">" + text + "</font>";
         return input;
     }
-
 }

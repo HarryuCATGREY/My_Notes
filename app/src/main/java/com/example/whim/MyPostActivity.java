@@ -22,8 +22,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class MyPostActivity extends AppCompatActivity {
-    private TextView postTitle, postcontent;
+    private TextView postTitle, postcontent, numlikefrommypost;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     FirebaseFirestore firebaseFirestore;
@@ -48,6 +50,7 @@ public class MyPostActivity extends AppCompatActivity {
         postTextDateTime = findViewById(R.id.postDateTime);
         postImage = findViewById(R.id.postimage);
         postLocationText = findViewById(R.id.locationpost);
+        numlikefrommypost = findViewById(R.id.numlikefrommypost);
 
         deletepost = findViewById(R.id.deletepost);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -65,15 +68,16 @@ public class MyPostActivity extends AppCompatActivity {
         String imgpost = data.getStringExtra("image");
         String imageNamepost = data.getStringExtra("imagename");
         String postID = data.getStringExtra("postId");
+        ArrayList<String> curlikedusers = data.getStringArrayListExtra("likedusers");
 
-        // String numlikes = data.getStringExtra("numlikes");
-
-        //int numberlikes = Integer.parseInt(numlikes);
+        int numlikes = data.getExtras().getInt("numlikes");
+//        final Integer[] numlikes = {data.getExtras().getInt("numlikes")};
 
         postTitle.setText(data.getStringExtra("title"));
         postcontent.setText(data.getStringExtra("content"));
         postTextDateTime.setText(data.getStringExtra("time"));
         postLocationText.setText(data.getStringExtra("location"));
+        numlikefrommypost.setText(String.valueOf(numlikes));
 
         if (data.getStringExtra("image") != null) {
             StorageReference imgReference = storageReference.child("photos/").child(data.getStringExtra("imagename"));

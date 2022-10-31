@@ -153,6 +153,14 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileActivity.this, WhatYouLikedActivity.class));
+
+            }
+        });
+
 
         editbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,6 +290,7 @@ public class ProfileActivity extends AppCompatActivity {
                         intent.putExtra("likedusers", postmodel.getLikedusers());
                         intent.putExtra("timestamp", postmodel.getTimestamp());
                         intent.putExtra("imagename", postmodel.getImagename());
+                        intent.putExtra("numlikes", postmodel.getNumlikes());
                         intent.putExtra("uid", postmodel.getUid());
                         intent.putExtra("postId", postId);
                         view.getContext().startActivity(intent);

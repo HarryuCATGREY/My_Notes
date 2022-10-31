@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/grey"
-    tools:context=".postDetails">
+    tools:context=".LikedDetails">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="fill_parent"
@@ -14,7 +14,7 @@
 
 
         <Button
-            android:id="@+id/locationpost"
+            android:id="@+id/locationlike"
             android:layout_width="204dp"
             android:layout_height="36dp"
             android:layout_marginTop="116dp"
@@ -33,7 +33,7 @@
             tools:ignore="MissingConstraints" />
 
         <TextView
-            android:id="@+id/postDateTime"
+            android:id="@+id/postDateTimelike"
             android:layout_width="340dp"
             android:layout_height="28dp"
             android:layout_marginTop="72dp"
@@ -47,7 +47,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/backpost"
+            android:id="@+id/backlike"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="20dp"
@@ -66,23 +66,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/locationpost"
+            app:layout_constraintTop_toBottomOf="@+id/locationlike"
             tools:ignore="MissingConstraints">
 
-            <TextView
-                android:id="@+id/numberlikes"
-                android:layout_width="40dp"
-                android:layout_height="95dp"
-                android:layout_marginTop="12dp"
-                android:text="55"
-                android:textSize="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/likenote"
-                app:layout_constraintHorizontal_bias="0.978"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/postexist" />
+<!--            <TextView-->
+<!--                android:id="@+id/numberlikes"-->
+<!--                android:layout_width="40dp"-->
+<!--                android:layout_height="95dp"-->
+<!--                android:layout_marginTop="12dp"-->
+<!--                android:text=""-->
+<!--                android:textSize="16dp"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/likenote"-->
+<!--                app:layout_constraintHorizontal_bias="0.978"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/postexist" />-->
 
             <ImageView
-                android:id="@+id/likenote"
+                android:id="@+id/dislike"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/thumb"
@@ -91,24 +91,24 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.902"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/postexist"
+                app:layout_constraintTop_toBottomOf="@+id/likecontent"
                 app:layout_constraintVertical_bias="0.011" />
 
-            <ImageView
-                android:id="@+id/deletepost"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="268dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/delete"
-                android:backgroundTint="#9E9E9E"
-                app:layout_constraintEnd_toStartOf="@+id/numberlikes"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/likenote" />
+<!--            <ImageView-->
+<!--                android:id="@+id/deletepost"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_marginStart="268dp"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:background="@drawable/delete"-->
+<!--                android:backgroundTint="#9E9E9E"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/numberlikes"-->
+<!--                app:layout_constraintHorizontal_bias="0.0"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/likenote" />-->
 
             <ImageView
-                android:id="@+id/postimage"
+                android:id="@+id/likeimage"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -116,10 +116,10 @@
                 android:contentDescription="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/posttitle" />
+                app:layout_constraintTop_toBottomOf="@id/liketitle" />
 
             <TextView
-                android:id="@+id/posttitle"
+                android:id="@+id/liketitle"
                 android:layout_width="341dp"
                 android:layout_height="36dp"
                 android:layout_marginLeft="20dp"
@@ -144,7 +144,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/postexist"
+                android:id="@+id/likecontent"
                 android:layout_width="338dp"
                 android:layout_height="190dp"
                 android:layout_marginTop="4dp"
@@ -164,7 +164,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/postimage" />
+                app:layout_constraintTop_toBottomOf="@+id/likeimage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

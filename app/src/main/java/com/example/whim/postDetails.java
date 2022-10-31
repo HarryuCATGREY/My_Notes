@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class postDetails extends AppCompatActivity {
 
-    private TextView postTitle, postcontent;
+    private TextView postTitle, postcontent, numberlikes;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     FirebaseFirestore firebaseFirestore;
@@ -45,7 +45,8 @@ public class postDetails extends AppCompatActivity {
     Button postLocationText;
     TextView postTextDateTime;
     ImageView postImage, likenote, deletepost;
-
+    int numuserliked = 0;
+    ArrayList<String> likedUserList = new ArrayList<String>();
 
 
     @Override
@@ -61,6 +62,7 @@ public class postDetails extends AppCompatActivity {
         postImage = findViewById(R.id.postimage);
         postLocationText = findViewById(R.id.locationpost);
         likenote = findViewById(R.id.likenote);
+        numberlikes = findViewById(R.id.numberlikes);
 
         deletepost = findViewById(R.id.deletepost);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -87,6 +89,8 @@ public class postDetails extends AppCompatActivity {
         postcontent.setText(data.getStringExtra("content"));
         postTextDateTime.setText(data.getStringExtra("time"));
         postLocationText.setText(data.getStringExtra("location"));
+        SimpleDateFormat formatterTime = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a");
+
 
         if (data.getStringExtra("image") != null) {
             StorageReference imgReference = storageReference.child("photos/").child(data.getStringExtra("imagename"));
@@ -96,44 +100,95 @@ public class postDetails extends AppCompatActivity {
                     Picasso.get().load(uri).into(postImage);
                 }
             });
-
-            ImageView backpost = findViewById(R.id.backpost);
-            backpost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(postDetails.this, PostActivity.class));
-                    ;
-                }
-            });
         }
 
-        ArrayList<String> likedUserList = new ArrayList<String>();
         DocumentReference likeRef = firebaseFirestore.collection("posts").document(postID);
 
-//        likeRef.get()
-//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        DocumentSnapshot document = task.getResult();
-//                        //Extracting participants ArrayList from the document
-//                        for (Object item : task.getResult().getData().values()) {
-//                            String[] values = String.valueOf(item).replace("[", "").replace("]", "").split(",");
-//                            for (String value : values) {
-//                                likedUserList.add(value);
-//                            }
-//                            //likedUserList.add(String.valueOf(String.valueOf(item).split(",")));
-//
-//                            Log.v("vettore", String.valueOf(likedUserList));
+        likeRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot document = task.getResult();
+                        for (String user : (ArrayList<String>) document.get("likedusers")){
+                            likedUserList.add(user);
+                        }
+                           // Log.v("vettore", String.valueOf(likedUserList));
 //                        }
-//                    }
-//
-//                })
-//
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                    }
-//                });
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+
+        likeRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+
+                numuserliked = document.getLong("numlikes").intValue();
+//                Log.v("Number of liked users", String.valueOf(numuserliked));
+                numberlikes.setText(String.valueOf(numuserliked));
+//                Log.v("in textview", numberlikes.getText().toString());
+
+
+            }
+
+        }) .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+            }
+        });;
+
+        //numberlikes.setText(String.valueOf(numuserliked));
+
+
+        ImageView backpost = findViewById(R.id.backpost);
+        backpost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                DocumentReference likeRef = firebaseFirestore.collection("posts").document(postID);
+                //DocumentReference documentReference = firebaseFirestore.collection("posts").document();
+
+                Map<String, Object> post = new HashMap<>();
+                try {
+                    Date realStamp = formatterTime.parse(timepost);
+                    post.put("timestamp", realStamp);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                //ArrayList<String> likedusers = new ArrayList<String>();
+                post.put("uid", firebaseUser.getUid());
+                post.put("title", titlepost);
+                post.put("content", contentpost);
+                post.put("image", imgpost);
+                post.put("time", timepost);
+                post.put("location", locationpost);
+                post.put("imagename", imageNamepost);
+                post.put("numlikes", numuserliked);
+                post.put("likedusers", likedUserList);
+
+                likeRef.set(post).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+//                        Toast.makeText(getApplicationContext(), "You liked this whim :)", Toast.LENGTH_SHORT).show();
+                        //startActivity(new Intent(postDetails.this, postDetails.this));
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(getApplicationContext(), "Failed to like whim, please try again later :(", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                startActivity(new Intent(postDetails.this, PostActivity.class));
+                ;
+            }
+        });
 
 
         deletepost.setOnClickListener(new View.OnClickListener() {
@@ -155,49 +210,29 @@ public class postDetails extends AppCompatActivity {
             }
         });
 
-
-        SimpleDateFormat formatterTime = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a");
-
         likenote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Log.d.;
-                DocumentReference likeRef = firebaseFirestore.collection("posts").document(postID);
-                //DocumentReference documentReference = firebaseFirestore.collection("posts").document();
 
+                if(likedUserList.contains(firebaseUser.getUid())){
+                    likedUserList.remove(firebaseUser.getUid());
+                    numuserliked -= 1;
+                    numberlikes.setText(String.valueOf(numuserliked));
 
-                Map<String, Object> post = new HashMap<>();
-                try {
-                    Date realStamp = formatterTime.parse(timepost);
-                    post.put("timestamp", realStamp);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+//                    Log.v("current liked users", String.valueOf(likedUserList));
+//                    Log.v("current likes", String.valueOf(numuserliked));
+                    Toast.makeText(getApplicationContext(), "You removed your like to this whim :)", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    likedUserList.add(firebaseUser.getUid());
+                    numuserliked += 1;
+                    numberlikes.setText(String.valueOf(numuserliked));
+                    //numberlikes.setText(String.valueOf(numuserliked));
+//                    Log.v("current liked users", String.valueOf(likedUserList));
+//                    Log.v("current likes", String.valueOf(numuserliked));
+                    Toast.makeText(getApplicationContext(), "You liked this whim :)", Toast.LENGTH_SHORT).show();
+
                 }
-
-                //ArrayList<String> likedusers = new ArrayList<String>();
-                post.put("uid", firebaseUser.getUid());
-                post.put("title", titlepost);
-                post.put("content", contentpost);
-                post.put("image", imgpost);
-                post.put("time", timepost);
-                post.put("location", locationpost);
-                post.put("imagename", imageNamepost);
-                //post.put("numlikes", numberlikes + 1);
-                //post.put("likedusers", likedusers);
-
-                likeRef.set(post).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(getApplicationContext(), "You liked this whim :)", Toast.LENGTH_SHORT).show();
-                        //startActivity(new Intent(postDetails.this, postDetails.this));
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Failed to like whim, please try again later :(", Toast.LENGTH_SHORT).show();
-                    }
-                });
 
             }
         });
