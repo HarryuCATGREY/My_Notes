@@ -2,6 +2,7 @@ package com.example.whim;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,12 +13,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -42,6 +45,8 @@ public class LikedDetails extends AppCompatActivity {
     TextView postTextDateTime;
     ImageView postImage, dislikenote, deletepost, backbutton;
 
+    SearchView likeSearch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +62,15 @@ public class LikedDetails extends AppCompatActivity {
         postLocationText = findViewById(R.id.locationlike);
         dislikenote = findViewById(R.id.dislike);
         backbutton = findViewById(R.id.backlike);
-        //numberlikes = findViewById(R.id.numberlikes);
+        likeSearch = findViewById(R.id.search_post);
 
+        //numberlikes = findViewById(R.id.numberlikes);
        // deletepost = findViewById(R.id.deletepost);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
+
 
         Intent data = getIntent();
 
@@ -148,10 +155,43 @@ public class LikedDetails extends AppCompatActivity {
 
         });
 
+        likeSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //String currText;
+            @Override
+            public boolean onQueryTextSubmit(String newText) {
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+//                search(newText);
+                return false;
+            }
+
+        });
+
 
     }
 
     public void onBackPressed() {
         startActivity(new Intent(LikedDetails.this, WhatYouLikedActivity.class));
     }
+
+//    private void search(String newText)
+//    {
+//        postquery = firebaseFirestore.collection("posts")
+//                .orderBy("title", Query.Direction.ASCENDING)
+//                .startAt(newText);
+//
+//        allposts = new FirestoreRecyclerOptions.Builder<postmodel>()
+//                .setQuery(postquery, postmodel.class)
+//                .build();
+//
+//        postAdapter.notifyDataSetChanged();
+//        postAdapter.updateOptions(allposts);
+//        postrecyclerview.setLayoutManager(staggeredGridLayoutManager);
+//        postrecyclerview.setAdapter(postAdapter);
+//    }
 }
