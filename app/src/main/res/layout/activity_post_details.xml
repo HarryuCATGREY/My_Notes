@@ -22,6 +22,7 @@
             android:drawableLeft="@drawable/ic_loc"
             app:backgroundTint="@null"
             android:gravity="center"
+            app:backgroundTint="@null"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="I am at..."

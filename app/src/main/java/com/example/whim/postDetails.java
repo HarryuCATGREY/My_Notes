@@ -108,32 +108,32 @@ public class postDetails extends AppCompatActivity {
         }
 
         ArrayList<String> likedUserList = new ArrayList<String>();
-        DocumentReference likeRef = firebaseFirestore.collection("posts").document(data.getStringExtra(postID));
+        DocumentReference likeRef = firebaseFirestore.collection("posts").document(postID);
 
-        likeRef.get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        DocumentSnapshot document = task.getResult();
-                        //Extracting participants ArrayList from the document
-                        for (Object item : task.getResult().getData().values()) {
-                            String[] values = String.valueOf(item).replace("[", "").replace("]", "").split(",");
-                            for (String value : values) {
-                                likedUserList.add(value);
-                            }
-                            //likedUserList.add(String.valueOf(String.valueOf(item).split(",")));
-
-                            Log.v("vettore", String.valueOf(likedUserList));
-                        }
-                    }
-
-                })
-
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
+//        likeRef.get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        DocumentSnapshot document = task.getResult();
+//                        //Extracting participants ArrayList from the document
+//                        for (Object item : task.getResult().getData().values()) {
+//                            String[] values = String.valueOf(item).replace("[", "").replace("]", "").split(",");
+//                            for (String value : values) {
+//                                likedUserList.add(value);
+//                            }
+//                            //likedUserList.add(String.valueOf(String.valueOf(item).split(",")));
+//
+//                            Log.v("vettore", String.valueOf(likedUserList));
+//                        }
+//                    }
+//
+//                })
+//
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                    }
+//                });
 
 
         deletepost.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +161,7 @@ public class postDetails extends AppCompatActivity {
         likenote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+//                Log.d.;
                 DocumentReference likeRef = firebaseFirestore.collection("posts").document(postID);
                 //DocumentReference documentReference = firebaseFirestore.collection("posts").document();
 

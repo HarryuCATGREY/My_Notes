@@ -125,10 +125,6 @@ public class PostActivity extends AppCompatActivity {
                         }
                     });
                 }
-
-//                int colorcode = getRandomColor();
-//                postViewHolder.mpost.setBackgroundColor(postViewHolder.itemView.getResources().getColor(colorcode, null));
-
                 String postId = postAdapter.getSnapshots().getSnapshot(i).getId();
                 postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
