@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -66,12 +67,14 @@ public class ProfileActivity extends AppCompatActivity {
     ImageButton home;
     ImageButton profile;
     ImageButton community;
+    ImageButton logOut;
 
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     private static final int GALLERY_PERM_CODE = 1;
     public static final int GALLERY_REQUEST_CODE = 105;
     public static final int LOCATION_REQUEST_CODE = 100;
+    private static final String SHARED_PREFS = "sharedPrefs";
 
     private String imageUri;
     private String imageName;
@@ -96,8 +99,23 @@ public class ProfileActivity extends AppCompatActivity {
         home = findViewById(R.id.home);
         like = findViewById(R.id.like);
         profile = findViewById(R.id.profile);
+        logOut = findViewById(R.id.logOut);
 
         Intent data = getIntent();
+
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("name","");
+                editor.apply();
+
+                startActivity(new Intent(getApplicationContext(), ExistLoginActivity.class));
+                finish();
+            }
+        });
+
 
         community.setOnClickListener(new View.OnClickListener() {
             @Override
