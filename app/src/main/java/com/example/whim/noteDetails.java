@@ -119,7 +119,7 @@ public class noteDetails extends AppCompatActivity {
                 post.put("time",postTime);
                 post.put("location", postLocation);
                 post.put("imagename", postImgName);
-                post.put("numlikes", 0);
+                post.put("numlikes", "0");
                 post.put("likedusers", likedusers);
 
                 documentReference.set(post).addOnSuccessListener(new OnSuccessListener<Void>() {
