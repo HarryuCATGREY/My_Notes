@@ -107,9 +107,9 @@ public class postDetails extends AppCompatActivity {
             });
         }
 
-//        ArrayList<String> likedUserList = new ArrayList<String>();
-//        DocumentReference likeRef = firebaseFirestore.collection("posts").document(data.getStringExtra("postId"));
-//
+        ArrayList<String> likedUserList = new ArrayList<String>();
+        DocumentReference likeRef = firebaseFirestore.collection("posts").document(postID);
+
 //        likeRef.get()
 //                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 //                    @Override
@@ -161,7 +161,7 @@ public class postDetails extends AppCompatActivity {
         likenote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+//                Log.d.;
                 DocumentReference likeRef = firebaseFirestore.collection("posts").document(postID);
                 //DocumentReference documentReference = firebaseFirestore.collection("posts").document();
 
