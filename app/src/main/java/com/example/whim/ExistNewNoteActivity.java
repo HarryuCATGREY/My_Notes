@@ -374,6 +374,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri contentUri = Uri.fromFile(f);
+
                 // 能不能吧image的uri存成string再之后转换
                 imageUri = Uri.fromFile(f).toString();
                 imageName = f.getName();

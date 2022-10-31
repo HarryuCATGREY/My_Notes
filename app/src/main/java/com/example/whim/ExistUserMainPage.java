@@ -1,6 +1,7 @@
 package com.example.whim;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import java.util.Calendar;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -35,14 +37,18 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     //RecyclerView recyclerView_exist;
@@ -71,6 +77,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     FirebaseFirestore firebaseFirestore;
 
     FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder> noteAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,9 +132,20 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             }
         });
 
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ExistUserMainPage.this, ProfileActivity.class));
+            }
+        });
+
+
+
 
         //Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
         Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("timestamp", Query.Direction.DESCENDING);
+//        Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
+
 
         FirestoreRecyclerOptions<firebasemodel> allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query, firebasemodel.class).build();
 
@@ -156,6 +174,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
 
                         view.getContext().startActivity(intent);
                     }
+
                 });
             }
             @NonNull
@@ -163,6 +182,13 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exist_notes_list,parent, false);
                 return new NoteViewHolder(view);
+            }
+
+            @Override
+            public void onDataChanged() {
+                super.onDataChanged();
+
+
             }
         };
 
@@ -176,13 +202,17 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             //String currText;
             @Override
             public boolean onQueryTextSubmit(String newText) {
+
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
+                search(newText);
                 return false;
             }
+
         });
     }
 
@@ -264,18 +294,34 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         mActionBar.setDisplayShowTitleEnabled(true);
     }
 
-    // Goto Personal Information
-    public void goToPersonalInformation(View view) {
-        // Personal information
-        Intent myIntent = new Intent(ExistUserMainPage.this, UserPersonalInformation.class);
-        //myIntent.putExtra("key", 1); //Optional parameters
-        ExistUserMainPage.this.startActivity(myIntent);
+//    // Goto Personal Information
+//    public void goToPersonalInformation(View view) {
+//        // Personal information
+//        Intent myIntent = new Intent(ExistUserMainPage.this, UserPersonalInformation.class);
+//        //myIntent.putExtra("key", 1); //Optional parameters
+//        ExistUserMainPage.this.startActivity(myIntent);
+//
+//        Button buttonMe = (Button) findViewById(R.id.buttonMe);
+//        buttonMe.setOnClickListener(view1 -> {
+//            Intent intent = new Intent(view1.getContext(), UserPersonalInformation.class);
+//            view1.getContext().startActivity(intent);});
+//    }
 
-        Button buttonMe = (Button) findViewById(R.id.buttonMe);
-        buttonMe.setOnClickListener(view1 -> {
-            Intent intent = new Intent(view1.getContext(), UserPersonalInformation.class);
-            view1.getContext().startActivity(intent);});
+    private void search(String query)
+    {
+            Query searchQuery = firebaseFirestore.collection("notes")
+                    .document(firebaseUser.getUid())
+                    .collection("myNotes")
+                    .orderBy("title", Query.Direction.ASCENDING)
+                    .startAt(query.toLowerCase(Locale.ROOT));
+
+            FirestoreRecyclerOptions<firebasemodel> searchNotes = new FirestoreRecyclerOptions.Builder<firebasemodel>()
+                    .setQuery(searchQuery, firebasemodel.class)
+                    .build();
+
+            noteAdapter.updateOptions(searchNotes);
     }
+
 
 }
 

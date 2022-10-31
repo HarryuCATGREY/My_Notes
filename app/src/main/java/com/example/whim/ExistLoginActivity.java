@@ -1,6 +1,7 @@
 package com.example.whim;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
@@ -32,7 +33,10 @@ public class ExistLoginActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
+    private static final String SHARED_PREFS = "sharedPrefs";
+
     ProgressBar mprogressbarforlogin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class ExistLoginActivity extends AppCompatActivity {
 //        final Drawable edit_ic = getResources().getDrawable(R.drawable.edit);
 
 
+        checkBox();
         new DrawableUtil(loginpwd, new DrawableUtil.OnDrawableListener() {
             @Override
             public void onLeft(View v, Drawable left) {
@@ -135,9 +140,26 @@ public class ExistLoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void checkBox() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String check = sharedPreferences.getString("name","");
+        if (check.equals("true")) {
+            Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(new Intent(ExistLoginActivity.this, ExistUserMainPage.class));
+            finish();
+        }
+    }
+
     private void checkEmailVerification(){
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(firebaseUser.isEmailVerified()==true){
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("name","true");
+            editor.apply();
+
             Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
             finish();
             startActivity(new Intent(ExistLoginActivity.this, ExistUserMainPage.class));
