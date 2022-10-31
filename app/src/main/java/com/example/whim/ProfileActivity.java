@@ -2,7 +2,9 @@ package com.example.whim;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Html;
+import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -64,6 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
     ImageButton editProfile;
     ImageView profilePic;
     ImageView postImage;
+    ImageButton editbtn;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -73,7 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
     ImageButton home;
     ImageButton profile;
     ImageButton community;
-    ImageButton logOut;
+    Button logOut;
     ArrayList<String> idlist = new ArrayList<String>();
     ArrayList<String> thisid = new ArrayList<String>();
 
@@ -98,6 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
         editProfile = findViewById(R.id.changeprofile);
         profilePic = findViewById(R.id.profilepic);
         nameText = findViewById(R.id.textName);
+        editbtn = findViewById(R.id.edit);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -137,6 +142,60 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, ExistUserMainPage.class));
+            }
+        });
+
+
+        editbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+
+                builder.setCancelable(true);
+                builder.setTitle("Edit Profile Name");
+                builder.setMessage("Please input your new profile name");
+
+                final EditText input = new EditText(ProfileActivity.this);
+
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+                builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        nameText.setText(input.getText().toString());
+                        editUpload();
+
+
+
+
+
+//                        DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document(data.getStringExtra("noteId"));
+//                        documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void unused) {
+//                                Toast.makeText(view.getContext(), "Your whim is deleted.", Toast.LENGTH_SHORT).show();
+//                                startActivity(new Intent(noteDetails.this, ExistUserMainPage.class));
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(view.getContext(), "Your whim failed to be deleted.", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+                    }
+                });
+                builder.show();
+
             }
         });
 
@@ -367,6 +426,10 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Upload Failed :( ", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void onBackPressed() {
+
     }
 
 }
