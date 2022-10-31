@@ -242,6 +242,40 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         mActionBar.setDisplayShowTitleEnabled(true);
     }
 
+<<<<<<< Updated upstream
+=======
+//    // Goto Personal Information
+//    public void goToPersonalInformation(View view) {
+//        // Personal information
+//        Intent myIntent = new Intent(ExistUserMainPage.this, UserPersonalInformation.class);
+//        //myIntent.putExtra("key", 1); //Optional parameters
+//        ExistUserMainPage.this.startActivity(myIntent);
+//
+//        Button buttonMe = (Button) findViewById(R.id.buttonMe);
+//        buttonMe.setOnClickListener(view1 -> {
+//            Intent intent = new Intent(view1.getContext(), UserPersonalInformation.class);
+//            view1.getContext().startActivity(intent);});
+//    }
+
+    private void search(String newText)
+    {
+            query = firebaseFirestore.collection("notes")
+                    .document(firebaseUser.getUid())
+                    .collection("myNotes")
+                    .orderBy("title", Query.Direction.ASCENDING)
+                    .startAt(newText);
+
+            allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>()
+                    .setQuery(query, firebasemodel.class)
+                    .build();
+
+            noteAdapter.updateOptions(allusernotes);
+            mrecyclerview.setLayoutManager(staggeredGridLayoutManager);
+            mrecyclerview.setAdapter(noteAdapter);
+
+    }
+
+>>>>>>> Stashed changes
 
 }
 
