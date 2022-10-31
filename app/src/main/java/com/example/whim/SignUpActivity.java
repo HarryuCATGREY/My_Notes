@@ -69,14 +69,14 @@ public class SignUpActivity extends AppCompatActivity {
             public void onRight(View v, Drawable right) {
                 isHideFirst = !isHideFirst;
                 if (isHideFirst) {
-                    signupwd.setCompoundDrawablesWithIntrinsicBounds(edit_ic,
+                    signupwd.setCompoundDrawablesWithIntrinsicBounds(null,
                             null,
                             drawableEyeCLose, null);
 
                     signupwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
                 } else {
-                    signupwd.setCompoundDrawablesWithIntrinsicBounds(edit_ic, null,
+                    signupwd.setCompoundDrawablesWithIntrinsicBounds(null, null,
                             drawableEyeOpen,
                             null);
                     signupwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
@@ -95,14 +95,14 @@ public class SignUpActivity extends AppCompatActivity {
             public void onRight(View v, Drawable right) {
                 isHideFirst = !isHideFirst;
                 if (isHideFirst) {
-                    pwdConfirm.setCompoundDrawablesWithIntrinsicBounds(edit_ic,
+                    pwdConfirm.setCompoundDrawablesWithIntrinsicBounds(null,
                             null,
                             drawableEyeCLose, null);
 
                     pwdConfirm.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
                 } else {
-                    pwdConfirm.setCompoundDrawablesWithIntrinsicBounds(edit_ic, null,
+                    pwdConfirm.setCompoundDrawablesWithIntrinsicBounds(null, null,
                             drawableEyeOpen,
                             null);
                     pwdConfirm.setTransformationMethod(HideReturnsTransformationMethod.getInstance());

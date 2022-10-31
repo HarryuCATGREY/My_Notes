@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     FloatingActionButton fab_add;
     SearchView searchView_home;
     Notes selectedNote;
-    ImageButton community, profile;
+    ImageButton like, community, profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         searchView_home = findViewById(R.id.searchView_home);
         community = findViewById(R.id.community);
         profile = findViewById(R.id.buttonMe);
+        like = findViewById(R.id.like);
 
         // setting database
         database = RoomDB.getInstance(this);
@@ -103,6 +104,13 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         });
 
         profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reminder();
+            }
+        });
+
+        like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 reminder();
