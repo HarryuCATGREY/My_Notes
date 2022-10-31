@@ -107,33 +107,33 @@ public class postDetails extends AppCompatActivity {
             });
         }
 
-        ArrayList<String> likedUserList = new ArrayList<String>();
-        DocumentReference likeRef = firebaseFirestore.collection("posts").document(data.getStringExtra(postID));
-
-        likeRef.get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        DocumentSnapshot document = task.getResult();
-                        //Extracting participants ArrayList from the document
-                        for (Object item : task.getResult().getData().values()) {
-                            String[] values = String.valueOf(item).replace("[", "").replace("]", "").split(",");
-                            for (String value : values) {
-                                likedUserList.add(value);
-                            }
-                            //likedUserList.add(String.valueOf(String.valueOf(item).split(",")));
-
-                            Log.v("vettore", String.valueOf(likedUserList));
-                        }
-                    }
-
-                })
-
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
+//        ArrayList<String> likedUserList = new ArrayList<String>();
+//        DocumentReference likeRef = firebaseFirestore.collection("posts").document(data.getStringExtra("postId"));
+//
+//        likeRef.get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        DocumentSnapshot document = task.getResult();
+//                        //Extracting participants ArrayList from the document
+//                        for (Object item : task.getResult().getData().values()) {
+//                            String[] values = String.valueOf(item).replace("[", "").replace("]", "").split(",");
+//                            for (String value : values) {
+//                                likedUserList.add(value);
+//                            }
+//                            //likedUserList.add(String.valueOf(String.valueOf(item).split(",")));
+//
+//                            Log.v("vettore", String.valueOf(likedUserList));
+//                        }
+//                    }
+//
+//                })
+//
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                    }
+//                });
 
 
         deletepost.setOnClickListener(new View.OnClickListener() {

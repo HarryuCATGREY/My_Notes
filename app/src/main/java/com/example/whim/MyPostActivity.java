@@ -113,5 +113,21 @@ public class MyPostActivity extends AppCompatActivity {
                 });
             }
         });
+
+        ImageView imageBacknote = findViewById(R.id.backpost);
+        imageBacknote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+                //startActivity(new Intent(noteDetails.this, ExistUserMainPage.class));;
+            }
+        });
     }
+
+    public void onBackPressed() {
+        startActivity(new Intent(MyPostActivity.this, ProfileActivity.class));
+    }
+
+
+
 }
