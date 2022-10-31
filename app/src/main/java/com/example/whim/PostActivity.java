@@ -56,7 +56,12 @@ public class PostActivity extends AppCompatActivity {
     ImageButton profile;
     ImageButton community;
 
+    SearchView searchPost;
+
     FirestoreRecyclerAdapter<postmodel, PostViewHolder> postAdapter;
+
+    Query postquery;
+    FirestoreRecyclerOptions<postmodel> allposts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +78,7 @@ public class PostActivity extends AppCompatActivity {
         posttodayDate = findViewById(R.id.todaypostDate);
         storageReference = FirebaseStorage.getInstance().getReference();
 
+        searchPost = findViewById(R.id.search_post);
         community = findViewById(R.id.community);
         home = findViewById(R.id.home);
         like = findViewById(R.id.like);
@@ -104,9 +110,9 @@ public class PostActivity extends AppCompatActivity {
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
         );
 
-        Query postquery = firebaseFirestore.collection("posts").orderBy("timestamp", Query.Direction.DESCENDING);
+        postquery = firebaseFirestore.collection("posts").orderBy("timestamp", Query.Direction.DESCENDING);
 
-        FirestoreRecyclerOptions<postmodel> allposts = new FirestoreRecyclerOptions.Builder<postmodel>().setQuery(postquery, postmodel.class).build();
+        allposts = new FirestoreRecyclerOptions.Builder<postmodel>().setQuery(postquery, postmodel.class).build();
 
         postAdapter = new FirestoreRecyclerAdapter<postmodel, PostViewHolder>(allposts){
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -158,6 +164,24 @@ public class PostActivity extends AppCompatActivity {
         postrecyclerview.setLayoutManager(staggeredGridLayoutManager);
         postrecyclerview.setAdapter(postAdapter);
         postAdapter.notifyDataSetChanged();
+
+        searchPost.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //String currText;
+            @Override
+            public boolean onQueryTextSubmit(String newText) {
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                search(newText);
+                return false;
+            }
+
+        });
+
 
     }
 
@@ -218,6 +242,23 @@ public class PostActivity extends AppCompatActivity {
     private String getColoredSpanned(String text, String color) {
         String input = "<font color=" + color + ">" + text + "</font>";
         return input;
+    }
+
+    private void search(String newText)
+    {
+        postquery = firebaseFirestore.collection("posts")
+                .orderBy("title", Query.Direction.ASCENDING)
+                .startAt(newText.toLowerCase(Locale.ROOT));
+
+        allposts = new FirestoreRecyclerOptions.Builder<postmodel>()
+                .setQuery(postquery, postmodel.class)
+                .build();
+
+        postAdapter.updateOptions(allposts);
+        postrecyclerview.setLayoutManager(staggeredGridLayoutManager);
+        postrecyclerview.setAdapter(postAdapter);
+        postAdapter.notifyDataSetChanged();
+
     }
 
 }
