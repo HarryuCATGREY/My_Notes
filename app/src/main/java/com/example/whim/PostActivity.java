@@ -24,10 +24,20 @@ import android.widget.TextView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -36,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Random;
 
@@ -197,8 +208,6 @@ public class PostActivity extends AppCompatActivity {
 
     }
 
-
-
     public class PostViewHolder extends RecyclerView.ViewHolder{
 
         private TextView posttitle;
@@ -256,17 +265,16 @@ public class PostActivity extends AppCompatActivity {
     {
         postquery = firebaseFirestore.collection("posts")
                 .orderBy("title", Query.Direction.ASCENDING)
-                .startAt(newText.toLowerCase(Locale.ROOT));
+                .startAt(newText);
 
         allposts = new FirestoreRecyclerOptions.Builder<postmodel>()
                 .setQuery(postquery, postmodel.class)
                 .build();
 
+        postAdapter.notifyDataSetChanged();
         postAdapter.updateOptions(allposts);
         postrecyclerview.setLayoutManager(staggeredGridLayoutManager);
         postrecyclerview.setAdapter(postAdapter);
-        postAdapter.notifyDataSetChanged();
-
     }
 
 }

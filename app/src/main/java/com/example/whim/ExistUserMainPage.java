@@ -322,7 +322,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
                     .document(firebaseUser.getUid())
                     .collection("myNotes")
                     .orderBy("title", Query.Direction.ASCENDING)
-                    .startAt(newText.toLowerCase(Locale.ROOT));
+                    .startAt(newText);
 
             allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>()
                     .setQuery(query, firebasemodel.class)
@@ -333,7 +333,5 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             mrecyclerview.setAdapter(noteAdapter);
 
     }
-
-
 }
 
