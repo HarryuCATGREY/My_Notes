@@ -64,6 +64,8 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     ImageButton home;
     ImageButton profile;
     ImageButton community;
+    Query query;
+    FirestoreRecyclerOptions<firebasemodel> allusernotes;
 
     public static String enteredkeyword;
 
@@ -143,11 +145,11 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
 
 
         //Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
-        Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("timestamp", Query.Direction.DESCENDING);
+        query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("timestamp", Query.Direction.DESCENDING);
 //        Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
 
 
-        FirestoreRecyclerOptions<firebasemodel> allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query, firebasemodel.class).build();
+        allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query, firebasemodel.class).build();
 
         noteAdapter = new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(allusernotes){
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -307,19 +309,22 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
 //            view1.getContext().startActivity(intent);});
 //    }
 
-    private void search(String query)
+    private void search(String newText)
     {
-            Query searchQuery = firebaseFirestore.collection("notes")
+            query = firebaseFirestore.collection("notes")
                     .document(firebaseUser.getUid())
                     .collection("myNotes")
                     .orderBy("title", Query.Direction.ASCENDING)
-                    .startAt(query.toLowerCase(Locale.ROOT));
+                    .startAt(newText.toLowerCase(Locale.ROOT));
 
-            FirestoreRecyclerOptions<firebasemodel> searchNotes = new FirestoreRecyclerOptions.Builder<firebasemodel>()
-                    .setQuery(searchQuery, firebasemodel.class)
+            allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>()
+                    .setQuery(query, firebasemodel.class)
                     .build();
 
-            noteAdapter.updateOptions(searchNotes);
+            noteAdapter.updateOptions(allusernotes);
+            mrecyclerview.setLayoutManager(staggeredGridLayoutManager);
+            mrecyclerview.setAdapter(noteAdapter);
+
     }
 
 
