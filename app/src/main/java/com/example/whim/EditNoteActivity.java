@@ -606,7 +606,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                         clipboard.setPrimaryClip(clip);
 
                         if(recog_text == null){
-                            Toast.makeText(getApplicationContext(), "no text detected", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), "no text detected", Toast.LENGTH_SHORT).show();
                         }else{
                             Toast.makeText(getApplicationContext(), "Content copied to clipboard", Toast.LENGTH_SHORT).show();
                         }
