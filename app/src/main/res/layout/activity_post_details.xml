@@ -74,7 +74,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:gravity="center"
-                android:text="55"
+                android:text="5"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/likenote"
                 app:layout_constraintEnd_toStartOf="@+id/likenote"
@@ -93,19 +93,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/postexist"
                 app:layout_constraintVertical_bias="0.011" />
-
-            <ImageView
-                android:id="@+id/deletepost"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="268dp"
-                android:background="@drawable/delete"
-                android:backgroundTint="#bfbfbf"
-                app:layout_constraintBottom_toBottomOf="@+id/likenote"
-                app:layout_constraintEnd_toStartOf="@+id/numberlikes"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/likenote" />
 
             <ImageView
                 android:id="@+id/postimage"

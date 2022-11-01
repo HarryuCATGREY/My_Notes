@@ -201,4 +201,8 @@ public class WhatYouLikedActivity extends AppCompatActivity {
         String input = "<font color=" + color + ">" + text + "</font>";
         return input;
     }
+
+    public void onBackPressed() {
+
+    }
 }

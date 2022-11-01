@@ -85,7 +85,7 @@
                 android:id="@+id/dislike"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/thumb"
+                android:background="@drawable/dislike"
                 android:backgroundTint="#9E9E9E"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

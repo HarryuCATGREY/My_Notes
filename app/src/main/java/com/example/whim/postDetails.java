@@ -44,7 +44,7 @@ public class postDetails extends AppCompatActivity {
     String postImgUri, postImgName;
     Button postLocationText;
     TextView postTextDateTime;
-    ImageView postImage, likenote, deletepost;
+    ImageView postImage, likenote;
     int numuserliked = 0;
     ArrayList<String> likedUserList = new ArrayList<String>();
 
@@ -64,7 +64,6 @@ public class postDetails extends AppCompatActivity {
         likenote = findViewById(R.id.likenote);
         numberlikes = findViewById(R.id.numberlikes);
 
-        deletepost = findViewById(R.id.deletepost);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -80,6 +79,7 @@ public class postDetails extends AppCompatActivity {
         String imgpost = data.getStringExtra("image");
         String imageNamepost = data.getStringExtra("imagename");
         String postID = data.getStringExtra("postId");
+        String uID = data.getStringExtra("uid");
 
         // String numlikes = data.getStringExtra("numlikes");
 
@@ -162,7 +162,7 @@ public class postDetails extends AppCompatActivity {
                 }
 
                 //ArrayList<String> likedusers = new ArrayList<String>();
-                post.put("uid", firebaseUser.getUid());
+                post.put("uid", uID);
                 post.put("title", titlepost);
                 post.put("content", contentpost);
                 post.put("image", imgpost);
@@ -186,29 +186,28 @@ public class postDetails extends AppCompatActivity {
                     }
                 });
                 startActivity(new Intent(postDetails.this, PostActivity.class));
-                ;
             }
         });
 
 
-        deletepost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DocumentReference documentReference = firebaseFirestore.collection("posts").document(data.getStringExtra("postId"));
-                documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(view.getContext(), "Your post is deleted.", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(postDetails.this, PostActivity.class));
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(view.getContext(), "Your post failed to be deleted.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+//        deletepost.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                DocumentReference documentReference = firebaseFirestore.collection("posts").document(data.getStringExtra("postId"));
+//                documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        Toast.makeText(view.getContext(), "Your post is deleted.", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(postDetails.this, PostActivity.class));
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(view.getContext(), "Your post failed to be deleted.", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//        });
 
         likenote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,8 +235,9 @@ public class postDetails extends AppCompatActivity {
 
             }
         });
-
-
     }
 
+    public void onBackPressed() {
+
     }
+}

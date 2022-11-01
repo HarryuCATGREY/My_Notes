@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="../../../layout/custom_preview.xml" value="0.1145083932853717" />
+        <entry key="app/src/main/res/drawable/dislike.xml" value="0.191" />
         <entry key="app/src/main/res/drawable/edit.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.116" />
@@ -15,18 +17,18 @@
         <entry key="app/src/main/res/layout/activity_exist_login.xml" value="0.21655629475911461" />
         <entry key="app/src/main/res/layout/activity_exist_new_note.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_exist_note.xml" value="0.22135416666666666" />
-        <entry key="app/src/main/res/layout/activity_exist_user_main_page.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_exist_user_main_page.xml" value="0.28940483415630497" />
         <entry key="app/src/main/res/layout/activity_forget_password.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/activity_guest_personal_information.xml" value="0.13269927536231885" />
-        <entry key="app/src/main/res/layout/activity_liked_details.xml" value="0.18645833333333334" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_liked_details.xml" value="0.3104966005207273" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.40474243164062507" />
         <entry key="app/src/main/res/layout/activity_my_post.xml" value="0.3813679394057608" />
         <entry key="app/src/main/res/layout/activity_note_details.xml" value="0.5160268471118582" />
         <entry key="app/src/main/res/layout/activity_note_exist.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/activity_notes_taker.xml" value="0.37682952880859377" />
         <entry key="app/src/main/res/layout/activity_password_forget.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_post.xml" value="0.2418478260869565" />
-        <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.3529209021366003" />
+        <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.3131578947368421" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/activity_user_personal_information.xml" value="0.13269927536231885" />
         <entry key="app/src/main/res/layout/activity_what_you_liked.xml" value="0.18645833333333334" />
@@ -44,7 +46,7 @@
         <entry key="app/src/main/res/layout/paint_pressed.xml" value="0.2921875" />
         <entry key="app/src/main/res/layout/popup_window.xml" value="0.38303985595703127" />
         <entry key="app/src/main/res/layout/post_notes_list_pic.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/profile.xml" value="0.18385416666666668" />
+        <entry key="app/src/main/res/layout/profile.xml" value="0.32852121988932287" />
         <entry key="app/src/main/res/layout/search_shape_layout.xml" value="0.1" />
         <entry key="app/src/main/res/layout/searchbar_layout.xml" value="0.265301513671875" />
         <entry key="app/src/main/res/layout/shape_search.xml" value="0.15389294403892945" />
