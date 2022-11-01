@@ -310,6 +310,7 @@ public class ProfileActivity extends AppCompatActivity {
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mypostrecyclerview.setLayoutManager(staggeredGridLayoutManager);
         mypostrecyclerview.setAdapter(mypostAdapter);
+//        mypostrecyclerview.getRecycledViewPool().clear();
         mypostAdapter.notifyDataSetChanged();
     }
 
@@ -378,6 +379,8 @@ public class ProfileActivity extends AppCompatActivity {
                     });
 
                 }
+//                mypostrecyclerview.getRecycledViewPool().clear();
+                mypostAdapter.notifyDataSetChanged();
             }
         });
 
@@ -422,6 +425,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                 uploadImageToFirebase(imageFileName, contentUri);
                 editUpload();
+                mypostAdapter.notifyDataSetChanged();
             }
         }
     }
