@@ -592,8 +592,6 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                                     = MediaStore.Images.Media.getBitmap(
                                     this.getContentResolver(),
                                     selectedImageUri);
-
-
                         }
                         catch (IOException e) {
                             e.printStackTrace();
@@ -607,9 +605,13 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                         ClipData clip = ClipData.newPlainText("Recognization", recog_text);
                         clipboard.setPrimaryClip(clip);
 
-                        editContent.setText(editContent.getText()+recog_text);
+                        if(recog_text == null){
+                            Toast.makeText(getApplicationContext(), "no text detected", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Content copied to clipboard", Toast.LENGTH_SHORT).show();
+                        }
 
-
+                        //editContent.setText(editContent.getText()+recog_text);
                     }
                 }
             });
