@@ -98,7 +98,7 @@ public class WhatYouLikedActivity extends AppCompatActivity {
         String h = getColoredSpanned("h", "#67B1F9");
         String i = getColoredSpanned("i","#6E80FA");
         String dot = getColoredSpanned(".","#FFCA3A");
-        login_title.setText(Html.fromHtml("W"+h+i+"m"+dot));
+        login_title.setText(Html.fromHtml("My Favorite W"+h+i+"m"+dot));
 
 
         posttodayDate.setText(

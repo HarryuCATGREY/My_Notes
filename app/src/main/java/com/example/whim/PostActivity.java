@@ -113,7 +113,7 @@ public class PostActivity extends AppCompatActivity {
         String h = getColoredSpanned("h", "#67B1F9");
         String i = getColoredSpanned("i","#6E80FA");
         String dot = getColoredSpanned(".","#FFCA3A");
-        login_title.setText(Html.fromHtml("W"+h+i+"m"+dot));
+        login_title.setText(Html.fromHtml("Community W"+h+i+"m"+dot));
 
 
         posttodayDate.setText(
