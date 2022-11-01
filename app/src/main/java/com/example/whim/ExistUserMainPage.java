@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -46,7 +47,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     //RecyclerView recyclerView_exist;
     NoteListAdapter noteListAdapterExist;
     List<Notes> notes = new ArrayList<>();
-    FloatingActionButton fab_add_exist;
+    Button fab_add_exist;
     SearchView search_home_exist;
     Notes selectedNote;
     String currSearch;

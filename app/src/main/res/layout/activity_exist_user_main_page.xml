@@ -129,7 +129,6 @@
         android:layout_alignParentBottom="true"
         android:background="@color/white">
 
-
         <ImageButton
             android:id="@+id/community"
             android:layout_width="30dp"
@@ -183,19 +182,17 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/fab_add_exist"
-
-        android:layout_width="171dp"
+        android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="176dp"
-        android:layout_marginEnd="179dp"
-        android:layout_marginBottom="105dp"
-        android:src="@drawable/plus"
-        app:backgroundTint="#6E80FA"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="110dp"
+        android:background="@drawable/plus"
+        android:text="+"
+        android:textSize="30dp"
+        app:backgroundTint="#49B3FF"
         app:tint="@android:color/white" />
 
 
