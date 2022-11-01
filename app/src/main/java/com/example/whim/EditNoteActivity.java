@@ -116,6 +116,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
     Bitmap picture_recog;  // Image for recog
     EditText vedt=null,edPop; // output text window
     Button btOk=null;
+    Button cancelbtn=null;
     String recog_text;  // output string
     View popup_view;  // view for popup
 
@@ -130,6 +131,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         editDate = findViewById(R.id.textDateTime1);
         editLocation = findViewById(R.id.location2);
         editImg = findViewById(R.id.imageExist1);
+
 
 
         //IVPreviewImage = findViewById(R.id.IVPreviewImage);  // debug preview
@@ -590,13 +592,19 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                                     = MediaStore.Images.Media.getBitmap(
                                     this.getContentResolver(),
                                     selectedImageUri);
+
+                            recognizeText(InputImage.fromBitmap(selectedImageBitmap, 0));
+
                         }
                         catch (IOException e) {
                             e.printStackTrace();
+
                         }
                         //IVPreviewImage.setImageBitmap(selectedImageBitmap);
 
-                        recognizeText(InputImage.fromBitmap(selectedImageBitmap, 0));
+                        if(recog_text == null){
+                            Toast.makeText(getApplicationContext(), "no text detected", Toast.LENGTH_SHORT).show();
+                        }
 
 
                         // popup the outputs
@@ -610,12 +618,18 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
 
                         //edPop.setText(vedt.getText().toString());
                         View popupView = inflater.inflate(R.layout.popup_window, null);
+
                         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+                        popupWindow.setTouchable(true);
+                        popupWindow.setFocusable(true);
+                        popupWindow.setOutsideTouchable(false);
+
+
                         edPop = (EditText)popupView.findViewById(R.id.edit_pop);
                         btOk  = (Button)popupView.findViewById(R.id.btok);
+                        cancelbtn = (Button)popupView.findViewById(R.id.cancel);
                         //recog_text = "hello";
-                        edPop.setText(recog_text);
-
 
                         edPop.requestFocus();
 
@@ -627,16 +641,21 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                         ClipData clip = ClipData.newPlainText("Recognization", recog_text);
                         clipboard.setPrimaryClip(clip);
 
+                        edPop.setText(recog_text);
 
-//                        popupView.setOnTouchListener((v, event) -> {
-//                            popupWindow.dismiss();
-//                            return true;
-//                        });
 
                         btOk.setOnClickListener(v -> {
-                            //vedt.setText(edPop.getText().toString());
+                            editContent.setText(recog_text);
                             popupWindow.dismiss();
                         });
+
+                        cancelbtn.setOnClickListener(v->{
+                            popupWindow.dismiss();
+                        });
+
+
+
+
 
                     }
                 }

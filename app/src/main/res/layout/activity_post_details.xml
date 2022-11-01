@@ -71,22 +71,22 @@
 
             <TextView
                 android:id="@+id/numberlikes"
-                android:layout_width="40dp"
-                android:layout_height="95dp"
-                android:layout_marginTop="12dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:gravity="center"
                 android:text="55"
                 android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/likenote"
                 app:layout_constraintEnd_toStartOf="@+id/likenote"
-                app:layout_constraintHorizontal_bias="0.978"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/postexist" />
+                app:layout_constraintTop_toTopOf="@+id/likenote"
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
                 android:id="@+id/likenote"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/thumb"
-                android:backgroundTint="#9E9E9E"
+                android:background="@drawable/like"
+                android:backgroundTint="#bfbfbf"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.902"
@@ -99,9 +99,9 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="268dp"
-                android:layout_marginTop="4dp"
                 android:background="@drawable/delete"
-                android:backgroundTint="#9E9E9E"
+                android:backgroundTint="#bfbfbf"
+                app:layout_constraintBottom_toBottomOf="@+id/likenote"
                 app:layout_constraintEnd_toStartOf="@+id/numberlikes"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

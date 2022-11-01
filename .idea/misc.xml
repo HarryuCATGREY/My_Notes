@@ -11,7 +11,7 @@
         <entry key="app/src/main/res/drawable/ic_camera.xml" value="0.1395" />
         <entry key="app/src/main/res/drawable/radius_bottom_half.xml" value="0.102" />
         <entry key="app/src/main/res/drawable/radius_bottom_half_filter.xml" value="0.102" />
-        <entry key="app/src/main/res/layout/activity_edit_note_acticity.xml" value="0.17647058823529413" />
+        <entry key="app/src/main/res/layout/activity_edit_note_acticity.xml" value="0.24329071044921877" />
         <entry key="app/src/main/res/layout/activity_exist_login.xml" value="0.21655629475911461" />
         <entry key="app/src/main/res/layout/activity_exist_new_note.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_exist_note.xml" value="0.22135416666666666" />
@@ -21,26 +21,35 @@
         <entry key="app/src/main/res/layout/activity_liked_details.xml" value="0.18645833333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_my_post.xml" value="0.3813679394057608" />
-        <entry key="app/src/main/res/layout/activity_note_details.xml" value="0.22093353271484378" />
+        <entry key="app/src/main/res/layout/activity_note_details.xml" value="0.5160268471118582" />
         <entry key="app/src/main/res/layout/activity_note_exist.xml" value="0.19610507246376813" />
-        <entry key="app/src/main/res/layout/activity_notes_taker.xml" value="0.14177703857421875" />
+        <entry key="app/src/main/res/layout/activity_notes_taker.xml" value="0.37682952880859377" />
         <entry key="app/src/main/res/layout/activity_password_forget.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_post.xml" value="0.2418478260869565" />
-        <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.3383128295254833" />
+        <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.3529209021366003" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/activity_user_personal_information.xml" value="0.13269927536231885" />
         <entry key="app/src/main/res/layout/activity_what_you_liked.xml" value="0.18645833333333334" />
+        <entry key="app/src/main/res/layout/brush_chooser.xml" value="0.2921875" />
+        <entry key="app/src/main/res/layout/draw.xml" value="0.2921875" />
         <entry key="app/src/main/res/layout/exist_notes_list.xml" value="0.4453133049134683" />
         <entry key="app/src/main/res/layout/forgetpwd.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/ic_radius.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/layout/large.xml" value="0.2921875" />
+        <entry key="app/src/main/res/layout/like.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/layout/login.xml" value="0.1585144927536232" />
+        <entry key="app/src/main/res/layout/medium.xml" value="0.2921875" />
         <entry key="app/src/main/res/layout/notes_list.xml" value="0.15416666666666667" />
+        <entry key="app/src/main/res/layout/paint.xml" value="0.2876923076923077" />
+        <entry key="app/src/main/res/layout/paint_pressed.xml" value="0.2921875" />
+        <entry key="app/src/main/res/layout/popup_window.xml" value="0.38303985595703127" />
         <entry key="app/src/main/res/layout/post_notes_list_pic.xml" value="0.1" />
         <entry key="app/src/main/res/layout/profile.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/layout/search_shape_layout.xml" value="0.1" />
         <entry key="app/src/main/res/layout/searchbar_layout.xml" value="0.265301513671875" />
         <entry key="app/src/main/res/layout/shape_search.xml" value="0.15389294403892945" />
         <entry key="app/src/main/res/layout/signup.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/layout/small.xml" value="0.2876923076923077" />
         <entry key="app/src/main/res/menu/popup_menu.xml" value="0.3309234619140625" />
       </map>
     </option>

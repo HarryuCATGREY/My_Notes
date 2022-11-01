@@ -21,6 +21,7 @@
             android:layout_marginTop="116dp"
             android:background="@drawable/location"
             android:drawableLeft="@drawable/ic_loc"
+
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -85,23 +86,27 @@
                 android:id="@+id/postnote"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
+                android:background="@drawable/post"
+                android:backgroundTint="#bfbfbf"
+                android:layout_marginTop="2dp"
                 app:layout_constraintBottom_toBottomOf="@+id/deletenote"
                 app:layout_constraintEnd_toStartOf="@+id/deletenote"
-                app:layout_constraintHorizontal_bias="0.975"
+                app:layout_constraintHorizontal_bias="0.955"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/deletenote"
-                app:srcCompat="@drawable/post" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
                 android:id="@+id/deletenote"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
+                android:background="@drawable/delete"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.899"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/existNote1"
-                app:srcCompat="@drawable/delete" />
+                android:backgroundTint="#bfbfbf" />
 
             <ImageView
                 android:id="@+id/imageExist"

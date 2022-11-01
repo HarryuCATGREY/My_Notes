@@ -155,22 +155,22 @@ public class LikedDetails extends AppCompatActivity {
 
         });
 
-        likeSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            //String currText;
-            @Override
-            public boolean onQueryTextSubmit(String newText) {
-
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-//                search(newText);
-                return false;
-            }
-
-        });
+//        likeSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            //String currText;
+//            @Override
+//            public boolean onQueryTextSubmit(String newText) {
+//
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//
+////                search(newText);
+//                return false;
+//            }
+//
+//        });
 
 
     }
