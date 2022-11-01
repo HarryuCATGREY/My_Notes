@@ -5,6 +5,8 @@ import static com.example.whim.ExistNewNoteActivity.CAMERA_REQUEST_CODE;
 import static com.example.whim.ExistNewNoteActivity.GALLERY_REQUEST_CODE;
 import static com.example.whim.ExistNewNoteActivity.LOCATION_REQUEST_CODE;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +17,16 @@ import androidx.core.content.FileProvider;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -28,12 +36,15 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.text.Html;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,6 +76,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+// text recog supporters
+import android.widget.PopupWindow;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
+import java.io.IOException;
+
 public class EditNoteActivity<Login> extends AppCompatActivity {
 
     private static final int GALLERY_PERM_CODE = 1;
@@ -86,6 +108,15 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
     String currentPhotoPath;
     StorageReference storageReference;
     FusedLocationProviderClient fusedLocationProviderClient2;
+
+    // Text recog
+    ImageView IVPreviewImage;  // preview for debug
+    Button test_recog, image_input;  //  trigger button
+    Bitmap picture_recog;  // Image for recog
+    EditText vedt=null,edPop; // output text window
+    Button btOk=null;
+    String recog_text;  // output string
+
 
 
     @Override
@@ -523,5 +554,127 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
             }
         }
         return keywords;
+    }
+
+
+    // choose input image
+    private void imageChooser()
+    {
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+
+        launchSomeActivity.launch(i);
+    }
+
+
+    // analyze the image
+    ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode()
+                        == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    // do your operation from here....
+                    if (data != null
+                            && data.getData() != null) {
+                        Uri selectedImageUri = data.getData();
+                        Bitmap selectedImageBitmap = null;
+                        try {
+                            selectedImageBitmap
+                                    = MediaStore.Images.Media.getBitmap(
+                                    this.getContentResolver(),
+                                    selectedImageUri);
+                        }
+                        catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        IVPreviewImage.setImageBitmap(
+                                selectedImageBitmap);
+                        picture_recog = selectedImageBitmap;
+                    }
+                }
+            });
+
+    // text recog
+    private void recognizeText(InputImage image) {
+        // [START get_detector_default]
+        TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        // [END get_detector_default]
+        // [START run_detector]
+        Task<Text> result =
+                recognizer.process(image)
+                        .addOnSuccessListener(visionText -> {
+                            // Task completed successfully
+                            // [START_EXCLUDE]
+                            // [START get_text]
+                            // [START mlkit_process_text_block]
+                            for (Text.TextBlock block : visionText.getTextBlocks()) {
+                                String blockText = block.getText();
+                                recog_text = blockText;
+                                Point[] blockCornerPoints = block.getCornerPoints();
+                                Rect blockFrame = block.getBoundingBox();
+                                for (Text.Line line : block.getLines()) {
+                                    String lineText = line.getText();
+                                    Point[] lineCornerPoints = line.getCornerPoints();
+                                    Rect lineFrame = line.getBoundingBox();
+                                    for (Text.Element element : line.getElements()) {
+                                        String elementText = element.getText();
+                                        Point[] elementCornerPoints = element.getCornerPoints();
+                                        Rect elementFrame = element.getBoundingBox();
+                                        for (Text.Symbol symbol : element.getSymbols()) {
+                                            String symbolText = symbol.getText();
+                                            Point[] symbolCornerPoints = symbol.getCornerPoints();
+                                            Rect symbolFrame = symbol.getBoundingBox();
+                                        }
+                                    }
+                                }
+                            }
+                            // [END get_text]
+                            // [END_EXCLUDE]
+                        })
+                        .addOnFailureListener(e -> {});
+        // [END run_detector]
+    }
+
+    // popup window
+    public void onButtonShowPopupWindowClick(View view) {
+
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        edPop.requestFocus();
+        edPop.setText(recog_text);
+        //edPop.setText(vedt.getText().toString());
+
+
+        View popupView = inflater.inflate(R.layout.popup_window, null);
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        edPop = (EditText)popupView.findViewById(R.id.edit_pop);
+        btOk  = (Button)popupView.findViewById(R.id.btok);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Recognization", recog_text);
+        clipboard.setPrimaryClip(clip);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener((v, event) -> {
+            popupWindow.dismiss();
+            return true;
+        });
+
+        btOk.setOnClickListener(v -> {
+            //vedt.setText(edPop.getText().toString());
+            popupWindow.dismiss();
+        });
     }
 }
