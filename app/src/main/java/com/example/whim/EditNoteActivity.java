@@ -34,6 +34,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.text.Html;
 import android.view.Gravity;
@@ -116,6 +117,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
     EditText vedt=null,edPop; // output text window
     Button btOk=null;
     String recog_text;  // output string
+    View popup_view;  // view for popup
 
 
 
@@ -128,6 +130,9 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
         editDate = findViewById(R.id.textDateTime1);
         editLocation = findViewById(R.id.location2);
         editImg = findViewById(R.id.imageExist1);
+
+
+        //IVPreviewImage = findViewById(R.id.IVPreviewImage);  // debug preview
 
         progressBar = findViewById(R.id.progress_loader);
         textViewProgress = findViewById(R.id.textProgress);
@@ -589,9 +594,50 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                         catch (IOException e) {
                             e.printStackTrace();
                         }
-                        IVPreviewImage.setImageBitmap(
-                                selectedImageBitmap);
-                        picture_recog = selectedImageBitmap;
+                        //IVPreviewImage.setImageBitmap(selectedImageBitmap);
+
+                        recognizeText(InputImage.fromBitmap(selectedImageBitmap, 0));
+
+
+                        // popup the outputs
+                        // inflate the layout of the popup window
+                        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                        // create the popup window
+                        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+                        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                        boolean focusable = true; // lets taps outside the popup also dismiss it
+
+                        //edPop.setText(vedt.getText().toString());
+                        View popupView = inflater.inflate(R.layout.popup_window, null);
+                        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+                        edPop = (EditText)popupView.findViewById(R.id.edit_pop);
+                        btOk  = (Button)popupView.findViewById(R.id.btok);
+                        //recog_text = "hello";
+                        edPop.setText(recog_text);
+
+
+                        edPop.requestFocus();
+
+                        // show the popup window
+                        // which view you pass in doesn't matter, it is only used for the window tolken
+                        popupWindow.showAtLocation(popup_view, Gravity.CENTER, 0, 0);
+
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Recognization", recog_text);
+                        clipboard.setPrimaryClip(clip);
+
+
+//                        popupView.setOnTouchListener((v, event) -> {
+//                            popupWindow.dismiss();
+//                            return true;
+//                        });
+
+                        btOk.setOnClickListener(v -> {
+                            //vedt.setText(edPop.getText().toString());
+                            popupWindow.dismiss();
+                        });
+
                     }
                 }
             });
@@ -639,42 +685,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
 
     // popup window
     public void onButtonShowPopupWindowClick(View view) {
-
-        // inflate the layout of the popup window
-        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-
-        // create the popup window
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        edPop.requestFocus();
-        edPop.setText(recog_text);
-        //edPop.setText(vedt.getText().toString());
-
-
-        View popupView = inflater.inflate(R.layout.popup_window, null);
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-        edPop = (EditText)popupView.findViewById(R.id.edit_pop);
-        btOk  = (Button)popupView.findViewById(R.id.btok);
-
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("Recognization", recog_text);
-        clipboard.setPrimaryClip(clip);
-
-        // dismiss the popup window when touched
-        popupView.setOnTouchListener((v, event) -> {
-            popupWindow.dismiss();
-            return true;
-        });
-
-        btOk.setOnClickListener(v -> {
-            //vedt.setText(edPop.getText().toString());
-            popupWindow.dismiss();
-        });
+        popup_view = view;
+        imageChooser();
     }
 }
