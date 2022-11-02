@@ -70,7 +70,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,7 +89,6 @@
 
     </RelativeLayout>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_home"
         android:layout_width="match_parent"
@@ -105,9 +103,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="70dp"
-        android:scrollbars="vertical"
-
-        />
+        android:scrollbars="vertical" />
 
     <Button
         android:id="@+id/fab_add"
@@ -122,13 +118,11 @@
         app:backgroundTint="#49B3FF"
         app:tint="@android:color/white" />
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white">
-
 
         <ImageButton
             android:id="@+id/community"
@@ -179,8 +173,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </RelativeLayout>

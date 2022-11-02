@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
 
-
         <Button
             android:id="@+id/locationpost"
             android:layout_width="204dp"
@@ -20,13 +19,13 @@
             android:layout_marginTop="116dp"
             android:background="@drawable/location"
             android:drawableLeft="@drawable/ic_loc"
-            app:backgroundTint="@null"
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="I am at..."
             android:textAllCaps="false"
             android:textSize="13dp"
+            app:backgroundTint="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -154,7 +153,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/postimage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

@@ -3,16 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-
     <LinearLayout
-        android:background="@color/grey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="400dp"
         android:layout_marginRight="20dp"
+        android:background="@color/grey"
         android:orientation="vertical">
 
         <ImageView
@@ -38,10 +35,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="20dp"
                 android:fontFamily="@font/opensans_bold"
                 android:text="Login to have better Whims!"
                 android:textColor="#000"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -59,10 +56,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:gravity="center"
                 android:backgroundTint="@color/black"
+                android:gravity="center"
                 android:text="Sign UP Now!" />
+
         </LinearLayout>
+
     </LinearLayout>
 
     <ImageView
@@ -71,8 +70,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
         android:background="@drawable/reminder" />
-
-
 
 </RelativeLayout>
 

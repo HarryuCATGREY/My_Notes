@@ -9,7 +9,6 @@ import androidx.appcompat.widget.Toolbar;
 
 public class UserPersonalInformation extends AppCompatActivity {
 
-
     // Toolbar
     private Toolbar mainToolbar;
 
@@ -17,8 +16,6 @@ public class UserPersonalInformation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_personal_information);
-
-
         Intent intent = getIntent();
     }
 }

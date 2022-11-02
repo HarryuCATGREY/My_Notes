@@ -7,11 +7,9 @@
     android:background="@color/grey"
     tools:context=".PostActivity">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <ImageView
             android:id="@+id/imageView2"
@@ -42,8 +40,8 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:foregroundGravity="center"
-            android:src="@drawable/smile"
             android:scaleType="fitXY"
+            android:src="@drawable/smile"
             app:layout_constraintBottom_toBottomOf="@+id/imageView3"
             app:layout_constraintEnd_toEndOf="@+id/imageView3"
             app:layout_constraintStart_toStartOf="@+id/imageView3"
@@ -146,26 +144,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView6" />
 
-        <!--        <androidx.recyclerview.widget.RecyclerView-->
-        <!--            android:id="@+id/recycle_post"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:paddingBottom="140dp"-->
-        <!--            android:scrollbars="vertical"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintHorizontal_bias="0.0"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/textView6"-->
-        <!--            app:layout_constraintVertical_bias="0.169" />-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_weight="1"
         android:layout_alignParentBottom="true"
+        android:layout_weight="1"
         android:background="@color/white">
 
 
@@ -179,7 +164,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.382"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/like"
@@ -192,7 +177,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.581"
             app:layout_constraintStart_toEndOf="@+id/community"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/profile"
@@ -204,7 +189,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.439"
             app:layout_constraintStart_toEndOf="@+id/like"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/home"
@@ -216,10 +201,8 @@
             app:layout_constraintEnd_toStartOf="@+id/community"
             app:layout_constraintHorizontal_bias="0.533"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </RelativeLayout>

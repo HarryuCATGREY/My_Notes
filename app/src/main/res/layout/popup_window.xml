@@ -1,12 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="200dp"
+    android:layout_margin="20dp"
     android:background="@color/grey"
     android:orientation="vertical"
-    android:layout_margin="20dp"
     android:paddingLeft="7dip"
     android:paddingTop="7dip"
     android:paddingRight="7dip"
@@ -24,7 +23,6 @@
             android:layout_marginBottom="12dp"
             android:fontFamily="@font/opensans_bold"
             android:text="Extract Text From File"
-
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/edit_pop"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,10 +38,10 @@
             android:backgroundTint="@color/white"
             android:fontFamily="@font/opensans_regular"
             android:hint="Your text will show here"
-            android:textColorHint="#9E9E9E"
             android:padding="10dp"
             android:paddingStart="20dp"
             android:textColor="@color/black"
+            android:textColorHint="#9E9E9E"
             android:textSize="14dp"
             app:backgroundTint="@null"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,6 +78,7 @@
             app:layout_constraintStart_toStartOf="@+id/edit_pop"
             app:layout_constraintTop_toBottomOf="@+id/edit_pop"
             app:layout_constraintVertical_bias="0.619" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

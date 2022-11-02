@@ -10,29 +10,29 @@
         android:name="com.example.whim.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
+
     <activity
         android:id="@+id/notesTakerActivity"
         android:name="com.example.whim.NotesTakerActivity"
         android:label="activity_edit_note_acticity"
         tools:layout="@layout/activity_edit_note_acticity" />
+
     <activity
         android:id="@+id/existNewNoteActivity"
         android:name="com.example.whim.ExistNewNoteActivity"
         android:label="activity_exist_new_note"
         tools:layout="@layout/activity_exist_new_note" />
-    <activity
-        android:id="@+id/personalInformation"
-        android:name="com.example.whim.GuestPersonalInformation"
-        android:label="activity_personal_information"
-        tools:layout="@layout/activity_guest_personal_information" />
+
     <activity
         android:id="@+id/existLoginActivity"
         android:name="com.example.whim.ExistLoginActivity"
         android:label="ExistLoginActivity"
         tools:layout="@layout/activity_exist_login"/>
+
     <activity
         android:id="@+id/existUserMainPage"
         android:name="com.example.whim.ExistUserMainPage"
         android:label="activity_exist_user_main_page"
         tools:layout="@layout/activity_exist_user_main_page" />
+
 </navigation>

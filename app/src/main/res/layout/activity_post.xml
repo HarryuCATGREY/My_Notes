@@ -7,7 +7,6 @@
     android:background="@color/grey"
     tools:context=".PostActivity">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -74,15 +73,15 @@
             tools:ignore="MissingConstraints">
 
         </androidx.appcompat.widget.SearchView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_weight="1"
         android:layout_alignParentBottom="true"
+        android:layout_weight="1"
         android:background="@color/white">
-
 
         <ImageButton
             android:id="@+id/community"
@@ -94,7 +93,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.382"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ImageButton>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/like"
@@ -107,7 +106,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.581"
             app:layout_constraintStart_toEndOf="@+id/community"
-            app:layout_constraintTop_toTopOf="parent"></ImageButton>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/profile"
@@ -119,7 +118,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.439"
             app:layout_constraintStart_toEndOf="@+id/like"
-            app:layout_constraintTop_toTopOf="parent"></ImageButton>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/home"
@@ -131,10 +130,8 @@
             app:layout_constraintEnd_toStartOf="@+id/community"
             app:layout_constraintHorizontal_bias="0.533"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ImageButton>
-
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </RelativeLayout>

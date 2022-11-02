@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical"
-    tools:context=".drawController" >
+    tools:context=".drawController">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,6 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints">
+
             <!-- Top Row -->
             <LinearLayout
                 android:id="@+id/paint_colors"
@@ -39,7 +40,7 @@
                     android:background="#FA5151"
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
-                    android:tag="#FA5151"></ImageButton>
+                    android:tag="#FA5151" />
 
                 <ImageButton
                     android:layout_width="@dimen/large_brush"
@@ -48,7 +49,7 @@
                     android:background="#FF98D6"
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
-                    android:tag="#FF98D6"></ImageButton>
+                    android:tag="#FF98D6" />
 
                 <ImageButton
                     android:layout_width="@dimen/large_brush"
@@ -57,7 +58,7 @@
                     android:background="#FF8F1F"
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
-                    android:tag="#FF8F1F"></ImageButton>
+                    android:tag="#FF8F1F" />
 
                 <ImageButton
                     android:layout_width="@dimen/large_brush"
@@ -66,7 +67,7 @@
                     android:background="#FFC300"
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
-                    android:tag="#FFC300"></ImageButton>
+                    android:tag="#FFC300" />
 
                 <ImageButton
                     android:layout_width="@dimen/large_brush"
@@ -75,7 +76,7 @@
                     android:background="#94E78D"
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
-                    android:tag="#94E78D"></ImageButton>
+                    android:tag="#94E78D" />
 
                 <ImageButton
                     android:layout_width="@dimen/large_brush"
@@ -84,7 +85,7 @@
                     android:background="#53AA52"
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
-                    android:tag="#53AA52"></ImageButton>
+                    android:tag="#53AA52" />
             </LinearLayout>
             <!-- Botton Row -->
             <LinearLayout
@@ -99,7 +100,7 @@
                     android:background="#A0C5F9"
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
-                    android:tag="#A0C5F9"></ImageButton>
+                    android:tag="#A0C5F9" />
 
                 <ImageButton
                     android:layout_width="@dimen/large_brush"
@@ -109,7 +110,7 @@
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
                     android:src="@drawable/paint"
-                    android:tag="#3768FF"></ImageButton>
+                    android:tag="#3768FF" />
 
                 <ImageButton
                     android:layout_width="@dimen/large_brush"
@@ -118,7 +119,7 @@
                     android:background="#6E80FA"
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
-                    android:tag="#6E80FA"></ImageButton>
+                    android:tag="#6E80FA" />
 
                 <ImageButton
                     android:layout_width="@dimen/large_brush"
@@ -127,7 +128,7 @@
                     android:background="#BB56FD"
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
-                    android:tag="#BB56FD"></ImageButton>
+                    android:tag="#BB56FD" />
 
                 <ImageButton
                     android:layout_width="@dimen/large_brush"
@@ -136,7 +137,7 @@
                     android:background="#FF787878"
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
-                    android:tag="#FF787878"></ImageButton>
+                    android:tag="#FF787878" />
 
                 <ImageButton
                     android:layout_width="@dimen/large_brush"
@@ -145,7 +146,7 @@
                     android:background="#FF000000"
                     android:contentDescription="@string/paint"
                     android:onClick="paintClicked"
-                    android:tag="#FF000000"></ImageButton>
+                    android:tag="#FF000000" />
             </LinearLayout>
         </LinearLayout>
 
@@ -197,7 +198,6 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-
                 android:background="@drawable/new_pic"
                 android:backgroundTint="#9E9E9E"
                 android:contentDescription="@string/start_new" />
@@ -231,7 +231,9 @@
                 android:background="@drawable/save"
                 android:backgroundTint="#9E9E9E"
                 android:contentDescription="@string/save" />
+
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

@@ -7,7 +7,6 @@
     android:background="@color/grey"
     tools:context=".WhatYouLikedActivity">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -76,7 +75,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.382"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ImageButton>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/likefromlike"
@@ -89,7 +88,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.581"
             app:layout_constraintStart_toEndOf="@+id/communityfromlike"
-            app:layout_constraintTop_toTopOf="parent"></ImageButton>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/profilefromlike"
@@ -101,7 +100,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.439"
             app:layout_constraintStart_toEndOf="@+id/likefromlike"
-            app:layout_constraintTop_toTopOf="parent"></ImageButton>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/homefromlike"
@@ -113,10 +112,8 @@
             app:layout_constraintEnd_toStartOf="@+id/communityfromlike"
             app:layout_constraintHorizontal_bias="0.533"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ImageButton>
-
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </RelativeLayout>
