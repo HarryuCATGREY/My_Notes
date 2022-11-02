@@ -1,6 +1,7 @@
 package com.example.whim;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -36,8 +37,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-//import com.example.whim.Models.DrawableUtil;
-//import com.google.android.gms.cast.framework.media.ImagePicker;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -66,10 +65,8 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    ImageButton coverImage;
     ImageButton editProfile;
     ImageView profilePic;
-    ImageView postImage;
     ImageButton editbtn;
 
     RecyclerView mypostrecyclerview;
@@ -90,6 +87,7 @@ public class ProfileActivity extends AppCompatActivity {
     ArrayList<String> thisid = new ArrayList<String>();
 
 
+    //    command code
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     private static final int GALLERY_PERM_CODE = 1;
@@ -101,36 +99,42 @@ public class ProfileActivity extends AppCompatActivity {
     private String imageName;
     private TextView nameText;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
 
         getSupportActionBar().hide();
+
+//        initialise button and view
         editProfile = findViewById(R.id.changeprofile);
         profilePic = findViewById(R.id.profilepic);
         nameText = findViewById(R.id.textName);
         editbtn = findViewById(R.id.edit);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        storageReference = FirebaseStorage.getInstance().getReference();
-
+//        bottom button
         community = findViewById(R.id.community);
         home = findViewById(R.id.home);
         like = findViewById(R.id.like);
         profile = findViewById(R.id.profile);
         logOut = findViewById(R.id.logOut);
 
+//        initialise firebase
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        storageReference = FirebaseStorage.getInstance().getReference();
+
         Intent data = getIntent();
 
+//        log out account
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("name","");
+                editor.putString("name", "");
                 editor.apply();
 
                 startActivity(new Intent(getApplicationContext(), ExistLoginActivity.class));
@@ -139,6 +143,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
+//        bottom button setting
         community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
+//        edit user name
         editbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,31 +202,31 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
-        editProfile.setOnClickListener(new View.OnClickListener(){
+//        edit image for avatar
+        editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Camera button clicked.", Toast.LENGTH_SHORT).show();
                 askGalleryPermissions();
             }
         });
 
-        // check if the profile collection exists
+//        check if the profile collection exists
         CollectionReference currprofile = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("profile");
         currprofile.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if(queryDocumentSnapshots.isEmpty()){
+                if (queryDocumentSnapshots.isEmpty()) {
                     nameText.setText("Whim User");
-                    Toast.makeText(getApplicationContext(),"Collection is Empty",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Collection is Empty", Toast.LENGTH_SHORT).show();
                 }
 
-                if(!queryDocumentSnapshots.isEmpty()){
+                if (!queryDocumentSnapshots.isEmpty()) {
                     currprofile.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(QueryDocumentSnapshot document : task.getResult()){
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
                                     String s = document.getId();
                                     thisid.add(s);
                                 }
@@ -241,7 +246,6 @@ public class ProfileActivity extends AppCompatActivity {
                                                         Picasso.get().load(uri).into(profilePic);
                                                     }
                                                 });
-
                                             }
                                         }
                                     }
@@ -256,11 +260,10 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
+//        set query for liked post from firebase
         Query mypostquery = firebaseFirestore.collection("posts").whereEqualTo("uid", firebaseUser.getUid()).orderBy("timestamp", Query.Direction.DESCENDING);
-
         FirestoreRecyclerOptions<postmodel> allmyposts = new FirestoreRecyclerOptions.Builder<postmodel>().setQuery(mypostquery, postmodel.class).build();
-
-        mypostAdapter = new FirestoreRecyclerAdapter<postmodel, MyPostViewHolder>(allmyposts){
+        mypostAdapter = new FirestoreRecyclerAdapter<postmodel, MyPostViewHolder>(allmyposts) {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             protected void onBindViewHolder(@NonNull MyPostViewHolder mypostViewHolder, int i, @NonNull postmodel postmodel) {
@@ -268,7 +271,7 @@ public class ProfileActivity extends AppCompatActivity {
                 mypostViewHolder.posttitle.setText(postmodel.getTitle());
                 mypostViewHolder.postcontent.setText(postmodel.getContent());
 
-                if (postmodel.getImage() != null){
+                if (postmodel.getImage() != null) {
                     StorageReference imgReference = storageReference.child("photos/").child(postmodel.getImagename());
                     imgReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
@@ -282,8 +285,8 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), MyPostActivity.class);
-                        intent.putExtra("title",postmodel.getTitle());
-                        intent.putExtra("content",postmodel.getContent());
+                        intent.putExtra("title", postmodel.getTitle());
+                        intent.putExtra("content", postmodel.getContent());
                         intent.putExtra("image", postmodel.getImage());
                         intent.putExtra("time", postmodel.getTime());
                         intent.putExtra("location", postmodel.getLocation());
@@ -297,10 +300,11 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
             }
+
             @NonNull
             @Override
             public MyPostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_notes_list_pic,parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_notes_list_pic, parent, false);
                 return new MyPostViewHolder(view);
             }
         };
@@ -310,23 +314,23 @@ public class ProfileActivity extends AppCompatActivity {
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mypostrecyclerview.setLayoutManager(staggeredGridLayoutManager);
         mypostrecyclerview.setAdapter(mypostAdapter);
-//        mypostrecyclerview.getRecycledViewPool().clear();
         mypostAdapter.notifyDataSetChanged();
     }
 
+    //    upload edit to firebase
     private void editUpload() {
         String content = nameText.getText().toString();
         CollectionReference profileRef = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("profile");
 
         profileRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if(queryDocumentSnapshots.isEmpty()){
+                if (queryDocumentSnapshots.isEmpty()) {
                     DocumentReference documentReference = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("profile").document();
                     Map<String, Object> note = new HashMap<>();
-
                     note.put("content", content);
-                    note.put("image",imageUri);
+                    note.put("image", imageUri);
                     note.put("imagename", imageName);
 
                     documentReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -334,12 +338,10 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onSuccess(Void unused) {
 
                             Intent data = getIntent();
-                            if(data.getStringExtra("image") != null) {
+                            if (data.getStringExtra("image") != null) {
                                 Toast.makeText(getApplicationContext(), "profile pic present", Toast.LENGTH_SHORT).show();
                             }
-
                             Toast.makeText(getApplicationContext(), "Your whim is safely stored :)", Toast.LENGTH_SHORT).show();
-                            //startActivity(new Intent(ExistNewNoteActivity.this, ExistUserMainPage.class));
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -347,12 +349,12 @@ public class ProfileActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Failed to store whim, please try again later :(", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }else{
+                } else {
                     profileRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(QueryDocumentSnapshot document : task.getResult()){
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
                                     String s = document.getId();
                                     idlist.add(s);
                                 }
@@ -361,7 +363,7 @@ public class ProfileActivity extends AppCompatActivity {
                             Map<String, Object> note = new HashMap<>();
 
                             note.put("content", content);
-                            note.put("image",imageUri);
+                            note.put("image", imageUri);
                             note.put("imagename", imageName);
 
                             profileReference.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -379,20 +381,17 @@ public class ProfileActivity extends AppCompatActivity {
                     });
 
                 }
-//                mypostrecyclerview.getRecycledViewPool().clear();
                 mypostAdapter.notifyDataSetChanged();
             }
         });
-
 
     }
 
     private void askGalleryPermissions() {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) !=
                 PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(ProfileActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_PERM_CODE);
-        }
-        else {
+            ActivityCompat.requestPermissions(ProfileActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_PERM_CODE);
+        } else {
             getGallery();
         }
     }
@@ -408,6 +407,7 @@ public class ProfileActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(c.getType(contentUri));
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -416,9 +416,9 @@ public class ProfileActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
 
                 Uri contentUri = data.getData();
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                String imageFileName = "JPEG_" + timeStamp +"."+getFileExt(contentUri);
-                Log.d("tag", "onActivityResult: Gallery Image Uri:  " +  imageFileName);
+                @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
+                Log.d("tag", "onActivityResult: Gallery Image Uri:  " + imageFileName);
                 //selectedImage.setImageURI(contentUri);
                 imageUri = contentUri.toString();
                 imageName = imageFileName;
@@ -430,7 +430,8 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void uploadImageToFirebase(String name, Uri contentUri){
+    //    upload avatar image to firebase
+    private void uploadImageToFirebase(String name, Uri contentUri) {
         StorageReference image = storageReference.child("profile/" + name);
         image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -456,25 +457,25 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    public class MyPostViewHolder extends RecyclerView.ViewHolder{
+    public static class MyPostViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView posttitle;
-        private TextView postcontent;
+        private final TextView posttitle;
+        private final TextView postcontent;
         private TextView posttime;
-        private ImageView postimgview;
-        private ConstraintLayout postcolour;
-
+        private final ImageView postimgview;
 
         LinearLayout mpost;
+
         public MyPostViewHolder(@NonNull View itemView) {
             super(itemView);
             posttitle = itemView.findViewById(R.id.exist_title);
             postcontent = itemView.findViewById(R.id.note_content);
             postimgview = itemView.findViewById(R.id.postimgview);
             mpost = itemView.findViewById(R.id.whim);
-            postcolour = itemView.findViewById(R.id.post_colour);
+            ConstraintLayout postcolour = itemView.findViewById(R.id.post_colour);
         }
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -484,7 +485,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(mypostAdapter != null){
+        if (mypostAdapter != null) {
             mypostAdapter.stopListening();
         }
     }
