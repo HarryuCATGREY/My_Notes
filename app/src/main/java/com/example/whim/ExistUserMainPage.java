@@ -1,8 +1,6 @@
 package com.example.whim;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -13,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
