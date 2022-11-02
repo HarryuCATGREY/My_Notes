@@ -1,7 +1,9 @@
 package com.example.whim;
 
 import java.util.UUID;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -14,14 +16,15 @@ import android.content.DialogInterface;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-public class drawController extends AppCompatActivity implements OnClickListener{
-//    painting space
+
+public class drawController extends AppCompatActivity implements OnClickListener {
+    //    painting space
     private DrawingView drawView;
 
-//    current brush
+    //    current brush
     private ImageButton currPaint;
 
-//    brush size
+    //    brush size
     private float smallBrush, mediumBrush, largeBrush;
 
     @Override
@@ -32,10 +35,10 @@ public class drawController extends AppCompatActivity implements OnClickListener
 
 //      initialising button and view
 //        drawing background
-        drawView = (DrawingView)findViewById(R.id.drawing);
+        drawView = (DrawingView) findViewById(R.id.drawing);
 
 //        palette
-        LinearLayout paintLayout = (LinearLayout)findViewById(R.id.paint_colors);
+        LinearLayout paintLayout = (LinearLayout) findViewById(R.id.paint_colors);
 
 //        change brush size button
         ImageButton drawBtn = (ImageButton) findViewById(R.id.draw_btn);
@@ -55,13 +58,15 @@ public class drawController extends AppCompatActivity implements OnClickListener
 
 //        close canvas button
         ImageView backIcon = findViewById(R.id.close);
-        backIcon.setOnClickListener((v) -> {onBackPressed();});
+        backIcon.setOnClickListener((v) -> {
+            onBackPressed();
+        });
 
 //      set color of drawing background
         drawView.setColor("#FA5151");
 
 //        current drawing initialising
-        currPaint = (ImageButton)paintLayout.getChildAt(0);
+        currPaint = (ImageButton) paintLayout.getChildAt(0);
 
 //        brush size defined
         smallBrush = getResources().getInteger(R.integer.small_size);
@@ -75,36 +80,31 @@ public class drawController extends AppCompatActivity implements OnClickListener
     }
 
 
-
-//    function for color choose
-    public void paintClicked(View view)
-    {
+    //    function for color choose
+    public void paintClicked(View view) {
 //        not erase
         drawView.setErase(false);
 //        set brush size
         drawView.setBrushSize(drawView.getLastBrushSize());
 
 //        use chosen color
-        if(view!=currPaint)
-        {
+        if (view != currPaint) {
 //            update color
-            ImageButton imgView = (ImageButton)view;
+            ImageButton imgView = (ImageButton) view;
             String color = view.getTag().toString();
             drawView.setColor(color);
 
 //            reflect in the UI
             currPaint.setImageDrawable(getResources().getDrawable(R.drawable.paint));
-            currPaint = (ImageButton)view;
+            currPaint = (ImageButton) view;
         }
     }
 
     @Override
-    public void onClick(View view)
-    {
+    public void onClick(View view) {
 //        four click choice: new, draw, erase, save
 
-        if(view.getId() == R.id.draw_btn)
-        {
+        if (view.getId() == R.id.draw_btn) {
 //            if choosing draw brush
 //            draw button clicked
             final Dialog brushDialog = new Dialog(this);
@@ -113,7 +113,7 @@ public class drawController extends AppCompatActivity implements OnClickListener
             brushDialog.setContentView(R.layout.brush_chooser);
 
 //            chose small brush size
-            ImageButton smallBtn = (ImageButton)brushDialog.findViewById(R.id.small_brush);
+            ImageButton smallBtn = (ImageButton) brushDialog.findViewById(R.id.small_brush);
             smallBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -125,7 +125,7 @@ public class drawController extends AppCompatActivity implements OnClickListener
             });
 
 //            chose medium brush size
-            ImageButton mediumBtn = (ImageButton)brushDialog.findViewById(R.id.medium_brush);
+            ImageButton mediumBtn = (ImageButton) brushDialog.findViewById(R.id.medium_brush);
             mediumBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -137,7 +137,7 @@ public class drawController extends AppCompatActivity implements OnClickListener
             });
 
 //            chose large brush size
-            ImageButton largeBtn = (ImageButton)brushDialog.findViewById(R.id.large_brush);
+            ImageButton largeBtn = (ImageButton) brushDialog.findViewById(R.id.large_brush);
             largeBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -149,8 +149,7 @@ public class drawController extends AppCompatActivity implements OnClickListener
             });
 
             brushDialog.show();
-        }else if(view.getId() == R.id.erase_btn)
-        {
+        } else if (view.getId() == R.id.erase_btn) {
 //            if choosing eraser
 //            eraser button clicked
             final Dialog brushDialog = new Dialog(this);
@@ -159,7 +158,7 @@ public class drawController extends AppCompatActivity implements OnClickListener
             brushDialog.setContentView(R.layout.brush_chooser);
 
 //            choose small size
-            ImageButton smallBtn = (ImageButton)brushDialog.findViewById(R.id.small_brush);
+            ImageButton smallBtn = (ImageButton) brushDialog.findViewById(R.id.small_brush);
             smallBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -170,7 +169,7 @@ public class drawController extends AppCompatActivity implements OnClickListener
             });
 
 //            choose medium size
-            ImageButton mediumBtn = (ImageButton)brushDialog.findViewById(R.id.medium_brush);
+            ImageButton mediumBtn = (ImageButton) brushDialog.findViewById(R.id.medium_brush);
             mediumBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -181,7 +180,7 @@ public class drawController extends AppCompatActivity implements OnClickListener
             });
 
 //            choose large size
-            ImageButton largeBtn = (ImageButton)brushDialog.findViewById(R.id.large_brush);
+            ImageButton largeBtn = (ImageButton) brushDialog.findViewById(R.id.large_brush);
             largeBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -192,8 +191,7 @@ public class drawController extends AppCompatActivity implements OnClickListener
             });
 
             brushDialog.show();
-        }else if(view.getId() == R.id.new_btn)
-        {
+        } else if (view.getId() == R.id.new_btn) {
 //            if click new button
             AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
             newDialog.setTitle("new Drawing");
@@ -215,8 +213,7 @@ public class drawController extends AppCompatActivity implements OnClickListener
             });
             newDialog.show();
 
-        }else if(view.getId() == R.id.save_btn)
-        {
+        } else if (view.getId() == R.id.save_btn) {
 //            if click save button
             AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
             saveDialog.setTitle("Save Drawing");
@@ -229,14 +226,12 @@ public class drawController extends AppCompatActivity implements OnClickListener
                     drawView.setDrawingCacheEnabled(true);
                     String imageSaved = MediaStore.Images.Media.insertImage(
                             getContentResolver(), drawView.getDrawingCache(),
-                            UUID.randomUUID().toString()+".png", "drawing");
-                    if(imageSaved != null)
-                    {
+                            UUID.randomUUID().toString() + ".png", "drawing");
+                    if (imageSaved != null) {
                         Toast savedToast = Toast.makeText(getApplicationContext(),
                                 "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
                         savedToast.show();
-                    }else
-                    {
+                    } else {
                         Toast unsavedToast = Toast.makeText(getApplicationContext(),
                                 "Oops! Image could not saved.", Toast.LENGTH_SHORT);
                         unsavedToast.show();
