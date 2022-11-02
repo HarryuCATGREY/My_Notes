@@ -116,7 +116,7 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
     Bitmap picture_recog;  // Image for recog
     EditText vedt=null,edPop; // output text window
     Button btOk=null;
-    Button cancelbtn=null;
+    //Button cancelbtn=null;
     String recog_text;  // output string
     View popup_view;  // view for popup
 
@@ -592,9 +592,6 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                                     = MediaStore.Images.Media.getBitmap(
                                     this.getContentResolver(),
                                     selectedImageUri);
-
-                            recognizeText(InputImage.fromBitmap(selectedImageBitmap, 0));
-
                         }
                         catch (IOException e) {
                             e.printStackTrace();
@@ -602,61 +599,19 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                         }
                         //IVPreviewImage.setImageBitmap(selectedImageBitmap);
 
-                        if(recog_text == null){
-                            Toast.makeText(getApplicationContext(), "no text detected", Toast.LENGTH_SHORT).show();
-                        }
-
-
-                        // popup the outputs
-                        // inflate the layout of the popup window
-                        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-
-                        // create the popup window
-                        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-                        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                        boolean focusable = true; // lets taps outside the popup also dismiss it
-
-                        //edPop.setText(vedt.getText().toString());
-                        View popupView = inflater.inflate(R.layout.popup_window, null);
-
-                        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-                        popupWindow.setTouchable(true);
-                        popupWindow.setFocusable(true);
-                        popupWindow.setOutsideTouchable(false);
-
-
-                        edPop = (EditText)popupView.findViewById(R.id.edit_pop);
-                        btOk  = (Button)popupView.findViewById(R.id.btok);
-                        cancelbtn = (Button)popupView.findViewById(R.id.cancel);
-                        //recog_text = "hello";
-
-                        edPop.requestFocus();
-
-                        // show the popup window
-                        // which view you pass in doesn't matter, it is only used for the window tolken
-                        popupWindow.showAtLocation(popup_view, Gravity.CENTER, 0, 0);
+                        recognizeText(InputImage.fromBitmap(selectedImageBitmap, 0));
 
                         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText("Recognization", recog_text);
                         clipboard.setPrimaryClip(clip);
 
-                        edPop.setText(recog_text);
+                        if(recog_text == null){
+                            //Toast.makeText(getApplicationContext(), "no text detected", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Content copied to clipboard", Toast.LENGTH_SHORT).show();
+                        }
 
-
-                        btOk.setOnClickListener(v -> {
-                            editContent.setText(recog_text);
-                            popupWindow.dismiss();
-                        });
-
-                        cancelbtn.setOnClickListener(v->{
-                            popupWindow.dismiss();
-                        });
-
-
-
-
-
+                        //editContent.setText(editContent.getText()+recog_text);
                     }
                 }
             });
@@ -674,9 +629,10 @@ public class EditNoteActivity<Login> extends AppCompatActivity {
                             // [START_EXCLUDE]
                             // [START get_text]
                             // [START mlkit_process_text_block]
+                            recog_text = "";
                             for (Text.TextBlock block : visionText.getTextBlocks()) {
                                 String blockText = block.getText();
-                                recog_text = blockText;
+                                recog_text += blockText + "\n";
                                 Point[] blockCornerPoints = block.getCornerPoints();
                                 Rect blockFrame = block.getBoundingBox();
                                 for (Text.Line line : block.getLines()) {
