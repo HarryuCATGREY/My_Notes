@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -29,7 +30,6 @@ import android.widget.Toast;
 import com.example.whim.Adapters.NoteListAdapter;
 import com.example.whim.Database.RoomDB;
 import com.example.whim.Models.Notes;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,37 +39,39 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     NoteListAdapter noteListAdapter;
     List<Notes> notes = new ArrayList<>();
     RoomDB database;
-    FloatingActionButton fab_add;
+    Button fab_add, exitFromGuest;
     SearchView searchView_home;
     Notes selectedNote;
-    ImageButton like, community, profile;
+    ImageButton like, community, profile, home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("101", "!!!");
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
+
+//        initalise button and view
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recycle_home);
         fab_add = findViewById(R.id.fab_add);
+        exitFromGuest = findViewById(R.id.exitFromGuest);
         searchView_home = findViewById(R.id.searchView_home);
         community = findViewById(R.id.community);
         profile = findViewById(R.id.buttonMe);
         like = findViewById(R.id.like);
+        home = findViewById(R.id.home);
 
         // setting database
         database = RoomDB.getInstance(this);
         notes = database.mainDAO().getAll();
         updateRecycler(notes);
 
-
-        TextView home_title = (TextView)findViewById(R.id.textView);
-
+//        change whim color
+        TextView home_title = (TextView) findViewById(R.id.textView);
         String h = getColoredSpanned("h", "#67B1F9");
-        String i = getColoredSpanned("i","#6E80FA");
-        String dot = getColoredSpanned(".","#FFCA3A");
-        home_title.setText(Html.fromHtml("Today's W"+h+i+"m"+dot));
-
+        String i = getColoredSpanned("i", "#6E80FA");
+        String dot = getColoredSpanned(".", "#FFCA3A");
+        home_title.setText(Html.fromHtml("Today's W" + h + i + "m" + dot));
 
 
         // add new notes button listener
@@ -95,15 +97,28 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
 
-        community.setOnClickListener(new View.OnClickListener() {
+//        exit from guest mode to log in page
+        exitFromGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reminder();
+                Intent intent = new Intent(MainActivity.this, ExistLoginActivity.class);
+                startActivityForResult(intent, 101);
 
             }
         });
 
-        profile.setOnClickListener(new View.OnClickListener() {
+//        get back to login page
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ExistLoginActivity.class);
+                startActivityForResult(intent, 101);
+
+            }
+        });
+
+//        click community, like, profile will pop out reminder
+        community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 reminder();
@@ -116,24 +131,32 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 reminder();
             }
         });
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reminder();
+            }
+        });
+
     }
 
     public void onBackPressed() {
 
     }
 
+    //    pop out reminder page
     private void reminder() {
-
         ImageView cancel;
         Button signUp;
         //will create a view of our custom dialog layout
-        View alertCustomdialog = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_reminder,null);
+        View alertCustomdialog = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_reminder, null);
         //initialize alert builder.
         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
 
         //set our custom alert dialog to tha alertdialog builder
         alert.setView(alertCustomdialog);
-        cancel = (ImageView)alertCustomdialog.findViewById(R.id.cancel_button);
+        cancel = (ImageView) alertCustomdialog.findViewById(R.id.cancel_button);
         signUp = alertCustomdialog.findViewById(R.id.signUp_button);
         final AlertDialog dialog = alert.create();
         //this line removed app bar from dialog and make it transperent and you see the image is like floating outside dialog box.
@@ -155,24 +178,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     }
 
 
-    // Goto Personal Information
-    public void goToPersonalInformation(View view) {
-        // Personal information
-        Intent myIntent = new Intent(MainActivity.this, GuestPersonalInformation.class);
-        //myIntent.putExtra("key", 1); //Optional parameters
-        MainActivity.this.startActivity(myIntent);
-
-        ImageButton buttonMe = findViewById(R.id.buttonMe);
-        buttonMe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), GuestPersonalInformation.class);
-                view.getContext().startActivity(intent);}
-        });
-    }
-
-
-    // click on old notes
+    //    click on old notes
     private final NotesClickListener notesClickListener = new NotesClickListener() {
         @Override
         public void onClick(Notes notes) {
@@ -180,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             intent.putExtra("old_note", notes);
             startActivityForResult(intent, 102);
         }
+
         @Override
         public void onLongClick(Notes notes, CardView cardView) {
             selectedNote = new Notes();
@@ -201,16 +208,19 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         List<Notes> filteredList = new ArrayList<>();
         for (Notes singleNote : notes) {
             if (singleNote.getNotes().toLowerCase().contains(newText.toLowerCase())
-            || singleNote.getTitle().toLowerCase().contains(newText.toLowerCase())) {
+                    || singleNote.getTitle().toLowerCase().contains(newText.toLowerCase())) {
                 filteredList.add(singleNote);
             }
         }
         noteListAdapter.filterList((filteredList));
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+//        get new note
         if (requestCode == 101) {
             if (resultCode == Activity.RESULT_OK) {
                 Notes new_notes = (Notes) data.getSerializableExtra("note");
@@ -222,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         }
 
+//        update note
         if (requestCode == 102) {
             if (resultCode == Activity.RESULT_OK) {
                 Notes new_notes = (Notes) data.getSerializableExtra(("note"));
@@ -241,20 +252,19 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     }
 
     private String getColoredSpanned(String text, String color) {
-        String input = "<font color=" + color + ">" + text + "</font>";
-        return input;
+        return "<font color=" + color + ">" + text + "</font>";
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.delet:
-                Log.d("101", "!!!!");
-                database.mainDAO().delet(selectedNote);
-                notes.remove(selectedNote);
-                noteListAdapter.notifyDataSetChanged();
-                Toast.makeText(MainActivity.this, "Note Deleted!", Toast.LENGTH_SHORT).show();
-                return true;
+        if (menuItem.getItemId() == R.id.delet) {
+            Log.d("101", "!!!!");
+            database.mainDAO().delet(selectedNote);
+            notes.remove(selectedNote);
+            noteListAdapter.notifyDataSetChanged();
+            Toast.makeText(MainActivity.this, "Note Deleted!", Toast.LENGTH_SHORT).show();
+            return true;
         }
         return false;
     }
