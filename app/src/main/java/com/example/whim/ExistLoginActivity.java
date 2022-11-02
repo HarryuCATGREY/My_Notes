@@ -1,5 +1,7 @@
 package com.example.whim;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -14,22 +16,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.whim.Models.DrawableUtil;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-public class ExistLoginActivity extends AppCompatActivity {
 
-    private EditText loginemail, loginpwd; // login text
-    private boolean isHideFirst = true;  //
-    private Button loginbutton, signupbutton;  // two buttons
-    private TextView forget;  // forget password link
-    private TextView guestlogin;  // guestLogin link
+public class ExistLoginActivity extends AppCompatActivity {
+    //    login text
+    private EditText loginemail, loginpwd;
+    private boolean isHideFirst = true;
 
     private FirebaseAuth firebaseAuth;
 
@@ -47,20 +42,23 @@ public class ExistLoginActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         loginemail = findViewById(R.id.acc_input);
         loginpwd = findViewById(R.id.password_input);
-        loginbutton = findViewById(R.id.login_button);
-        signupbutton = findViewById(R.id.create_button);
-        forget = findViewById(R.id.forget);
-        mprogressbarforlogin=findViewById(R.id.progressbarforlogin);
-        guestlogin = findViewById(R.id.guestlogin);
+        Button loginbutton = findViewById(R.id.login_button);
+        // two buttons
+        Button signupbutton = findViewById(R.id.create_button);
+        // forget password link
+        TextView forget = findViewById(R.id.forget);
+        mprogressbarforlogin = findViewById(R.id.progressbarforlogin);
+        // guestLogin link
+        TextView guestlogin = findViewById(R.id.guestlogin);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();  // never used
 
-        TextView login_title = (TextView)findViewById(R.id.login_title);
+        TextView login_title = (TextView) findViewById(R.id.login_title);
 
         String h = getColoredSpanned("h", "#67B1F9");
-        String i = getColoredSpanned("i","#6E80FA");
-        String dot = getColoredSpanned(".","#FFCA3A");
-        login_title.setText(Html.fromHtml("W"+h+i+"m"+dot));
+        String i = getColoredSpanned("i", "#6E80FA");
+        String dot = getColoredSpanned(".", "#FFCA3A");
+        login_title.setText(Html.fromHtml("W" + h + i + "m" + dot));
 
         final Drawable drawableEyeOpen = getResources().getDrawable(R.drawable.open);
         final Drawable drawableEyeCLose = getResources().getDrawable(R.drawable.hidden);
@@ -115,16 +113,15 @@ public class ExistLoginActivity extends AppCompatActivity {
                 String mail = loginemail.getText().toString().trim();
                 String pwd = loginpwd.getText().toString().trim();
 
-                if (mail.isEmpty() || pwd.isEmpty()){
+                if (mail.isEmpty() || pwd.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     // login the user
-
                     mprogressbarforlogin.setVisibility(View.VISIBLE);
-                    firebaseAuth.signInWithEmailAndPassword(mail,pwd).addOnCompleteListener(task -> {
-                        if(task.isSuccessful()){
+                    firebaseAuth.signInWithEmailAndPassword(mail, pwd).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
                             checkEmailVerification();
-                        }else{
+                        } else {
                             Toast.makeText(getApplicationContext(), "Account does not exist.", Toast.LENGTH_SHORT).show();
                             mprogressbarforlogin.setVisibility(View.INVISIBLE);
                         }
@@ -143,7 +140,7 @@ public class ExistLoginActivity extends AppCompatActivity {
 
     private void checkBox() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        String check = sharedPreferences.getString("name","");
+        String check = sharedPreferences.getString("name", "");
         if (check.equals("true")) {
             Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
             finish();
@@ -152,26 +149,26 @@ public class ExistLoginActivity extends AppCompatActivity {
         }
     }
 
-    private void checkEmailVerification(){
+    private void checkEmailVerification() {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if(firebaseUser.isEmailVerified()==true){
+        if (firebaseUser.isEmailVerified()) {
             SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("name","true");
+            editor.putString("name", "true");
             editor.apply();
 
             Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
             finish();
             startActivity(new Intent(ExistLoginActivity.this, ExistUserMainPage.class));
-        }else{
+        } else {
             mprogressbarforlogin.setVisibility(View.INVISIBLE);
             Toast.makeText(getApplicationContext(), "Please verify your email first.", Toast.LENGTH_SHORT).show();
             firebaseAuth.signOut();
         }
 
     }
+
     private String getColoredSpanned(String text, String color) {
-        String input = "<font color=" + color + ">" + text + "</font>";
-        return input;
+        return "<font color=" + color + ">" + text + "</font>";
     }
 }
