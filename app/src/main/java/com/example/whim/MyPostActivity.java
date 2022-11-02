@@ -25,13 +25,13 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MyPostActivity extends AppCompatActivity {
-    private TextView postTitle, postcontent, numlikefrommypost;
+//    firebase
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     FirebaseFirestore firebaseFirestore;
     StorageReference storageReference;
 
-    String postImgUri, postImgName;
+//    bottom buttons
     Button postLocationText;
     TextView postTextDateTime;
     ImageView postImage, deletepost;
@@ -44,22 +44,23 @@ public class MyPostActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        postTitle = findViewById(R.id.posttitle);
-        postcontent = findViewById(R.id.postexist);
-
+//        initialise buttons and views
+//        details for post
+        TextView postTitle = findViewById(R.id.posttitle);
+        TextView postcontent = findViewById(R.id.postexist);
         postTextDateTime = findViewById(R.id.postDateTime);
         postImage = findViewById(R.id.postimage);
         postLocationText = findViewById(R.id.locationpost);
-        numlikefrommypost = findViewById(R.id.numlikefrommypost);
-
+        TextView numlikefrommypost = findViewById(R.id.numlikefrommypost);
         deletepost = findViewById(R.id.deletepost);
+
+//        initialise firebase
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
         Intent data = getIntent();
-
 
         String titlepost = data.getStringExtra("title");
         String contentpost = data.getStringExtra("content");
@@ -71,7 +72,6 @@ public class MyPostActivity extends AppCompatActivity {
         ArrayList<String> curlikedusers = data.getStringArrayListExtra("likedusers");
 
         int numlikes = data.getExtras().getInt("numlikes");
-//        final Integer[] numlikes = {data.getExtras().getInt("numlikes")};
 
         postTitle.setText(data.getStringExtra("title"));
         postcontent.setText(data.getStringExtra("content"));
@@ -93,12 +93,12 @@ public class MyPostActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     startActivity(new Intent(MyPostActivity.this, ProfileActivity.class));
-
                 }
             });
 
         }
 
+//        delete post
         deletepost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,15 +123,14 @@ public class MyPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
-                //startActivity(new Intent(noteDetails.this, ExistUserMainPage.class));;
             }
         });
+
     }
 
     public void onBackPressed() {
         startActivity(new Intent(MyPostActivity.this, ProfileActivity.class));
     }
-
 
 
 }
