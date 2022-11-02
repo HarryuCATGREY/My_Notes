@@ -12,7 +12,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -55,7 +54,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -99,17 +97,19 @@ public class ExistNewNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_note_acticity);
 
 //        initialise button and view
+
+//        progressBar
         textProgress = findViewById(R.id.textProgress);
         progressBar = findViewById(R.id.progress_loader);
-
         progressBar.setVisibility(View.GONE);
         textProgress.setVisibility(View.GONE);
 
-
+//        title, time, image
         inputNoteTitle = findViewById(R.id.storedTitle);
         textDateTime = findViewById(R.id.textDateTime1);
         selectedImage = findViewById(R.id.imageExist1);
 
+//        button for camera, gallery, platte and location
         cameraBtn = findViewById(R.id.camera11);
         galleryBtn = findViewById(R.id.gallery11);
         paletteBtn = findViewById(R.id.exist_palette);
@@ -122,6 +122,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
 
         @SuppressLint("SimpleDateFormat") SimpleDateFormat formatterTime = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a");
 
+//        get instance from firebase
         storageReference = FirebaseStorage.getInstance().getReference();
 
 //        set date
@@ -129,13 +130,17 @@ public class ExistNewNoteActivity extends AppCompatActivity {
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
         );
 
+//        note text
         TextView inputNoteText = (TextView) findViewById(R.id.storedNote);
+
+//        change text color for hint
         String img = getColoredSpanned("images", "#67B1F9");
         String txt = getColoredSpanned("text", "#FFCA3A");
         String photos = getColoredSpanned("doodles", "#6E80FA");
         inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert " + img + ", " + txt + ", or draw " + photos + "."));
 
 
+//        create new note
         notes = new Notes();
         try {
             notes = (Notes) getIntent().getSerializableExtra("old_note");
@@ -146,7 +151,7 @@ public class ExistNewNoteActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Note save button
+//        Note save button
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(ExistNewNoteActivity.this);
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
