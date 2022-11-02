@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -46,12 +47,13 @@ public class WhatYouLikedActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     StorageReference storageReference;
 
-    ImageButton like;
+//    button for the bottom
     ImageButton home;
     ImageButton profile;
     ImageButton community;
 
     FirestoreRecyclerAdapter<postmodel, LikeViewHolder> likeAdapter;
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,19 +61,21 @@ public class WhatYouLikedActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        //getSupportActionBar().setTitle("All Posts");
-
+//        initialise firebase
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
+
+//        initialise button and view
         posttodayDate = findViewById(R.id.todaypostDate);
         storageReference = FirebaseStorage.getInstance().getReference();
 
+//        community, home, profile button
         community = findViewById(R.id.communityfromlike);
         home = findViewById(R.id.homefromlike);
-        like = findViewById(R.id.likefromlike);
         profile = findViewById(R.id.profilefromlike);
 
+//        bottom button click setting
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,21 +97,20 @@ public class WhatYouLikedActivity extends AppCompatActivity {
             }
         });
 
+//        change color for whim
         TextView login_title = (TextView)findViewById(R.id.textView5);
-
         String h = getColoredSpanned("h", "#67B1F9");
         String i = getColoredSpanned("i","#6E80FA");
         String dot = getColoredSpanned(".","#FFCA3A");
         login_title.setText(Html.fromHtml("My Favorite W"+h+i+"m"+dot));
 
-
+//        show date
         posttodayDate.setText(
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
         );
 
-
+//        set query for liked list
         Query likequery = firebaseFirestore.collection("posts").whereArrayContains("likedusers", firebaseUser.getUid()).orderBy("timestamp", Query.Direction.DESCENDING);
-
         FirestoreRecyclerOptions<postmodel> alllikes = new FirestoreRecyclerOptions.Builder<postmodel>().setQuery(likequery, postmodel.class).build();
 
         likeAdapter = new FirestoreRecyclerAdapter<postmodel, LikeViewHolder>(alllikes){
@@ -162,27 +165,28 @@ public class WhatYouLikedActivity extends AppCompatActivity {
         likerecyclerview.setAdapter(likeAdapter);
         likeAdapter.notifyDataSetChanged();
 
-
-
     }
-    public class LikeViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView liketitle;
-        private TextView likecontent;
-        private TextView liketime;
-        private ImageView likeimgview;
-        private ConstraintLayout likecolour;
+//    set viewHolder
+    public static class LikeViewHolder extends RecyclerView.ViewHolder{
+
+//        show liked title, content and image
+        private final TextView liketitle;
+        private final TextView likecontent;
+        private final ImageView likeimgview;
 
         LinearLayout mpost;
+
         public LikeViewHolder(@NonNull View itemView) {
             super(itemView);
             liketitle = itemView.findViewById(R.id.exist_title);
             likecontent = itemView.findViewById(R.id.note_content);
             likeimgview = itemView.findViewById(R.id.postimgview);
             mpost = itemView.findViewById(R.id.whim);
-            likecolour = itemView.findViewById(R.id.post_colour);
+            ConstraintLayout likecolour = itemView.findViewById(R.id.post_colour);
         }
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -198,8 +202,7 @@ public class WhatYouLikedActivity extends AppCompatActivity {
     }
 
     private String getColoredSpanned(String text, String color) {
-        String input = "<font color=" + color + ">" + text + "</font>";
-        return input;
+        return "<font color=" + color + ">" + text + "</font>";
     }
 
     public void onBackPressed() {
