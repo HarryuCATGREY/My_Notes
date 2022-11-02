@@ -3,13 +3,16 @@ package com.example.whim;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
+
 import java.util.Calendar;
 import java.util.Date;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.text.Html;
@@ -32,7 +35,6 @@ import com.example.whim.Adapters.NoteListAdapter;
 import com.example.whim.Models.Notes;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,8 +52,6 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     Button fab_add_exist;
     SearchView search_home_exist;
     Notes selectedNote;
-    String currSearch;
-    public static String currText;
     Date notesDate;
     ImageButton like;
     ImageButton home;
@@ -60,9 +60,7 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     Query query;
     FirestoreRecyclerOptions<firebasemodel> allusernotes;
 
-    public static String enteredkeyword;
-
-    TextView todayDate, storeInvisible;
+    TextView todayDate;
 
     RecyclerView mrecyclerview;
     StaggeredGridLayoutManager staggeredGridLayoutManager;
@@ -77,38 +75,37 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_exist_user_main_page);
 
-        // recyclerView_exist = findViewById(R.id.recycle_home_exist);
+//        initialise button and view
         fab_add_exist = findViewById(R.id.fab_add_exist);
         search_home_exist = findViewById(R.id.search_home_exist);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
-        todayDate = findViewById(R.id.todayDate);
+
+//        community, home, like, profile button
         community = findViewById(R.id.community);
         home = findViewById(R.id.home);
         like = findViewById(R.id.like);
         profile = findViewById(R.id.profile);
 
-
-        getSupportActionBar().hide();
-
-        storeInvisible = findViewById(R.id.invisible_store);
-
-        notesDate = Calendar.getInstance().getTime();
-
+//        set date
+        todayDate = findViewById(R.id.todayDate);
         todayDate.setText(
                 new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
         );
 
-        TextView home_title = (TextView)findViewById(R.id.home_title);
-
+//        set home title
+        TextView home_title = (TextView) findViewById(R.id.home_title);
+//        change whim color
         String h = getColoredSpanned("h", "#67B1F9");
-        String i = getColoredSpanned("i","#6E80FA");
-        String dot = getColoredSpanned(".","#FFCA3A");
-        home_title.setText(Html.fromHtml("Today's W"+h+i+"m"+dot));
+        String i = getColoredSpanned("i", "#6E80FA");
+        String dot = getColoredSpanned(".", "#FFCA3A");
+        home_title.setText(Html.fromHtml("Today's W" + h + i + "m" + dot));
 
+        notesDate = Calendar.getInstance().getTime();
 
         // add new notes button listener
         fab_add_exist.setOnClickListener(new View.OnClickListener() {
@@ -117,8 +114,6 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
                 startActivity(new Intent(ExistUserMainPage.this, ExistNewNoteActivity.class));
             }
         });
-
-        //Query testquery = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").whereArrayContains("searchkeyword", currSearch).orderBy("title", Query.Direction.ASCENDING);
 
         community.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,17 +137,11 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             }
         });
 
-
-
-        //Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
         query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("timestamp", Query.Direction.DESCENDING);
-//        Query query = firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").orderBy("title", Query.Direction.ASCENDING);
-
 
         allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>().setQuery(query, firebasemodel.class).build();
 
-        noteAdapter = new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(allusernotes){
-            @RequiresApi(api = Build.VERSION_CODES.M)
+        noteAdapter = new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(allusernotes) {
             @Override
             protected void onBindViewHolder(@NonNull NoteViewHolder noteViewHolder, int i, @NonNull firebasemodel firebasemodel) {
                 noteViewHolder.notetitle.setText(firebasemodel.getTitle());
@@ -164,8 +153,8 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), noteDetails.class);
-                        intent.putExtra("title",firebasemodel.getTitle());
-                        intent.putExtra("content",firebasemodel.getContent());
+                        intent.putExtra("title", firebasemodel.getTitle());
+                        intent.putExtra("content", firebasemodel.getContent());
                         intent.putExtra("image", firebasemodel.getImage());
                         intent.putExtra("time", firebasemodel.getTime());
                         intent.putExtra("location", firebasemodel.getLocation());
@@ -176,13 +165,13 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
 
                         view.getContext().startActivity(intent);
                     }
-
                 });
             }
+
             @NonNull
             @Override
             public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exist_notes_list,parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exist_notes_list, parent, false);
                 return new NoteViewHolder(view);
             }
 
@@ -194,7 +183,8 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             }
         };
 
-        mrecyclerview=findViewById(R.id.recycle_home_exist);
+//        set recycle view
+        mrecyclerview = findViewById(R.id.recycle_home_exist);
         mrecyclerview.setHasFixedSize(true);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mrecyclerview.setLayoutManager(staggeredGridLayoutManager);
@@ -204,13 +194,10 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
             //String currText;
             @Override
             public boolean onQueryTextSubmit(String newText) {
-
                 return true;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 search(newText);
                 return false;
             }
@@ -218,22 +205,18 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
         });
     }
 
-    public void onBackPressed() {
-
-    }
-
-
+//    change text color
     private String getColoredSpanned(String text, String color) {
-        String input = "<font color=" + color + ">" + text + "</font>";
-        return input;
+        return "<font color=" + color + ">" + text + "</font>";
     }
 
-    public class NoteViewHolder extends RecyclerView.ViewHolder{
+    public static class NoteViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView notetitle;
-        private TextView notecontent;
-        private TextView notetime;
+        private final TextView notetitle;
+        private final TextView notecontent;
+        private final TextView notetime;
         LinearLayout mnote;
+
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             notetitle = itemView.findViewById(R.id.exist_title);
@@ -245,20 +228,18 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.popup_menu,menu);
+        getMenuInflater().inflate(R.menu.popup_menu, menu);
         return true;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.delet:
-                //database.mainDAO().delet(selectedNote);
-                notes.remove(selectedNote);
-                noteListAdapterExist.notifyDataSetChanged();
-                Toast.makeText(ExistUserMainPage.this, "Note Deleted!", Toast.LENGTH_SHORT).show();
-                return true;
+        if (menuItem.getItemId() == R.id.delet) {
+            notes.remove(selectedNote);
+            noteListAdapterExist.notifyDataSetChanged();
+            Toast.makeText(ExistUserMainPage.this, "Note Deleted!", Toast.LENGTH_SHORT).show();
+            return true;
         }
         return false;
     }
@@ -266,11 +247,10 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch(item.getItemId()){
-            case R.id.delet:
-                firebaseAuth.signOut();
-                finish();
-                startActivity(new Intent(ExistUserMainPage.this, ExistLoginActivity.class));
+        if (item.getItemId() == R.id.delet) {
+            firebaseAuth.signOut();
+            finish();
+            startActivity(new Intent(ExistUserMainPage.this, ExistLoginActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -284,46 +264,26 @@ public class ExistUserMainPage extends AppCompatActivity implements PopupMenu.On
     @Override
     protected void onStop() {
         super.onStop();
-        if(noteAdapter != null){
+        if (noteAdapter != null) {
             noteAdapter.stopListening();
         }
     }
 
-    public void setActionBarColor(int parsedColor){
-        ActionBar mActionBar = getSupportActionBar();
-        mActionBar.setBackgroundDrawable(new ColorDrawable(parsedColor));
-        mActionBar.setDisplayShowTitleEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(true);
-    }
+//    search for note's title
+    private void search(String newText) {
+        query = firebaseFirestore.collection("notes")
+                .document(firebaseUser.getUid())
+                .collection("myNotes")
+                .orderBy("title", Query.Direction.ASCENDING)
+                .startAt(newText);
 
-//    // Goto Personal Information
-//    public void goToPersonalInformation(View view) {
-//        // Personal information
-//        Intent myIntent = new Intent(ExistUserMainPage.this, UserPersonalInformation.class);
-//        //myIntent.putExtra("key", 1); //Optional parameters
-//        ExistUserMainPage.this.startActivity(myIntent);
-//
-//        Button buttonMe = (Button) findViewById(R.id.buttonMe);
-//        buttonMe.setOnClickListener(view1 -> {
-//            Intent intent = new Intent(view1.getContext(), UserPersonalInformation.class);
-//            view1.getContext().startActivity(intent);});
-//    }
+        allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>()
+                .setQuery(query, firebasemodel.class)
+                .build();
 
-    private void search(String newText)
-    {
-            query = firebaseFirestore.collection("notes")
-                    .document(firebaseUser.getUid())
-                    .collection("myNotes")
-                    .orderBy("title", Query.Direction.ASCENDING)
-                    .startAt(newText);
-
-            allusernotes = new FirestoreRecyclerOptions.Builder<firebasemodel>()
-                    .setQuery(query, firebasemodel.class)
-                    .build();
-
-            noteAdapter.updateOptions(allusernotes);
-            mrecyclerview.setLayoutManager(staggeredGridLayoutManager);
-            mrecyclerview.setAdapter(noteAdapter);
+        noteAdapter.updateOptions(allusernotes);
+        mrecyclerview.setLayoutManager(staggeredGridLayoutManager);
+        mrecyclerview.setAdapter(noteAdapter);
 
     }
 }
