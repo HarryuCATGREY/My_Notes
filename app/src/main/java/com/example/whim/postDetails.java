@@ -3,10 +3,10 @@ package com.example.whim;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,19 +35,17 @@ import java.util.Map;
 
 public class postDetails extends AppCompatActivity {
 
-    private TextView postTitle, postcontent, numberlikes;
+    private TextView numberlikes;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     FirebaseFirestore firebaseFirestore;
     StorageReference storageReference;
 
-    String postImgUri, postImgName;
     Button postLocationText;
     TextView postTextDateTime;
     ImageView postImage, likenote;
     int numuserliked = 0;
     ArrayList<String> likedUserList = new ArrayList<String>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,23 +53,25 @@ public class postDetails extends AppCompatActivity {
         setContentView(R.layout.activity_post_details);
         getSupportActionBar().hide();
 
-        postTitle = findViewById(R.id.posttitle);
-        postcontent = findViewById(R.id.postexist);
-
+//        initialise button and view
+        TextView postTitle = findViewById(R.id.posttitle);
+        TextView postcontent = findViewById(R.id.postexist);
         postTextDateTime = findViewById(R.id.postDateTime);
         postImage = findViewById(R.id.postimage);
         postLocationText = findViewById(R.id.locationpost);
         likenote = findViewById(R.id.likenote);
         numberlikes = findViewById(R.id.numberlikes);
 
+//        initialise firebase
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
+//        get date
         Intent data = getIntent();
 
-
+//        set post details
         String titlepost = data.getStringExtra("title");
         String contentpost = data.getStringExtra("content");
         String locationpost = data.getStringExtra("location");
@@ -81,16 +81,12 @@ public class postDetails extends AppCompatActivity {
         String postID = data.getStringExtra("postId");
         String uID = data.getStringExtra("uid");
 
-        // String numlikes = data.getStringExtra("numlikes");
-
-        //int numberlikes = Integer.parseInt(numlikes);
-
+//        show post
         postTitle.setText(data.getStringExtra("title"));
         postcontent.setText(data.getStringExtra("content"));
         postTextDateTime.setText(data.getStringExtra("time"));
         postLocationText.setText(data.getStringExtra("location"));
-        SimpleDateFormat formatterTime = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a");
-
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatterTime = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a");
 
         if (data.getStringExtra("image") != null) {
             StorageReference imgReference = storageReference.child("photos/").child(data.getStringExtra("imagename"));
@@ -104,6 +100,7 @@ public class postDetails extends AppCompatActivity {
 
         DocumentReference likeRef = firebaseFirestore.collection("posts").document(postID);
 
+//        get liked user ref
         likeRef.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -112,8 +109,6 @@ public class postDetails extends AppCompatActivity {
                         for (String user : (ArrayList<String>) document.get("likedusers")){
                             likedUserList.add(user);
                         }
-                           // Log.v("vettore", String.valueOf(likedUserList));
-//                        }
                     }
 
                 }).addOnFailureListener(new OnFailureListener() {
@@ -123,16 +118,13 @@ public class postDetails extends AppCompatActivity {
                 });
 
 
+//        add liked number
         likeRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot document = task.getResult();
-
                 numuserliked = document.getLong("numlikes").intValue();
-//                Log.v("Number of liked users", String.valueOf(numuserliked));
                 numberlikes.setText(String.valueOf(numuserliked));
-//                Log.v("in textview", numberlikes.getText().toString());
-
 
             }
 
@@ -142,17 +134,11 @@ public class postDetails extends AppCompatActivity {
             }
         });;
 
-        //numberlikes.setText(String.valueOf(numuserliked));
-
-
         ImageView backpost = findViewById(R.id.backpost);
         backpost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 DocumentReference likeRef = firebaseFirestore.collection("posts").document(postID);
-                //DocumentReference documentReference = firebaseFirestore.collection("posts").document();
-
                 Map<String, Object> post = new HashMap<>();
                 try {
                     Date realStamp = formatterTime.parse(timepost);
@@ -161,7 +147,6 @@ public class postDetails extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                //ArrayList<String> likedusers = new ArrayList<String>();
                 post.put("uid", uID);
                 post.put("title", titlepost);
                 post.put("content", contentpost);
@@ -172,43 +157,22 @@ public class postDetails extends AppCompatActivity {
                 post.put("numlikes", numuserliked);
                 post.put("likedusers", likedUserList);
 
+//                check if like post success
                 likeRef.set(post).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-//                        Toast.makeText(getApplicationContext(), "You liked this whim :)", Toast.LENGTH_SHORT).show();
-                        //startActivity(new Intent(postDetails.this, postDetails.this));
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(getApplicationContext(), "Failed to like whim, please try again later :(", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Failed to like whim, please try again later :(", Toast.LENGTH_SHORT).show();
                     }
                 });
                 startActivity(new Intent(postDetails.this, PostActivity.class));
             }
         });
 
-
-//        deletepost.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                DocumentReference documentReference = firebaseFirestore.collection("posts").document(data.getStringExtra("postId"));
-//                documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void unused) {
-//                        Toast.makeText(view.getContext(), "Your post is deleted.", Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(postDetails.this, PostActivity.class));
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(view.getContext(), "Your post failed to be deleted.", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//        });
-
+//        like note and change the count number
         likenote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,18 +181,12 @@ public class postDetails extends AppCompatActivity {
                     likedUserList.remove(firebaseUser.getUid());
                     numuserliked -= 1;
                     numberlikes.setText(String.valueOf(numuserliked));
-
-//                    Log.v("current liked users", String.valueOf(likedUserList));
-//                    Log.v("current likes", String.valueOf(numuserliked));
-                    Toast.makeText(getApplicationContext(), "You removed your like to this whim :)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "removed your like!", Toast.LENGTH_SHORT).show();
 
                 }else{
                     likedUserList.add(firebaseUser.getUid());
                     numuserliked += 1;
                     numberlikes.setText(String.valueOf(numuserliked));
-                    //numberlikes.setText(String.valueOf(numuserliked));
-//                    Log.v("current liked users", String.valueOf(likedUserList));
-//                    Log.v("current likes", String.valueOf(numuserliked));
                     Toast.makeText(getApplicationContext(), "You liked this whim :)", Toast.LENGTH_SHORT).show();
 
                 }

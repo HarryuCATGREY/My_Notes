@@ -14,17 +14,14 @@ public class postmodel {
     private Date timestamp;
     private String imagename;
     private ArrayList<String> likedusers;
-    private int  numlikes;
+    private int numlikes;
     private String uid;
 
-
-    public postmodel(){
+    public postmodel() {
 
     }
 
-
-
-    public postmodel(int numlikes, String title, String content, String image, String time, String location, ArrayList<String> likedusers, Date timestamp, String imagename, String uid){
+    public postmodel(int numlikes, String title, String content, String image, String time, String location, ArrayList<String> likedusers, Date timestamp, String imagename, String uid) {
         this.title = title;
         this.content = content;
         this.image = image;
