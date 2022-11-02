@@ -10,10 +10,8 @@ import androidx.core.content.FileProvider;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-
 import android.app.AlertDialog;
 import android.content.ContentResolver;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -23,7 +21,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Html;
@@ -39,14 +36,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
-
 import com.example.whim.Models.Notes;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,7 +55,6 @@ public class NotesTakerActivity extends AppCompatActivity {
     private TextView textDateTime;
     private ImageView selectedImage;
     private String selectedImagePath;
-    private String imageUri;
     private TextView alertTextView;
 
     Notes notes;
@@ -70,9 +63,9 @@ public class NotesTakerActivity extends AppCompatActivity {
     ImageButton cameraBtn, galleryBtn, paletteBtn;
     String currentPhotoPath;
 
-
     FusedLocationProviderClient fusedLocationProviderClient;
 
+    //    set code for command
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     private static final int GALLERY_PERM_CODE = 1;
@@ -84,37 +77,40 @@ public class NotesTakerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_taker);
 
+//        initialise button and view
         inputNoteTitle = findViewById(R.id.inputNoteTitle);
         inputNoteText = findViewById(R.id.inputNote);
         textDateTime = findViewById(R.id.textDateTime);
         selectedImage = findViewById(R.id.imageNote);
-        // Assign location value
+
+//        Assign location value
         locationBtn = findViewById(R.id.location);
 
-
-        TextView inputNoteText = (TextView)findViewById(R.id.inputNote);
-
+//        set note details
+        TextView inputNoteText = (TextView) findViewById(R.id.inputNote);
         String img = getColoredSpanned("images", "#67B1F9");
-        String txt = getColoredSpanned("text","#FFCA3A");
-        String photos = getColoredSpanned("doodles","#6E80FA");
-        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or draw "+photos+"."));
+        String txt = getColoredSpanned("text", "#FFCA3A");
+        String photos = getColoredSpanned("doodles", "#6E80FA");
+        inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert " + img + ", " + txt + ", or draw " + photos + "."));
 
-
+//        set image path
         selectedImagePath = "";
+
+//        set date
         if (textDateTime.getText().length() == 0) {
             textDateTime.setText(
                     new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date())
             );
         }
 
-
+//        create new note
         notes = new Notes();
 
         try {
             notes = (Notes) getIntent().getSerializableExtra("old_note");
             inputNoteTitle.setText(notes.getTitle());
             inputNoteText.setText(notes.getNotes());
-            inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert "+img+", "+txt+", or upload "+photos+"."));
+            inputNoteText.setHint(Html.fromHtml("What is on your mind today? You can insert " + img + ", " + txt + ", or upload " + photos + "."));
             isOldNote = true;
             // if the location is recorded, show it out
             if (notes.getLocation() != null) {
@@ -126,7 +122,9 @@ public class NotesTakerActivity extends AppCompatActivity {
 
         // Note back button
         ImageView imageBack = findViewById(R.id.imageBack);
-        imageBack.setOnClickListener((v) -> {onBackPressed();});
+        imageBack.setOnClickListener((v) -> {
+            onBackPressed();
+        });
 
         // Note save button
         ImageView imageSave = findViewById(R.id.imageSave);
@@ -143,10 +141,10 @@ public class NotesTakerActivity extends AppCompatActivity {
         paletteBtn = findViewById(R.id.palette);
 
 
-
         // Initialize fuse location provider client
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(NotesTakerActivity.this);
 
+//        camera button
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,6 +152,7 @@ public class NotesTakerActivity extends AppCompatActivity {
             }
         });
 
+//        gallery button
         galleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +160,7 @@ public class NotesTakerActivity extends AppCompatActivity {
             }
         });
 
+//        platte button
         paletteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,14 +168,13 @@ public class NotesTakerActivity extends AppCompatActivity {
             }
         });
 
+//        location button
         locationBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 askLocationPermissions();
             }
         });
-
 
     }
 
@@ -183,18 +182,18 @@ public class NotesTakerActivity extends AppCompatActivity {
         startActivity(new Intent(NotesTakerActivity.this, MainActivity.class));
     }
 
+    //    reminder for guest log in
     private void reminder() {
-
         ImageView cancel;
         Button signUp;
         //will create a view of our custom dialog layout
-        View alertCustomdialog = LayoutInflater.from(NotesTakerActivity.this).inflate(R.layout.activity_reminder,null);
+        View alertCustomdialog = LayoutInflater.from(NotesTakerActivity.this).inflate(R.layout.activity_reminder, null);
         //initialize alert builder.
         AlertDialog.Builder alert = new AlertDialog.Builder(NotesTakerActivity.this);
 
         //set our custom alert dialog to tha alertdialog builder
         alert.setView(alertCustomdialog);
-        cancel = (ImageView)alertCustomdialog.findViewById(R.id.cancel_button);
+        cancel = (ImageView) alertCustomdialog.findViewById(R.id.cancel_button);
         signUp = alertCustomdialog.findViewById(R.id.signUp_button);
         final AlertDialog dialog = alert.create();
         //this line removed app bar from dialog and make it transperent and you see the image is like floating outside dialog box.
@@ -216,19 +215,9 @@ public class NotesTakerActivity extends AppCompatActivity {
 
     }
 
-    private void askGalleryPermissions() {
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) !=
-        PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(NotesTakerActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_PERM_CODE);
-        }
-        else {
-            getGallery();
-        }
-    }
-
+    //    set text color
     private String getColoredSpanned(String text, String color) {
-        String input = "<font color=" + color + ">" + text + "</font>";
-        return input;
+        return "<font color=" + color + ">" + text + "</font>";
     }
 
     private void getGallery() {
@@ -236,12 +225,12 @@ public class NotesTakerActivity extends AppCompatActivity {
         startActivityForResult(gallery, GALLERY_REQUEST_CODE);
     }
 
+    //    save note
     public void saveNote() {
         if (inputNoteTitle.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, "Note title can't be empty!", Toast.LENGTH_SHORT).show();
             return;
-        }
-        else if (inputNoteText.getText().toString().trim().isEmpty()) {
+        } else if (inputNoteText.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, "Note can't be empty!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -255,8 +244,6 @@ public class NotesTakerActivity extends AppCompatActivity {
         notes.setNotes(inputNoteText.getText().toString());
         notes.setLocation(locationBtn.getText().toString());
 
-
-
         Intent intent = new Intent();
         intent.putExtra("note", notes);
 
@@ -264,21 +251,19 @@ public class NotesTakerActivity extends AppCompatActivity {
         finish();
     }
 
+    //    get location and input to note
     private void askLocationPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
-        }
-        else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+        } else {
             getLocation();
         }
     }
 
-
-    // Get Location part
+    //    Get Location part
     @SuppressLint("MissingPermission")
     private void getLocation() {
-
         fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
@@ -294,28 +279,21 @@ public class NotesTakerActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(NotesTakerActivity.this, "Location null error", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-
-
-
-
     // Ask camera to take photo permission
     private void askCameraPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
         } else {
             dispatchTakePictureIntent();
         }
     }
-
-
 
     // Check the permission of camera
     @Override
@@ -324,25 +302,22 @@ public class NotesTakerActivity extends AppCompatActivity {
         if (requestCode == GALLERY_PERM_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getGallery();
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Gallery Permission is Required to Use photo.", Toast.LENGTH_SHORT).show();
             }
         }
         if (requestCode == CAMERA_PERM_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 dispatchTakePictureIntent();
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
             }
         }
 
         if (requestCode == LOCATION_REQUEST_CODE) {
-            if (grantResults.length > 0 && (grantResults[0] + grantResults[1]== PackageManager.PERMISSION_GRANTED)) {
+            if (grantResults.length > 0 && (grantResults[0] + grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
                 getLocation();
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Location Permission is Required to Use location.", Toast.LENGTH_SHORT).show();
             }
         }
@@ -361,7 +336,7 @@ public class NotesTakerActivity extends AppCompatActivity {
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri contentUri = Uri.fromFile(f);
 
-                imageUri = Uri.fromFile(f).toString();
+                String imageUri = Uri.fromFile(f).toString();
                 mediaScanIntent.setData(contentUri);
                 this.sendBroadcast(mediaScanIntent);
 
@@ -374,8 +349,8 @@ public class NotesTakerActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 Uri contentUri = data.getData();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                String imageFileName = "JPEG_" + timeStamp +"."+getFileExt(contentUri);
-                Log.d("tag", "onActivityResult: Gallery Image Uri:  " +  imageFileName);
+                String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
+                Log.d("tag", "onActivityResult: Gallery Image Uri:  " + imageFileName);
                 selectedImage.setImageURI(contentUri);
 
             }
@@ -388,16 +363,14 @@ public class NotesTakerActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(c.getType(contentUri));
     }
 
-
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
+                ".jpg",   /* suffix */
                 storageDir      /* directory */
         );
 
@@ -405,7 +378,6 @@ public class NotesTakerActivity extends AppCompatActivity {
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
-
 
 
     private void dispatchTakePictureIntent() {
@@ -435,8 +407,7 @@ public class NotesTakerActivity extends AppCompatActivity {
         Cursor cursor = getContentResolver().query(contentUri, null, null, null, null);
         if (cursor == null) {
             filePath = contentUri.getPath();
-        }
-        else {
+        } else {
             cursor.moveToFirst();
             int index = cursor.getColumnIndex("data");
             filePath = cursor.getString(index);
