@@ -19,7 +19,6 @@ public class firebasemodel {
 
     }
 
-
     public String getImagename() {
         return imagename;
     }
