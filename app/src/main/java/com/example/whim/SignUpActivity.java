@@ -7,18 +7,13 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.whim.Models.DrawableUtil;
@@ -29,11 +24,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
-import java.util.concurrent.Executor;
 
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
-    private ImageView iv_eye1;
     private EditText signupwd, pwdConfirm;
     private boolean isHideFirst = true;
 
@@ -42,11 +35,10 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_sign_up);
-
         Objects.requireNonNull(getSupportActionBar()).hide();
 
+//        initialise button and view
         TextView signTitle = findViewById(R.id.signup_title);
         EditText signupemail = findViewById(R.id.email_input);
         signupwd = findViewById(R.id.acc_pwd);
@@ -54,12 +46,12 @@ public class SignUpActivity extends AppCompatActivity {
         TextView mlogin = findViewById(R.id.gotologin);
         pwdConfirm = findViewById(R.id.acc_pwd_ag);
 
-        final Drawable drawableEyeOpen = getResources().getDrawable(R.drawable.open);
-        final Drawable drawableEyeCLose = getResources().getDrawable(R.drawable.hidden);
-        final Drawable edit_ic = getResources().getDrawable(R.drawable.edit);
+//        drawable for eye open and eye close
+        @SuppressLint("UseCompatLoadingForDrawables") final Drawable drawableEyeOpen = getResources().getDrawable(R.drawable.open);
+        @SuppressLint("UseCompatLoadingForDrawables") final Drawable drawableEyeCLose = getResources().getDrawable(R.drawable.hidden);
 
-
-        DrawableUtil pwdCheck = new DrawableUtil(signupwd, new DrawableUtil.OnDrawableListener(){
+//        click drawable eye and show or hide password
+        DrawableUtil pwdCheck = new DrawableUtil(signupwd, new DrawableUtil.OnDrawableListener() {
             @Override
             public void onLeft(View v, Drawable left) {
                 Toast.makeText(getApplicationContext(), "input password", Toast.LENGTH_SHORT).show();
@@ -85,7 +77,8 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        DrawableUtil pwdCheckAg = new DrawableUtil(pwdConfirm, new DrawableUtil.OnDrawableListener(){
+//        click drawable eye and show or hide password for confirm
+        DrawableUtil pwdCheckAg = new DrawableUtil(pwdConfirm, new DrawableUtil.OnDrawableListener() {
             @Override
             public void onLeft(View v, Drawable left) {
                 Toast.makeText(getApplicationContext(), "input password", Toast.LENGTH_SHORT).show();
@@ -111,19 +104,18 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-
-
         firebaseAuth = FirebaseAuth.getInstance();
 
         String already = getColoredSpanned("Already have an account?", "#042243");
         mlogin.setText(Html.fromHtml(already + " Login"));
 
+//        change sign up color
         String i = getColoredSpanned("i", "#67B1F9");
-        String g = getColoredSpanned("g","#6E80FA");
-        String p = getColoredSpanned("p","#FFCA3A");
-        signTitle.setText(Html.fromHtml("S"+ i + g + "n " + "U" + p));
+        String g = getColoredSpanned("g", "#6E80FA");
+        String p = getColoredSpanned("p", "#FFCA3A");
+        signTitle.setText(Html.fromHtml("S" + i + g + "n " + "U" + p));
 
-
+//        get back to login
         mlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,6 +124,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+//        sign up for whim
         signupbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,24 +132,25 @@ public class SignUpActivity extends AppCompatActivity {
                 String pwd = signupwd.getText().toString().trim();
                 String pwd2 = pwdConfirm.getText().toString().trim();
 
-
-
-                if (mail.isEmpty() || pwd.isEmpty()){
+//                check if pwd meet requirements
+                if (mail.isEmpty() || pwd.isEmpty()) {
+//                    check if empty
                     Toast.makeText(getApplicationContext(), "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
-                }else if(!pwd.equals(pwd2)){
-                    Toast.makeText(getApplication(),"Confirm fails，Please enter same password.",Toast.LENGTH_SHORT).show();
-                }else if(pwd.length() < 7){
+                } else if (!pwd.equals(pwd2)) {
+//                    check if pwd1 == pwd2
+                    Toast.makeText(getApplication(), "Confirm fails，Please enter same password.", Toast.LENGTH_SHORT).show();
+                } else if (pwd.length() < 7) {
+//                    check if length larger than 7
                     Toast.makeText(getApplicationContext(), "Password should be longer than 7 digits.", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     // register in firebase
                     firebaseAuth.createUserWithEmailAndPassword(mail, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_SHORT).show();
                                 sendEmailVerification();
-
-                            }else{
+                            } else {
                                 Toast.makeText(getApplicationContext(), "Registration Failed :( ", Toast.LENGTH_SHORT).show();
 
                             }
@@ -167,14 +161,12 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-
-
-
     }
 
-    private void sendEmailVerification(){
+//    send verification email
+    private void sendEmailVerification() {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if(firebaseUser!=null){
+        if (firebaseUser != null) {
             firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -184,12 +176,12 @@ public class SignUpActivity extends AppCompatActivity {
                     startActivity(new Intent(SignUpActivity.this, ExistLoginActivity.class));
                 }
             });
-        }else{
+        } else {
             Toast.makeText(getApplicationContext(), "Verification email sent failed.", Toast.LENGTH_SHORT).show();
-
         }
     }
 
+//    change text color
     private String getColoredSpanned(String text, String color) {
         return "<font color=" + color + ">" + text + "</font>";
     }

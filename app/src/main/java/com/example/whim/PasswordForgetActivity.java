@@ -27,15 +27,15 @@ public class PasswordForgetActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
+//        initialise button and view
         EditText forgetemail = findViewById(R.id.forget_email);
-//        EditText verifyCode = findViewById(R.id.forget_verify);
         Button recoverbutton = findViewById(R.id.recover_button);
         TextView backlogin = findViewById(R.id.backlogin);
 
+//        initialise firebase
         firebaseAuth = FirebaseAuth.getInstance();
 
-
-
+//        get back to log in
         backlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,26 +44,26 @@ public class PasswordForgetActivity extends AppCompatActivity {
             }
         });
 
+//        click continue and send recover email
         recoverbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String mail = forgetemail.getText().toString().trim();
-                if(mail.isEmpty()){
+
+//                check email and sent recover
+                if (mail.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please enter your email.", Toast.LENGTH_SHORT).show();
-
-                }else{
+                } else {
                     // send recover email
-
                     firebaseAuth.sendPasswordResetEmail(mail).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), "Mail sent, please recover password from your email.", Toast.LENGTH_SHORT).show();
                                 finish();
                                 startActivity(new Intent(PasswordForgetActivity.this, ExistLoginActivity.class));
-                            }else{
+                            } else {
                                 Toast.makeText(getApplicationContext(), "Email is wrong or Account does not exist.", Toast.LENGTH_SHORT).show();
-
                             }
 
                         }
@@ -71,8 +71,6 @@ public class PasswordForgetActivity extends AppCompatActivity {
                 }
             }
         });
-
-
 
     }
 
