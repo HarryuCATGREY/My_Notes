@@ -4,7 +4,6 @@ const scopes = [
   'user-read-email',
   'playlist-read-private',
   'playlist-read-collaborative' ,
-  'user-read-email',
   'streaming',
   'user-read-private',
   'user-library-read',
@@ -26,7 +25,7 @@ const LOGIN_URL = "https://accounts.spotify.com/authorize?" + queryParamString.t
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_ID,
-  clientSecret: process.env.SPOTIFY_SECRET
+  clientSecret: process.env.SPOTIFY_SECRET,
 })
 
 export default spotifyApi;
