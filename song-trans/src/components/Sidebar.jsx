@@ -17,7 +17,6 @@ function Sidebar() {
   const { data: session, status } = useSession();
   const [playLists, setPlayLists] = useState([]);
   const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
-  console.log("You picked playlistId: ", playlistId);
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
       spotifyApi.getUserPlaylists().then((data) => {
@@ -29,7 +28,6 @@ function Sidebar() {
     <div className="text-gray-500 p-5 text-sm border-r border-gray-900 overflow-y-scroll h-screen">
       <div className="space-y-4">
         <button className="flex items-center sapce-x-2 hover:text-white">
-          <p>Logout</p>
         </button>
         <button className="flex items-center sapce-x-2 hover:text-white">
           <HomeIcon className="h-5 w-5"/>

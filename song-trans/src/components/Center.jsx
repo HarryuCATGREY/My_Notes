@@ -6,6 +6,8 @@ import useSpotify from "../hooks/useSpotify";
 import { playlistIdState, playlistState} from '../atoms/playlistAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import Songs from './Songs';
+import Link from 'next/link';
+
 
 const colors = [
   "from-red-500",
@@ -42,11 +44,13 @@ function Center() {
   return (
     <div className='flex-grow text-white h-screen overflow-y-scroll'>
       <header className='absolute top-5 right-8'>
-        <div className='flex items-center bg-black space-x-3 opacity-90 hover:opacity-70 cursor-pointer rounded-full p-1 pr-2'>
-          <img className="rounded-full w-10 h-10" src={session?.user.image}  alt='image'/>
-          <h2>{session?.user.name}</h2>
-          <ChevronDownIcon className='h-5 w-5'/>
-        </div>
+        <Link href={"login"}>
+          <div className='flex items-center bg-black space-x-3 opacity-90 hover:opacity-70 cursor-pointer rounded-full p-1 pr-2'>
+            <img className="rounded-full w-10 h-10" src={session?.user.image}  alt='image'/>
+            <h2>{session?.user.name}</h2>
+            <ChevronDownIcon className='h-5 w-5'/>
+          </div>
+        </Link>
       </header>
       <section className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-40 text-white p-8`}>
         <img src={playlist?.images[0].url} alt="playlist" className="h-20 w-20 rounded-md shadow-2xl"/>
