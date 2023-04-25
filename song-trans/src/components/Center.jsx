@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react';
 import { ChevronDownIcon } from '@heroicons/react/outline';
 import { shuffle } from 'lodash';
-import { spotifyApi } from '../hooks/useSpotify';
+import useSpotify from "../hooks/useSpotify";
+import { playlistIdState, playlistState} from '../atoms/playlistAtom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import Songs from './Songs';
 
 const colors = [
   "from-red-500",
@@ -18,25 +21,26 @@ const colors = [
 
 function Center() {
   const {data: session} = useSession();
+  const spotifyApi = useSpotify();
   const [color, setColor] = React.useState(null);
+  const playlistId = useRecoilValue(playlistIdState);
+  const [playlist, setPlaylist] = useRecoilState(playlistState);
   useEffect(() => {
     setColor(shuffle(colors).pop());
-  })
+  }, [playlistId])
+  useEffect(() => {
+    spotifyApi
+    .getPlaylist(playlistId)
+    .then((data) => {
+      setPlaylist(data.body);
+    }).catch((err) => {
+      console.log("Some thing went wrong",err);
+    })
+  }, [spotifyApi, playlistId])
 
-  // 获取用户的最喜爱曲目
-  const [topTracks, setTopTracks] = useState([]);
-  // useEffect(() => {
-  // spotifyApi.getMyTopTracks({ limit: 10 })
-  //   .then((response) => {
-  //     setTopTracks(response.body.items);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
-  // }, []);
 
   return (
-    <div className='flex-grow text-white'>
+    <div className='flex-grow text-white h-screen overflow-y-scroll'>
       <header className='absolute top-5 right-8'>
         <div className='flex items-center bg-black space-x-3 opacity-90 hover:opacity-70 cursor-pointer rounded-full p-1 pr-2'>
           <img className="rounded-full w-10 h-10" src={session?.user.image}  alt='image'/>
@@ -44,14 +48,14 @@ function Center() {
           <ChevronDownIcon className='h-5 w-5'/>
         </div>
       </header>
-      <section className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-80 text-white padding-8`}>
-        Hello
-        <ul>
-        {topTracks.map((track) => (
-          <li key={track.id}>{track.name}</li>
-        ))}
-      </ul>
+      <section className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-40 text-white p-8`}>
+        <img src={playlist?.images[0].url} alt="playlist" className="h-20 w-20 rounded-md shadow-2xl"/>
+        <div>
+          <p className='text-sm'>PLAYLIST</p>
+          <h1 className="text-2xl font-bold">{playlist?.name}</h1>
+        </div>
       </section>
+      <Songs />
     </div>
   )
 }

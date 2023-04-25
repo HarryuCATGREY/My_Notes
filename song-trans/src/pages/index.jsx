@@ -5,6 +5,7 @@ import styles from '@/styles/Home.module.css'
 import { useState, useEffect } from 'react'
 import Sidebar from "../components/Sidebar.jsx"
 import Center from "../components/Center.jsx"
+import { getSession } from "next-auth/react";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -25,6 +26,15 @@ export default function Home() {
       {/* Content */}
     </div>
   )
+}
+
+export async function getSeverSideProps(context) {
+  const session = await getSession(context);
+
+
+  return {
+    props: { session },
+  }
 }
 
 
