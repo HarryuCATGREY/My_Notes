@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import Sidebar from "../components/Sidebar.jsx"
 import Center from "../components/Center.jsx"
 import { getSession } from "next-auth/react";
+import Player from "../components/Player.jsx"
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -14,16 +15,18 @@ export default function Home() {
   
 
   return (
-    <div className='bg-black h-screen overflow-hidden '>
+    <div className='bg-black overflow-hidden '>
       <Head>
         <title>Music-tag</title>
       </Head>
       <main className='flex'>
         <Sidebar/>
         <Center/>
+        
       </main>
-      {/* Sidebar */}
-      {/* Content */}
+      <Player/>
+      <div className='sticky bottom-0'></div>
+      
     </div>
   )
 }
